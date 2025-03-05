@@ -1,29 +1,34 @@
-# Project2-js
+# PROJECT2-SEC-1-CaptainSoviet
+-------------------------------
+        Group Member
+-------------------------------
+1. **Natkamon Chotipiboonsub** 66130500028
+- [ ] ....
+2. **Songkiatchai Wongthaidee** 66130500035
+- [ ] ....
+3. **Thiti Prasopsub** 66130500044
+- [ ] ....
+4. **Pratchaya Champates** 66130500058
+- [ ] ....
 
-This template should help get you started developing with Vue 3 in Vite.
+**Update CheckBox by remove blank space & add "X" in the box to certify what feature has finished.**
 
-## Recommended IDE Setup
+### Project Name: -------
+##### Main Feature of This Project:
+- ...
+- ...
+- ...
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+##### Progress Table
+| Week      | StudentID | Description              |
+|-----------|-----------|--------------------------|
+| --------- |-----------| ------------------------ | **START REMOVE FROM THIS LINE AND MAKE SURE THE PIPE WAS IN THE SAME ROW**
+| --------- |-----------| ------------------------ |
+| --------- |-----------| ------------------------ | 
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+##### This table was create for certify what you have done in each week within short Description by remove the line that i was marked
+##### For example:
+| Week      | StudentID | Description              |
+|-----------|-----------|--------------------------|
+| WEEK1     |001        | Create Template Vue      | 
+|           |002        | Add CSS, Edit Readme     |
