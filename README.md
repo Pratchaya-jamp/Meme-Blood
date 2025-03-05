@@ -3,16 +3,12 @@
         Group Member
 -------------------------------
 1. **Natkamon Chotipiboonsub** 66130500028
-Responsibility Feature:
 - [ ] ....
 2. **Songkiatchai Wongthaidee** 66130500035
-Responsibility Feature:
 - [ ] ....
 3. **Thiti Prasopsub** 66130500044
-Responsibility Feature:
 - [ ] ....
 4. **Pratchaya Champates** 66130500058
-Responsibility Feature:
 - [ ] ....
 
 ### Project Name: -------
