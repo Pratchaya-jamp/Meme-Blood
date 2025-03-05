@@ -11,13 +11,13 @@
 4. **Pratchaya Champates** 66130500058
 - [ ] ....
 
+**Update CheckBox by remove blank space & add "X" in the box to certify what feature has finished.**
+
 ### Project Name: -------
 ##### Main Feature of This Project:
 - ...
 - ...
 - ...
-
-**Update CheckBox by remove blank space & add "X" in the box to certify what feature has finished.**
 
 ##### Progress Table
 | Week      | StudentID | Description              |
