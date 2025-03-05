@@ -3,35 +3,35 @@
         Group Member
 -------------------------------
 1. Natkamon Chotipiboonsub 66130500028
-   **Responsibility Feature:**
+   > **Responsibility Feature:**
    -[ ] ....
 2. Songkiatchai Wongthaidee 66130500035
-   **Responsibility Feature:**
+   > **Responsibility Feature:**
    -[ ] ....
 4. Thiti Prasopsub 66130500044
-   **Responsibility Feature:**
+   > **Responsibility Feature:**
    -[ ] ....
 6. Pratchaya Champates 66130500058
-   **Responsibility Feature:**
+   > **Responsibility Feature:**
    -[ ] ....
 
-# Project Name: -------
-# Main Feature of This Project:
+### Project Name: -------
+##### Main Feature of This Project:
 - ...
 - ...
 - ...
 
 **Update CheckBox by remove blank space & add "X" in the box to certify what feature has finished.**
 
-# Progress Table
+##### Progress Table
 | Week      | StudentID | Description              |
 |-----------|-----------|--------------------------|
 | --------- |-----------| ------------------------ | **START REMOVE FROM THIS LINE AND MAKE SURE THE PIPE WAS IN THE SAME ROW**
 | --------- |-----------| ------------------------ |
 | --------- |-----------| ------------------------ | 
 
-# This table was create for certify what you have done in each week within short Description by remove the line that i was marked
-# For example:
+##### This table was create for certify what you have done in each week within short Description by remove the line that i was marked
+##### For example:
 | Week      | StudentID | Description              |
 |-----------|-----------|--------------------------|
 | WEEK1     |001        | Create Template Vue      | 
