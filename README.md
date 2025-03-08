@@ -32,3 +32,6 @@
 |-----------|-----------|--------------------------|
 | WEEK1     |001        | Create Template Vue      | 
 |           |002        | Add CSS, Edit Readme     |
+
+
+Link: https://www.canva.com/design/DAGg3UiWM9I/c3aZno6du29kA-xayBNQ-A/edit
