@@ -1,11 +1,17 @@
 <script setup>
-// TODO 
-// Add shuffle card?
-// Check table from data that has card to buff or debuff
-// & pawn replace with card + add pawn nearby
-
 import { ref, computed } from "vue";
-import Deck from "./Deck.vue";
+import Card from './Card.vue'
+import DeckInGame from './DeckInGame.vue'
+
+const laneProp = defineProps({
+    compontents : {
+        Card
+    },
+    handCards : {
+        type : Array,
+        require:true
+    }
+})
 
 // Example of a deck with different card qualities
 const deck = ref([
@@ -32,10 +38,12 @@ const selectedCards = computed(() => {
 </script>
 
 <template>
-  <div class="flex justify-center gap-4">
-    <div v-for="card in selectedCards" :key="card.id" class="p-4 bg-gray-200 border rounded-lg text-center w-30 h-40">
-      <p class="text-lg font-bold">{{ card.name }}</p>
-      <p class="text-sm text-gray-600">Quality: {{ card.quality }}</p>
+    <div class="flex justify-center gap-4">
+        <div v-for="card in selectedCards" :key="card.id" class="p-4 bg-gray-200 border rounded-lg text-center w-30 h-40">
+        <p class="text-lg font-bold">{{ card.name }}</p>
+        <p class="text-sm text-gray-600">Quality: {{ card.quality }}</p>
+        </div>
     </div>
-  </div>
 </template>
+
+<style scoped></style>

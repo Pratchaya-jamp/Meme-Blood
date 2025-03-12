@@ -1,10 +1,10 @@
 <script setup>
-import GameBoard from './components/GameBoard.vue';
+import GameManager from './components/GameManager.vue'
 
 </script>
 
 <template>
-  <GameBoard />
+  <GameManager />
 </template>
 
 <style scoped>

@@ -1,5 +1,5 @@
 <script setup>
-import CardHolder from "./CardHolder.vue";
+import Hand from "./mainGameComponents/Hand.vue";
 
 // Everytime card in put on table must update data in table -> for card operation (use computed)
 </script>
@@ -29,5 +29,5 @@ import CardHolder from "./CardHolder.vue";
       <p class="mt-2 font-bold">Right Player</p>
     </div>
   </div>
-  <CardHolder />
+  <Hand />
 </template>
