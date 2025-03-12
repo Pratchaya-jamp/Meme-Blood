@@ -1,5 +1,8 @@
 <script setup>
-// TODO Add shuffle card?
+// TODO 
+// Add shuffle card?
+// Check table from data that has card to buff or debuff
+// & pawn replace with card + add pawn nearby
 
 import { ref, computed } from "vue";
 import Deck from "./Deck.vue";

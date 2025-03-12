@@ -1,7 +1,7 @@
 <script setup>
 import CardHolder from "./CardHolder.vue";
 
-
+// Everytime card in put on table must update data in table -> for card operation (use computed)
 </script>
 
 <template>
