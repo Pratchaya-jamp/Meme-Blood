@@ -1,41 +1,63 @@
 <script setup>
 import { ref } from "vue";
-import users from '../../../data/users.json'
-//const userAccount = [{username: '',password: '',uid:0 }]
-const addUserForm = ref({username: '',
-                        password: '', 
-                        uid: uidGenerate()
-                    })
+
 const useremit = defineEmits(['user-created'])
 const createUserError = ref('')
 const createUserSuccess = ref('')
 
-const uidGenerate = () =>{
-    let randomUid;
-    do {
-        randomUid = Math.floor(1000 + Math.random() * 9000)
-    } 
-    while (users.some(user => user.uid === randomUid))
+//const uidGenerate = () =>{
+  //  let randomUid;
+    //do {
+      //  randomUid = Math.floor(1000 + Math.random() * 9000)
+    //} 
+    //while (users.some(user => user.uid === randomUid))
 
-    return randomUid;
-}
-const CreateUser = () =>{
-    createUserError.value = '';
-    createUserSuccess.value = '';
+    //return randomUid;
+//}
 
-    if (!addUserForm.value.username || !addUserForm.value.password 
-        || addUserForm.value.username === '' || addUserForm.value.password === '' ) {
-        createUserError.value = "Username and password are required.";
+const addUserForm = ref({username: '',
+                        password: ''
+                    })
+
+const CreateUser = async () =>{
+    createUserError.value = ''
+    createUserSuccess.value = ''
+
+    if (!addUserForm.value.username || !addUserForm.value.password || 
+        addUserForm.value.username ==='' || addUserForm.value.password ===''
+    ) {
+        createUserError.value = 'Username and password are required!';
         return;
     }
-    else{
-        useremit("user-created",addUserForm)
-    }
-    addUserForm.value.username = ''; 
-    addUserForm.value.password = '';
+    try {
+        const newUser = {
+            username: addUserForm.value.username,
+            password: addUserForm.value.password,
+            uid: uidGenerate()
+        };
 
+        const addedUser = await addItem(`${import.meta.env.VITE_APP_URL}/users`, newUser)
+        createUserSuccess.value = 'User created successfully!'
+        useremit('user-created', addedUser);
+
+        addUserForm.value = { username: '', password: ''}
+    } catch (error) {
+        createUserError.value = 'Failed to create user!';
+    }
 }
 
+const addProduct = async (product) => {
+  isAdding.value = false
+  try {
+    const item = await addItem(`${import.meta.env.VITE_APP_URL}/products`, product)
+    if(item) {
+      console.log(item);
+      myProducts.value.push(item)
+    }
+  } catch(error) {
+      console.error(error)
+  }
+}
 </script>
 
 <template>
