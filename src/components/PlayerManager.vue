@@ -1,18 +1,40 @@
 <script setup>
 import PlayerUser from './PlayerComponents/PlayerUser.vue';
 import AddPlayerUser from './PlayerComponents/AddPlayerUser.vue';
+import PlayerInventory from './PlayerComponents/PlayerInventory.vue';
 import users from '../../data/users.json';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const userAccount = ref(users)
 const loginPageStatus = ref(true)
 const currentUser = ref(null)
+const loginUsername = ref('')
+const loginPassword = ref('')
 const loginError = ref('');
 
 const addUserAccount = (newUser)=>{
     
 }
 
+const loginUser = () => {
+    //login script
+    loadInventoryData()
+}
+
+//Inventory
+const inventories = ref([])
+const loadInventoryData = async() => {
+    try {
+        const response = await fetch('/inventory.json')
+        inventories.value = await response.json()
+    } catch (error) {
+        console.error('Error loading inventory data: ', error)
+    }
+}
+
+const userInventory = computed(() => {
+    return inventories.value.filter((inv) => inv.user.id === currentUser.value?.uid)
+})
 
 </script>
 
@@ -67,6 +89,8 @@ const addUserAccount = (newUser)=>{
                     Logout
                 </button>
             </div>
+            <!-- send Inventory to PlayerInventory -->
+            <InventoryList :inventory="userInventory" />
         </div>
     </div>
 
