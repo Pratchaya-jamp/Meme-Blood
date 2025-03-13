@@ -36,6 +36,47 @@ const userInventory = computed(() => {
     return inventories.value.filter((inv) => inv.user.id === currentUser.value?.uid)
 })
 
+//CreateUser
+const CreateUser = async () =>{
+    createUserError.value = ''
+    createUserSuccess.value = ''
+
+    if (!addUserForm.value.username || !addUserForm.value.password || 
+        addUserForm.value.username ==='' || addUserForm.value.password ===''
+    ) {
+        createUserError.value = 'Username and password are required!';
+        return;
+    }
+    try {
+        const newUser = {
+            username: addUserForm.value.username,
+            password: addUserForm.value.password,
+            uid: uidGenerate()
+        };
+
+        const addedUser = await addItem(`${import.meta.env.VITE_APP_URL}/users`, newUser)
+        createUserSuccess.value = 'User created successfully!'
+        useremit('user-created', addedUser);
+
+        addUserForm.value = { username: '', password: ''}
+    } catch (error) {
+        createUserError.value = 'Failed to create user!';
+    }
+}
+
+const addProduct = async (product) => {
+  isAdding.value = false
+  try {
+    const item = await addItem(`${import.meta.env.VITE_APP_URL}/products`, product)
+    if(item) {
+      console.log(item);
+      myProducts.value.push(item)
+    }
+  } catch(error) {
+      console.error(error)
+  }
+}
+
 </script>
 
 <template>
