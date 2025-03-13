@@ -1,9 +1,23 @@
 [
-    {
-      "idcard": 201,
-      "cardname": "Sword",
-      "cardskill": "Power Strike",
-      "cardinfo": "Increases attack by 10%",
-      "cardpoint": 50
-    }
+  {
+      "idcard": 101,
+      "cardname": "Fireball",
+      "cardskill": "Burn",
+      "cardinfo": "Deals 30 Fire Damage",
+      "cardpoint": 2
+  },
+  {
+      "idcard": 102,
+      "cardname": "Shield",
+      "cardskill": "Block",
+      "cardinfo": "Reduces incoming damage by 20",
+      "cardpoint": 1
+  },
+  {
+      "idcard": 103,
+      "cardname": "Lightning Strike",
+      "cardskill": "Shock",
+      "cardinfo": "Deals 40 Electric Damage",
+      "cardpoint": 3
+  }
 ]
