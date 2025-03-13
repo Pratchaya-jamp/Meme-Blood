@@ -1,12 +1,12 @@
 [
   {
       "idinventory": 1,
-      "user_id": 1111,
+      "uid": 1111,
       "items": [101, 102]
   },
   {
       "idinventory": 2,
-      "user_id": 2222,
+      "uid": 2222,
       "items": [103]
   }
 ]
