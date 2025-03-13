@@ -1,14 +1,23 @@
 <script setup>
 import { ref } from "vue";
+import users from '../../../data/users.json'
 //const userAccount = [{username: '',password: '',uid:0 }]
-const addUserForm = ref({username: '',password: '', uid:randomUid})
-const randomUid =  Math.floor(1000 + Math.random() * 9000)
+const addUserForm = ref({username: '',
+                        password: '', 
+                        uid: uidGenerate()
+                    })
 const useremit = defineEmits(['user-created'])
 const createUserError = ref('')
 const createUserSuccess = ref('')
 
-const checkDuplicateUid = () =>{
-    
+const uidGenerate = () =>{
+    let randomUid;
+    do {
+        randomUid = Math.floor(1000 + Math.random() * 9000)
+    } 
+    while (users.some(user => user.uid === randomUid))
+
+    return randomUid;
 }
 const CreateUser = () =>{
     createUserError.value = '';
