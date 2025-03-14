@@ -42,6 +42,7 @@
 | --------- |044               | Make a template and components                                                  | 
 | WEEK 3    |044               | Start Create User Function (Draft)                                              |
 | --------- |028               | Create Flipping Coin (Head or Tail)                                             |
+| --------- |035               | Create Card Table Layout                                                        |
 | --------- |058               | Create Inventory for User (Draft)                                               |
 
 ##### This table was create for certify what you have done in each week within short Description by remove the line that i was marked
