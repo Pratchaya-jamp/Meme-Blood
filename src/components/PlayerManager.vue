@@ -2,7 +2,7 @@
 import PlayerUser from './PlayerComponents/PlayerUser.vue';
 import AddPlayerUser from './PlayerComponents/AddPlayerUser.vue';
 import PlayerInventory from './PlayerComponents/PlayerInventory.vue';
-import users from '../../data/users.json';
+import users from '../../data/db.json';
 import { ref, computed } from 'vue';
 
 const userAccount = ref(users)

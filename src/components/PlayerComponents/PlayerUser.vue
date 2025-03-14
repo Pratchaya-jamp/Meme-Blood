@@ -1,5 +1,5 @@
 <script setup>
-import users from '../../../data/users.json'
+import users from '../../../data/db.json'
 const userprop = defineProps({
     users:{
         type:Array,
