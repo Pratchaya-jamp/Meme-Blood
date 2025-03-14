@@ -1,18 +1,81 @@
 <script setup>
 import PlayerUser from './PlayerComponents/PlayerUser.vue';
 import AddPlayerUser from './PlayerComponents/AddPlayerUser.vue';
+import PlayerInventory from './PlayerComponents/PlayerInventory.vue';
 import users from '../../data/users.json';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const userAccount = ref(users)
 const loginPageStatus = ref(true)
 const currentUser = ref(null)
+const loginUsername = ref('')
+const loginPassword = ref('')
 const loginError = ref('');
 
 const addUserAccount = (newUser)=>{
     
 }
 
+const loginUser = () => {
+    //login script
+    loadInventoryData()
+}
+
+//Inventory
+const inventories = ref([])
+const loadInventoryData = async() => {
+    try {
+        const response = await fetch('/inventory.json')
+        inventories.value = await response.json()
+    } catch (error) {
+        console.error('Error loading inventory data: ', error)
+    }
+}
+
+const userInventory = computed(() => {
+    return inventories.value.filter((inv) => inv.user.id === currentUser.value?.uid)
+})
+
+//CreateUser
+const CreateUser = async () =>{
+    createUserError.value = ''
+    createUserSuccess.value = ''
+
+    if (!addUserForm.value.username || !addUserForm.value.password || 
+        addUserForm.value.username ==='' || addUserForm.value.password ===''
+    ) {
+        createUserError.value = 'Username and password are required!';
+        return;
+    }
+    try {
+        const newUser = {
+            username: addUserForm.value.username,
+            password: addUserForm.value.password,
+            uid: uidGenerate()
+        };
+
+        const addedUser = await addItem(`${import.meta.env.VITE_APP_URL}/users`, newUser)
+        createUserSuccess.value = 'User created successfully!'
+        useremit('user-created', addedUser);
+
+        addUserForm.value = { username: '', password: ''}
+    } catch (error) {
+        createUserError.value = 'Failed to create user!';
+    }
+}
+
+const addProduct = async (product) => {
+  isAdding.value = false
+  try {
+    const item = await addItem(`${import.meta.env.VITE_APP_URL}/products`, product)
+    if(item) {
+      console.log(item);
+      myProducts.value.push(item)
+    }
+  } catch(error) {
+      console.error(error)
+  }
+}
 
 </script>
 
@@ -67,6 +130,8 @@ const addUserAccount = (newUser)=>{
                     Logout
                 </button>
             </div>
+            <!-- send Inventory to PlayerInventory -->
+            <InventoryList :inventory="userInventory" />
         </div>
     </div>
 
