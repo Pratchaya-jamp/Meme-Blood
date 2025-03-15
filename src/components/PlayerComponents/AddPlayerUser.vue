@@ -13,7 +13,7 @@ onMounted(async () => {
         User.value = await getItems(`${import.meta.env.VITE_APP_URL}/users`)
         console.log('Get user complete')
         } catch {
-        console.log('Error cannot get users')
+        console.log('Error cannot get users in add player')
         }
     }
 )
@@ -28,8 +28,7 @@ const CreateUser = async () => {
 
     if(!newUser.value.username || !newUser.value.password || 
         newUser.value.username === '' || newUser.value.password === '')
-        {
-            createUserError.value = 'User And Password Are Required'
+        {            createUserError.value = 'User And Password Are Required'
             return
     }
     let uid
