@@ -1,0 +1,128 @@
+{
+  "users": [
+    {
+      "uid": 1111,
+      "username": "test1",
+      "password": "test1",
+      "id": "7b8a"
+    },
+    {
+      "uid": 2222,
+      "username": "test2",
+      "password": "test2",
+      "id": "cd49"
+    },
+    {
+      "id": "9e9f",
+      "uid": 2948,
+      "username": "test9",
+      "password": "123"
+    }
+  ],
+  "inventroy": [
+    {
+      "id": "ed20",
+      "uid": 1111,
+      "cardid": [
+        101,
+        102
+      ],
+      "deckid": [
+        1011,
+        1022
+      ],
+      "characterid": [
+        111,
+        112
+      ]
+    },
+    {
+      "id": "856c",
+      "idinventory": 2,
+      "uid": 2222,
+      "cardid": [
+        103
+      ],
+      "deckid": [
+        2011,
+        2022
+      ],
+      "characterid": [
+        111,
+        112
+      ]
+    }
+  ],
+  "character": [
+    {
+      "idcharacter": 111,
+      "charatername": "Warrior",
+      "skill": "Slash",
+      "id": "1669"
+    },
+    {
+      "idcharacter": 112,
+      "charatername": "Mage",
+      "skill": "Fireball",
+      "id": "9f71"
+    }
+  ],
+  "card": [
+    {
+      "idcard": 101,
+      "cardname": "Fireball",
+      "cardskill": "Burn",
+      "cardinfo": "Deals 30 Fire Damage",
+      "cardpoint": 2,
+      "id": "28a6"
+    },
+    {
+      "idcard": 102,
+      "cardname": "Shield",
+      "cardskill": "Block",
+      "cardinfo": "Reduces incoming damage by 20",
+      "cardpoint": 1,
+      "id": "48f8"
+    },
+    {
+      "idcard": 103,
+      "cardname": "Lightning Strike",
+      "cardskill": "Shock",
+      "cardinfo": "Deals 40 Electric Damage",
+      "cardpoint": 3,
+      "id": "57db"
+    }
+  ],
+  "deck": [
+    {
+      "deckid": 1011,
+      "cardid": [
+        101,
+        102
+      ],
+      "id": "df49"
+    },
+    {
+      "deckid": 1022,
+      "cardid": [
+        101,
+        102
+      ],
+      "id": "fec6"
+    },
+    {
+      "deckid": 2011,
+      "cardid": [
+        103
+      ],
+      "id": "60be"
+    },
+    {
+      "deckid": 2022,
+      "cardid": [
+        103
+      ],
+      "id": "3f32"
+    }
+  ]
+}

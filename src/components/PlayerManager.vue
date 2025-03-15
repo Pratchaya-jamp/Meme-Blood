@@ -2,23 +2,42 @@
 import PlayerUser from './PlayerComponents/PlayerUser.vue';
 import AddPlayerUser from './PlayerComponents/AddPlayerUser.vue';
 import PlayerInventory from './PlayerComponents/PlayerInventory.vue';
-import users from '../../data/users.json';
-import { ref, computed } from 'vue';
+import { ref, computed ,onMounted } from 'vue';
+import { getItems } from '@/lib/fetchUtils';
 
-const userAccount = ref(users)
+const userAccount = ref([])
 const loginPageStatus = ref(true)
 const currentUser = ref(null)
 const loginUsername = ref('')
 const loginPassword = ref('')
-const loginError = ref('');
+const loginError = ref('')
 
-const addUserAccount = (newUser)=>{
-    
-}
+onMounted(async () => {
+    try{
+        userAccount.value = await getItems(`${import.meta.env.VITE_APP_URL}/users`)
+        console.log('Get user complete')
+    }
+    catch{
+        console.log('Error cannot get users in player manager')
+    }
+
+})
 
 const loginUser = () => {
     //login script
-    loadInventoryData()
+    const user = userAccount.value.find(user => user.username === loginUsername.value &&
+        user.password === loginPassword.value)
+    if(user){
+        currentUser.value = user
+        loginUsername.value = ''
+        loginPassword.value = ''
+        loadInventoryData()
+        console.log(userAccount.value)
+    }
+    else{
+        loginError.value = 'Invalid username or password'
+    }
+
 }
 
 //Inventory
@@ -36,63 +55,72 @@ const userInventory = computed(() => {
     return inventories.value.filter((inv) => inv.user.id === currentUser.value?.uid)
 })
 
+//CreateUser
+const SwitchToCreateUser = () =>{
+    loginPageStatus.value = false
+}
+
+const SwitchToLogin = () => {
+  loginPageStatus.value = true;
+ }
+
 </script>
 
 <template>
      <div class="player-manager-container bg-gray-900 text-white
-      min-h-screen flex flex-col items-center justify-center p-8">
-        <h1 class="text-4xl font-bold mb-8 text-center">
-            Queen's Blood (Inspired) - Game
-        </h1>
+   min-h-screen flex flex-col items-center justify-center p-8">
+   <h1 class="text-4xl font-bold mb-8 text-center">
+    Queen's Blood (Inspired) - Game
+   </h1>
 
-        <PlayerUser v-if="currentUser" :user="currentUser" />
+   <PlayerUser v-if="currentUser" :user="currentUser" />
 
-        <div v-if="!currentUser" class="auth-container w-full max-w-md">
+   <div v-if="!currentUser" class="auth-container w-full max-w-md">
 
-            <div v-if="LoginPageStatus" class="login-section bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
-                <h2  class="text-2xl font-semibold mb-4 text-center text-white">Login</h2>
-                <div v-if="loginError" class="bg-red-100 border border-red-400
-                 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <strong class="font-bold">Login Error!</strong>
-                    <span class="block sm:inline">{{ loginError }}</span>
-                </div>
-                <form @submit.prevent="LoginUser()" class="space-y-4">
-                    <div>
-                        <label for="login-username-manager" class="block text-gray-200 text-sm font-bold mb-2">Username:</label>
-                        <input  v-model="loginUsername" type="text" id="login-username-manager" placeholder="Enter username" 
-                        class="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white border-gray-600">
-                    </div>
-                    <div>
-                        <label for="login-password-manager" class="block text-gray-200 text-sm font-bold mb-2">Password:</label>
-                        <input  v-model="loginPassword" type="password" id="login-password-manager" placeholder="Enter password" 
-                        class="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white border-gray-600">
-                    </div>
+    <div v-if="loginPageStatus" class="login-section bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
+     <h2  class="text-2xl font-semibold mb-4 text-center text-white">Login</h2>
+     <div v-if="loginError" class="bg-red-100 border border-red-400
+      text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+      <strong class="font-bold">Login Error!</strong>
+      <span class="block sm:inline">{{ loginError }}</span>
+     </div>
+     <form @submit.prevent="loginUser()" class="space-y-4">
+      <div>
+       <label for="login-username-manager" class="block text-gray-200 text-sm font-bold mb-2">Username:</label>
+       <input  v-model="loginUsername" type="text" id="login-username-manager" placeholder="Enter username"
+        class="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white border-gray-600">
+      </div>
+      <div>
+       <label for="login-password-manager" class="block text-gray-200 text-sm font-bold mb-2">Password:</label>
+       <input  v-model="loginPassword" type="password" id="login-password-manager" placeholder="Enter password"
+        class="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white border-gray-600">
+      </div>
 
-                    <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
-                        Login
-                    </button>
-                </form>
-                <div class="mt-4 text-center">
-                    <button type="button" @click="SwitchToCreateUser()" class="text-sm text-blue-400 hover:text-blue-300 focus:outline-none">
-                        Need an account? Create one
-                    </button>
-                </div>
-            </div>
-
-        </div>
-        <AddPlayerUser v-else @user-created="handleUserCreated" />
-
-        <div v-if="currentUser" class="game-logged-in-container w-full max-w-4xl">
-            <div class="user-info-bar flex justify-between items-center mb-4">
-                <PlayerUser :user="currentUser" />
-                <button @click="logoutUser" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">
-                    Logout
-                </button>
-            </div>
-            <!-- send Inventory to PlayerInventory -->
-            <InventoryList :inventory="userInventory" />
-        </div>
+      <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
+       Login
+      </button>
+     </form>
+     <div class="mt-4 text-center">
+      <button type="button" @click="SwitchToCreateUser()" class="text-sm text-blue-400 hover:text-blue-300 focus:outline-none">
+       Need an account? Create one
+      </button>
+     </div>
     </div>
+
+    <AddPlayerUser v-if="!loginPageStatus" @user-created="handleUserCreated" />
+
+   </div>
+   <div v-if="currentUser" class="game-logged-in-container w-full max-w-4xl">
+    <div class="user-info-bar flex justify-between items-center mb-4">
+     <PlayerUser :user="currentUser" />
+     <button @click="logoutUser" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">
+      Logout
+     </button>
+    </div>
+    <PlayerInventory :inventory="userInventory" />
+   </div>
+  </div>
+
 
 </template>
 
