@@ -23,7 +23,7 @@ onMounted(async () => {
 
 })
 
-const loginUser = () => {
+const loginUser = async() => {
     //login script
     const user = userAccount.value.find(user => user.username === loginUsername.value &&
         user.password === loginPassword.value)
@@ -31,7 +31,7 @@ const loginUser = () => {
         currentUser.value = user
         loginUsername.value = ''
         loginPassword.value = ''
-        loadInventoryData()
+        await loadInventoryData()
         console.log(userAccount.value)
     }
     else{
@@ -42,17 +42,24 @@ const loginUser = () => {
 
 //Inventory
 const inventories = ref([])
+const cards = ref([])
+const decks = ref([])
+const characters = ref([])
 const loadInventoryData = async() => {
     try {
-        const response = await fetch('/inventory.json')
-        inventories.value = await response.json()
+        inventories.value = await getItems(`${import.meta.env.VITE_APP_URL}/inventory`)
+        cards.value = await getItems(`${import.meta.env.VITE_APP_URL}/card`)
+        decks.value = await getItems(`${import.meta.env.VITE_APP_URL}/deck`)
+        characters.value = await getItems(`${import.meta.env.VITE_APP_URL}/character`)
+        console.log('Game data loaded successfully')
     } catch (error) {
-        console.error('Error loading inventory data: ', error)
+        console.error('Error loading game data: ', error)
     }
 }
 
 const userInventory = computed(() => {
-    return inventories.value.filter((inv) => inv.user.id === currentUser.value?.uid)
+    if (!currentUser.value) return []
+    return inventories.value.filter(inv => inv.uid === currentUser.value.uid)
 })
 
 //CreateUser
@@ -117,7 +124,12 @@ const SwitchToLogin = () => {
       Logout
      </button>
     </div>
-    <PlayerInventory :inventory="userInventory" />
+    <PlayerInventory 
+        :inventory="userInventory" 
+        :cards="cards" 
+        :decks="decks" 
+        :characters="characters" 
+      />
    </div>
   </div>
 
