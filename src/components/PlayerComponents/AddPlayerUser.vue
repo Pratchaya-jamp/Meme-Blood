@@ -1,12 +1,14 @@
 <script setup>
 import { addItem, getItems } from "@/lib/fetchUtils";
 import { ref , onMounted } from "vue";
+import playerManger from '../PlayerManager.vue'
 
-const useremit = defineEmits(['user-created'])
+
 const newUser = ref({ uid: null ,username: '', password: ''})
 const User = ref([])
 const createUserError = ref('')
 const createUserSuccess = ref('')
+const createPageStatus = ref(true)
 
 onMounted(async () => {
     try{
@@ -28,40 +30,52 @@ const CreateUser = async () => {
 
     if(!newUser.value.username || !newUser.value.password || 
         newUser.value.username === '' || newUser.value.password === '')
-        {            createUserError.value = 'User And Password Are Required'
+        {            
+            createUserError.value = 'User And Password Are Required'
             return
     }
-    let uid
-    let duplicateUid = true
-    while(duplicateUid){
-        uid = Math.floor(1000 + Math.random() * 9000)
-        duplicateUid = isUidDuplicate(uid)
-        if(!duplicateUid){
-            console.log('Uid gen complete')
-            break
-        }
+    if (User.value.some(user => user.username === newUser.value.username)) {
+        createUserError.value = 'Username Cannot be Duplicate';
+        return
     }
 
-    try{
-        const userToAdd = {
-            uid: uid,
-            username: newUser.value.username,
-            password: newUser.value.password
+
+    else {
+        let uid
+        let duplicateUid = true
+        while(duplicateUid){
+            uid = Math.floor(1000 + Math.random() * 9000)
+            duplicateUid = isUidDuplicate(uid)
+            if(!duplicateUid){
+                console.log('Uid gen complete')
+                break
+            }
         }
-        const addedUser = await addItem(`${import.meta.env.VITE_APP_URL}/users`, userToAdd )
-        createUserSuccess.value = 'User created successfully'
-        useremit('user-created' , addedUser)
-        newUser.value = { uid: null ,username: '', password: ''}
-    } catch {
-        createUserError.value = 'Failed to create user'
+
+        try{
+            const userToAdd = {
+                uid: uid,
+                username: newUser.value.username,
+                password: newUser.value.password
+            }
+            const addedUser = await addItem(`${import.meta.env.VITE_APP_URL}/users`, userToAdd )
+            User.value.push(addedUser)
+            createUserSuccess.value = 'User created successfully'
+            newUser.value = { uid: null ,username: '', password: ''}
+            createPageStatus.value = false
+
+        } catch {
+            createUserError.value = 'Failed to create user'
+        }
     }
+    
 
 }
 
 
 </script>
 <template>
-    <div class="add-player-user bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+    <div class="add-player-user bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md" v-if="createPageStatus">
      <h2 class="text-2xl font-semibold mb-4 text-center text-white">Create Account</h2>
      <div v-if="createUserError" 
             class="bg-red-100 border border-red-400
@@ -106,6 +120,7 @@ const CreateUser = async () => {
       </button>
      </form>
     </div>
+    <playerManger v-if="!createPageStatus"/>
 </template>
 
 <style scoped>

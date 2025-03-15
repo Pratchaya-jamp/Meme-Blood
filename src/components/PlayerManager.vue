@@ -69,15 +69,15 @@ const SwitchToLogin = () => {
 <template>
      <div class="player-manager-container bg-gray-900 text-white
    min-h-screen flex flex-col items-center justify-center p-8">
-   <h1 class="text-4xl font-bold mb-8 text-center">
-    Queen's Blood (Inspired) - Game
-   </h1>
 
    <PlayerUser v-if="currentUser" :user="currentUser" />
 
    <div v-if="!currentUser" class="auth-container w-full max-w-md">
 
     <div v-if="loginPageStatus" class="login-section bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
+    <h1 class="text-4xl font-bold mb-8 text-center">
+    война(Voyna) Of Meme
+   </h1>
      <h2  class="text-2xl font-semibold mb-4 text-center text-white">Login</h2>
      <div v-if="loginError" class="bg-red-100 border border-red-400
       text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -107,7 +107,7 @@ const SwitchToLogin = () => {
      </div>
     </div>
 
-    <AddPlayerUser v-if="!loginPageStatus" @user-created="handleUserCreated" />
+    <AddPlayerUser v-if="!loginPageStatus"/>
 
    </div>
    <div v-if="currentUser" class="game-logged-in-container w-full max-w-4xl">
