@@ -38,10 +38,16 @@ const selectedCards = computed(() => {
 </script>
 
 <template>
-    <div class="flex justify-center gap-4">
-        <div v-for="card in selectedCards" :key="card.id" class="p-4 bg-gray-200 border rounded-lg text-center w-30 h-40">
-        <p class="text-lg font-bold">{{ card.name }}</p>
-        <p class="text-sm text-gray-600">Quality: {{ card.quality }}</p>
+    <div class="flex overflow-x-scroll">
+        <div
+            class="-mx-3"
+            v-for="(card, index) in selectedCards" :key="index" 
+        >
+            <Card
+                :title="card.name"
+                :cost="card.quality"
+                :imageUrl="card.id"
+            />
         </div>
     </div>
 </template>

@@ -6,9 +6,9 @@ import PlayerManager from './components/PlayerManager.vue';
 </script>
 
 <template>
-  <!-- <GameManager />-->
-    <PlayerManager/>
-    <!--<HeadOrTail/> -->
+  <GameManager />
+    <!-- <PlayerManager/> -->
+    <!-- <HeadOrTail/> -->
 </template>
 
 <style scoped>
