@@ -2,10 +2,12 @@
 import { addItem, getItems } from "@/lib/fetchUtils";
 import { ref , onMounted } from "vue";
 import playerManger from '../PlayerManager.vue'
+import Card from "../mainGameComponents/Card.vue";
 
 
 const newUser = ref({ uid: null ,username: '', password: ''})
 const User = ref([])
+const userInventory = ref([])
 const createUserError = ref('')
 const createUserSuccess = ref('')
 const createPageStatus = ref(true)
@@ -13,7 +15,8 @@ const createPageStatus = ref(true)
 onMounted(async () => {
     try{
         User.value = await getItems(`${import.meta.env.VITE_APP_URL}/users`)
-        console.log('Get user complete')
+        userInventory.value =await getItems(`${import.meta.env.VITE_APP_URL}/inventory`)
+        console.log('Get user and inventory complete')
         } catch {
         console.log('Error cannot get users in add player')
         }
@@ -23,6 +26,9 @@ onMounted(async () => {
   return User.value.some(user => user.uid === uidToCheck)
  }
 
+ const isInvIdDuplicate = (ivnToCheck) => {
+    return userInventory.value.some(ivn => ivn.idinventory === ivnToCheck)
+ }
 
 const CreateUser = async () => {
     createUserError.value = ''
@@ -51,6 +57,16 @@ const CreateUser = async () => {
                 break
             }
         }
+        let idinv
+        let duplicateidinv = true
+        while(duplicateidinv){
+            idinv = Math.floor(1000 + Math.random() * 9000)
+            duplicateidinv = isInvIdDuplicate(idinv)
+            if(!duplicateidinv){
+                console.log('IvnId gen complete')
+                break
+            }
+        }
 
         try{
             const userToAdd = {
@@ -58,8 +74,17 @@ const CreateUser = async () => {
                 username: newUser.value.username,
                 password: newUser.value.password
             }
+            const inventoryToAdd = {
+                idinventory: idinv,
+                uid: uid,
+                cardid: [],
+                deckid: [],
+                characterid: [111]
+            }
             const addedUser = await addItem(`${import.meta.env.VITE_APP_URL}/users`, userToAdd )
+            const addedIvn = await addItem(`${import.meta.env.VITE_APP_URL}/inventory`,inventoryToAdd)
             User.value.push(addedUser)
+            userInventory.value.push(addedIvn)
             createUserSuccess.value = 'User created successfully'
             newUser.value = { uid: null ,username: '', password: ''}
             createPageStatus.value = false
