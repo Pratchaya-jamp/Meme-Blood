@@ -2,26 +2,41 @@
 const cardProps = defineProps({
     title : {
         type: String,
-        require: true
-    },
-    cost : {
-        type: Number,
-        require: true
+        required: true
     },
     imageUrl : {
         type: String,
-        require: false
+        required: false
+    },
+    cost : {
+        type: Number,
+        required: true
+    },
+    pawn: {
+      type: Number,
+      required: true
+    },
+    size: {
+      type: String,
+      required: false
     }
 })
 </script>
 
 <template>
-<div class="relative w-60 h-90 bg-gray-800 border-4 border-gray-600 rounded-lg shadow-lg scale-80 origin-bottom"> <!-- height & weight = 2:3 => "w-60 h-90" -->
+  <div 
+    class="relative w-60 h-90 bg-gray-800 border-4 border-gray-600 rounded-lg shadow-lg transition-transform duration-150"
+    :class="cardProps.size"
+  > <!-- height & weight = 2:3 -->
     <!-- Card Top Icons -->
-    <div class="absolute top-2 left-2 w-6 h-6 bg-yellow-500 text-black flex items-center justify-center rounded">
-      ♙
+    <div 
+      class="absolute top-2 left-2 bg-yellow-500 text-black text-4xl flex items-center justify-center rounded"
+    >
+      <div v-for="n in cardProps.pawn" :key="n">
+        ♙
+      </div>
     </div>
-    <div class="absolute top-2 right-2 w-8 h-8 bg-yellow-500 text-black text-xl font-bold flex items-center justify-center rounded-full">
+    <div class="absolute top-2 right-2 w-10 h-10 bg-yellow-500 text-black text-2xl font-bold flex items-center justify-center rounded-full">
       {{ cardProps.cost }}
     </div>
 

@@ -38,15 +38,16 @@ const selectedCards = computed(() => {
 </script>
 
 <template>
-    <div class="flex overflow-x-scroll">
+    <div class="flex gap-4 overflow-x-scroll px-4 pt-2">
         <div
-            class="-mx-3"
             v-for="(card, index) in selectedCards" :key="index" 
         >
             <Card
                 :title="card.name"
-                :cost="card.quality"
                 :imageUrl="card.id"
+                :cost="card.quality"
+                :pawn="3"
+                size="scale-80 -mx-6 -mt-18 origin-bottom hover:scale-82"
             />
         </div>
     </div>

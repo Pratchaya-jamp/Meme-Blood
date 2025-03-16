@@ -2,18 +2,29 @@
 import Square from './Square.vue';
 
 const laneProp = defineProps({
-    compontents : {
-        Square
+    laneCollect: {
+        type: Array,
+        required: true
     },
-    laneIndex : {
+    laneIndex: {
         type : Number,
-        require:true
+        require: true
     }
 })
+
+//TODO Loop 7 times from Square
 </script>
 
 <template>
-
+    <div
+        class="flex items-center"
+        v-for="n in 7"
+    >
+        <Square
+            :square-index="n"
+            :card-on-board="null"
+        />
+    </div>
 </template>
 
 <style scoped></style>
