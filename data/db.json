@@ -17,6 +17,12 @@
       "uid": 2948,
       "username": "test9",
       "password": "123"
+    },
+    {
+      "id": "5413",
+      "uid": 8647,
+      "username": "test3",
+      "password": "test3"
     }
   ],
   "inventory": [
@@ -77,7 +83,8 @@
       "cardinfo": "Nah, I'm Good.",
       "Power": 1,
       "pawnsRequired": "1",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "53c9"
     },
     {
       "idcard": 102,
@@ -87,7 +94,8 @@
       "cardinfo": "The confused-looking white cat at a dinner table.",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "7896"
     },
     {
       "idcard": 103,
@@ -97,7 +105,8 @@
       "cardinfo": "Skibidi Toilet Dob dob dob yes yes",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "08de"
     },
     {
       "idcard": 104,
@@ -107,7 +116,8 @@
       "cardinfo": "Peanut butter jelly time!",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "7d7b"
     },
     {
       "idcard": 105,
@@ -117,7 +127,8 @@
       "cardinfo": "Playing you off, play us on!",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "b063"
     },
     {
       "idcard": 106,
@@ -127,7 +138,8 @@
       "cardinfo": "Problem?",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "e2d7"
     },
     {
       "idcard": 107,
@@ -137,7 +149,8 @@
       "cardinfo": "Much wow, very meme.",
       "Power": 1,
       "pawnsRequired": "1",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "a2ed"
     },
     {
       "idcard": 108,
@@ -147,7 +160,8 @@
       "cardinfo": "Feels good man.",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "4f79"
     },
     {
       "idcard": 109,
@@ -157,7 +171,8 @@
       "cardinfo": "Classic distraction.",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "257e"
     },
     {
       "idcard": 110,
@@ -167,7 +182,8 @@
       "cardinfo": "Never gonna give you up...",
       "Power": 3,
       "pawnsRequired": "3",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "aaca"
     },
     {
       "idcard": 111,
@@ -177,7 +193,8 @@
       "cardinfo": "Internal suffering.",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "49c1"
     },
     {
       "idcard": 112,
@@ -187,7 +204,8 @@
       "cardinfo": "Confusion and anger.",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "a177"
     },
     {
       "idcard": 113,
@@ -197,7 +215,8 @@
       "cardinfo": "Oh lawd he comin'.",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "882b"
     },
     {
       "idcard": 114,
@@ -207,7 +226,8 @@
       "cardinfo": "Disapproving and approving.",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "6e6c"
     },
     {
       "idcard": 115,
@@ -217,7 +237,8 @@
       "cardinfo": "Ascending levels of knowledge.",
       "Power": 3,
       "pawnsRequired": "2",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "54d6"
     },
     {
       "idcard": 116,
@@ -227,7 +248,8 @@
       "cardinfo": "mOcKiNg SpOnGeBoB.",
       "Power": 1,
       "pawnsRequired": "1",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "25b4"
     },
     {
       "idcard": 117,
@@ -237,7 +259,8 @@
       "cardinfo": "Everything is fine.",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "a389"
     },
     {
       "idcard": 118,
@@ -247,17 +270,19 @@
       "cardinfo": "Astronomia.",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "a9f1"
     },
-     {
+    {
       "idcard": 119,
       "cardname": "Philosoraptor",
       "Ability": false,
       "abilityType": "non",
       "cardinfo": "Deep thoughts.",
-       "Power": 4,
+      "Power": 4,
       "pawnsRequired": "3",
-      "cardRarity": "Legend"
+      "cardRarity": "Legend",
+      "id": "4cab"
     },
     {
       "idcard": 120,
@@ -267,7 +292,8 @@
       "cardinfo": "Victory!",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "05ab"
     },
     {
       "idcard": 121,
@@ -277,17 +303,19 @@
       "cardinfo": "Thinking outside the box.",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "2471"
     },
     {
-       "idcard": 122,
+      "idcard": 122,
       "cardname": "Harambe",
       "Ability": false,
       "abilityType": "non",
       "cardinfo": "Dicks out.",
-       "Power": 2,
+      "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "a825"
     },
     {
       "idcard": 123,
@@ -297,7 +325,8 @@
       "cardinfo": "Sudden realization.",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "5ee0"
     },
     {
       "idcard": 124,
@@ -307,7 +336,8 @@
       "cardinfo": "Difficult choices.",
       "Power": 3,
       "pawnsRequired": "2",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "3993"
     },
     {
       "idcard": 125,
@@ -317,7 +347,8 @@
       "cardinfo": "Is this a...?",
       "Power": 1,
       "pawnsRequired": "1",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "1d39"
     },
     {
       "idcard": 126,
@@ -327,7 +358,8 @@
       "cardinfo": "Anger intensifies.",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "82a2"
     },
     {
       "idcard": 127,
@@ -337,7 +369,8 @@
       "cardinfo": "Shocking revelations.",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "a51f"
     },
     {
       "idcard": 128,
@@ -347,7 +380,8 @@
       "cardinfo": "A cunning plan.",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "fed3"
     },
     {
       "idcard": 129,
@@ -357,7 +391,8 @@
       "cardinfo": "Accusations fly.",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "275a"
     },
     {
       "idcard": 130,
@@ -367,7 +402,8 @@
       "cardinfo": "Heated debate.",
       "Power": 3,
       "pawnsRequired": "2",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "313f"
     },
     {
       "idcard": 131,
@@ -377,7 +413,8 @@
       "cardinfo": "Just my luck.",
       "Power": 1,
       "pawnsRequired": "1",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "6848"
     },
     {
       "idcard": 132,
@@ -387,7 +424,8 @@
       "cardinfo": "Minor inconveniences.",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "887f"
     },
     {
       "idcard": 133,
@@ -397,7 +435,8 @@
       "cardinfo": "A dash of flair.",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "8e16"
     },
     {
       "idcard": 134,
@@ -407,7 +446,8 @@
       "cardinfo": "Aliens? I think not.",
       "Power": 4,
       "pawnsRequired": "3",
-      "cardRarity": "Legend"
+      "cardRarity": "Legend",
+      "id": "1db2"
     },
     {
       "idcard": 135,
@@ -417,7 +457,8 @@
       "cardinfo": "Pure joy.",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "68f0"
     },
     {
       "idcard": 136,
@@ -427,7 +468,8 @@
       "cardinfo": "Cosmic knowledge.",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "54e6"
     },
     {
       "idcard": 137,
@@ -437,7 +479,8 @@
       "cardinfo": "Galactic distraction.",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "3f57"
     },
     {
       "idcard": 138,
@@ -447,7 +490,8 @@
       "cardinfo": "Magical feels.",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "11b2"
     },
     {
       "idcard": 139,
@@ -457,7 +501,8 @@
       "cardinfo": "Sneaky problem?",
       "Power": 3,
       "pawnsRequired": "2",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "23d7"
     },
     {
       "idcard": 140,
@@ -467,7 +512,8 @@
       "cardinfo": "To the moon!",
       "Power": 1,
       "pawnsRequired": "1",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "31f9"
     },
     {
       "idcard": 141,
@@ -477,7 +523,8 @@
       "cardinfo": "Rocking you off!",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "34db"
     },
     {
       "idcard": 142,
@@ -487,7 +534,8 @@
       "cardinfo": "Party time!",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "9786"
     },
     {
       "idcard": 143,
@@ -497,7 +545,8 @@
       "cardinfo": "Never gonna give you up... digitally.",
       "Power": 3,
       "pawnsRequired": "3",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "5158"
     },
     {
       "idcard": 144,
@@ -507,7 +556,8 @@
       "cardinfo": "Robotic suffering.",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "1f09"
     },
     {
       "idcard": 145,
@@ -517,7 +567,8 @@
       "cardinfo": "Objection!",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "9295"
     },
     {
       "idcard": 146,
@@ -527,7 +578,8 @@
       "cardinfo": "All hail the Chungus.",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "4747"
     },
     {
       "idcard": 147,
@@ -537,7 +589,8 @@
       "cardinfo": "Super approval.",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "ec8f"
     },
     {
       "idcard": 148,
@@ -547,7 +600,8 @@
       "cardinfo": "Ultimate knowledge.",
       "Power": 3,
       "pawnsRequired": "2",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "0c14"
     },
     {
       "idcard": 149,
@@ -557,7 +611,8 @@
       "cardinfo": "aRrR mOcKiNg SpOnGeBoB.",
       "Power": 1,
       "pawnsRequired": "1",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "dec0"
     },
     {
       "idcard": 150,
@@ -567,7 +622,8 @@
       "cardinfo": "Everything is fine...ly cooked.",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "4de8"
     },
     {
       "idcard": 151,
@@ -577,7 +633,8 @@
       "cardinfo": "Cosmic Astronomia.",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "b711"
     },
     {
       "idcard": 152,
@@ -587,7 +644,8 @@
       "cardinfo": "Divine thoughts.",
       "Power": 4,
       "pawnsRequired": "3",
-      "cardRarity": "Legend"
+      "cardRarity": "Legend",
+      "id": "6194"
     },
     {
       "idcard": 153,
@@ -597,7 +655,8 @@
       "cardinfo": "Presidential victory!",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "7296"
     },
     {
       "idcard": 154,
@@ -607,7 +666,8 @@
       "cardinfo": "Investigative thinking.",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "3966"
     },
     {
       "idcard": 155,
@@ -617,7 +677,8 @@
       "cardinfo": "Protecting us all.",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "1404"
     },
     {
       "idcard": 156,
@@ -627,7 +688,8 @@
       "cardinfo": "Scientific realization.",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "d1a8"
     },
     {
       "idcard": 157,
@@ -637,7 +699,8 @@
       "cardinfo": "The ultimate choice.",
       "Power": 3,
       "pawnsRequired": "2",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "487a"
     },
     {
       "idcard": 158,
@@ -647,7 +710,8 @@
       "cardinfo": "Is this an... alien?",
       "Power": 1,
       "pawnsRequired": "1",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "328a"
     },
     {
       "idcard": 159,
@@ -657,7 +721,8 @@
       "cardinfo": "Burning anger.",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "5e78"
     },
     {
       "idcard": 160,
@@ -667,7 +732,8 @@
       "cardinfo": "Shocking performance.",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "f0f3"
     },
     {
       "idcard": 161,
@@ -677,7 +743,8 @@
       "cardinfo": "The ultimate plan.",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "5428"
     },
     {
       "idcard": 162,
@@ -687,7 +754,8 @@
       "cardinfo": "The cat is the culprit!",
       "Power": 1,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "28e1"
     },
     {
       "idcard": 163,
@@ -697,7 +765,8 @@
       "cardinfo": "The final showdown.",
       "Power": 3,
       "pawnsRequired": "2",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "cfd3"
     },
     {
       "idcard": 184,
@@ -707,7 +776,8 @@
       "cardinfo": "Why are you running? WHY ARE YOU RUNNING?!",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "2862"
     },
     {
       "idcard": 185,
@@ -717,7 +787,8 @@
       "cardinfo": "NANI?!",
       "Power": 3,
       "pawnsRequired": "2",
-      "cardRarity": "Epic"
+      "cardRarity": "Epic",
+      "id": "3b68"
     },
     {
       "idcard": 203,
@@ -727,9 +798,9 @@
       "cardinfo": "The power of the king will isolate you.",
       "Power": 2,
       "pawnsRequired": "2",
-      "cardRarity": "Legend"
+      "cardRarity": "Legend",
+      "id": "ee9f"
     }
-
   ],
   "deck": [
     {
