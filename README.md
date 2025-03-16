@@ -5,6 +5,7 @@
 1. **Natkamon Chotipiboonsub** 66130500028
 - [ ] R&G System (Head or Tail)
 - [ ] Card Mechanicsm System
+- [ ] Player Character (Player's profile)
 2. **Songkiatchai Wongthaidee** 66130500035
 - [ ] Main Game Logic (Calculate Score)
 - [ ] Card System
@@ -42,7 +43,7 @@
 | WEEK 2    |028, 035, 044, 058| Discuss Our Project Name, Brainstorming concept, Give members Responsibilities  |
 | --------- |044               | Make a template and components                                                  | 
 | WEEK 3    |044               | Start Create User Function, Login-Logout                                        |
-| --------- |028               | Create Flipping Coin (Head or Tail), card layout                                |
+| --------- |028               | Create Flipping Coin (Head or Tail), Card layout, Create Player Character                                |
 | --------- |035               | Create Card & Table Layout, Lane & Square Component Layout                       |
 | --------- |058               | Show Inventory after login                                                      |
 
