@@ -15,7 +15,7 @@
 - [ ] Setting
 - [ ] Gacha System (Optional)
 4. **Pratchaya Champates** 66130500058
-- [ ] Player Inventory
+- [x] Player Inventory
 - [ ] PlayerManger
 - [ ] Card Available
 - [ ] Card Design & Visual Motion (Optional)
