@@ -40,10 +40,10 @@
 | WEEK 1    |028, 035, 044, 058| Create Git Repo, Invitation                                                     | **START REMOVE FROM THIS LINE AND MAKE SURE THE PIPE WAS IN THE SAME ROW**
 | WEEK 2    |028, 035, 044, 058| Discuss Our Project Name, Brainstorming concept, Give members Responsibilities  |
 | --------- |044               | Make a template and components                                                  | 
-| WEEK 3    |044               | Start Create User Function (Draft)                                              |
-| --------- |028               | Create Flipping Coin (Head or Tail)                                             |
+| WEEK 3    |044               | Start Create User Function, Login-Logout                                        |
+| --------- |028               | Create Flipping Coin (Head or Tail), card layout                                |
 | --------- |035               | Create Card Table Layout                                                        |
-| --------- |058               | Create Inventory for User (Draft)                                               |
+| --------- |058               | Show Inventory after login                                                      |
 
 ##### This table was create for certify what you have done in each week within short Description by remove the line that i was marked
 ##### For example:
