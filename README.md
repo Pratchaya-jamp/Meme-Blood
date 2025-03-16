@@ -7,7 +7,8 @@
 - [ ] Card Mechanicsm System
 2. **Songkiatchai Wongthaidee** 66130500035
 - [ ] Main Game Logic (Calculate Score)
-- [ ] Card Mechanicsm System
+- [ ] Card System
+- [ ] Table System
 3. **Thiti Prasopsub** 66130500044
 - [ ] Inventory (Deck System)
 - [ ] PlayerManager
@@ -16,7 +17,7 @@
 - [ ] Gacha System (Optional)
 4. **Pratchaya Champates** 66130500058
 - [x] Player Inventory
-- [ ] PlayerManger
+- [ ] PlayerManager
 - [ ] Card Available
 - [ ] Card Design & Visual Motion (Optional)
 
@@ -42,7 +43,7 @@
 | --------- |044               | Make a template and components                                                  | 
 | WEEK 3    |044               | Start Create User Function, Login-Logout                                        |
 | --------- |028               | Create Flipping Coin (Head or Tail), card layout                                |
-| --------- |035               | Create Card Table Layout                                                        |
+| --------- |035               | Create Card & Table Layout, Lane & Square Component Layout                       |
 | --------- |058               | Show Inventory after login                                                      |
 
 ##### This table was create for certify what you have done in each week within short Description by remove the line that i was marked
