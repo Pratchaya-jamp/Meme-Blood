@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import PlayerManager from '../PlayerManager.vue';
+import mainMenuBg from '../../assets/Picture/Bg/mainmenu_bg.jpg'
 
 const currentPage = ref('MainMenu')
 const mainMenuEmits = defineEmits(['backtomenu'])
@@ -23,9 +24,9 @@ const exitGame = () =>{
 
 <template>
     <div v-if="currentPage === 'MainMenu'" 
-        class="flex flex-col items-center justify-center min-h-screen bg-cover bg-center "
-        style="background-image: url('../../assets/Picture/Bg/mainmenu_bg.jpg');">
-        <h1 class="text-4xl font-bold mb-8 text-center">
+        class="flex flex-col items-center justify-center min-h-screen bg-cover bg-center"
+        :style="{ backgroundImage: `url(${mainMenuBg})` }">
+        <h1 class="text-4xl font-bold mb-8 text-center text-white">
          война(Voyna) Of Meme
         </h1>
         <div class="flex flex-col gap-5">

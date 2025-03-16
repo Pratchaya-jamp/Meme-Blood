@@ -39,7 +39,7 @@ const loginUser = async() => {
         loginUsername.value = ''
         loginPassword.value = ''
         await loadInventoryData()
-        console.log(userAccount.value)
+        console.log(currentUser.value)
     }
     else{
         loginError.value = 'Invalid username or password'
@@ -58,6 +58,7 @@ const loadInventoryData = async() => {
         cards.value = await getItems(`${import.meta.env.VITE_APP_URL}/card`)
         decks.value = await getItems(`${import.meta.env.VITE_APP_URL}/deck`)
         characters.value = await getItems(`${import.meta.env.VITE_APP_URL}/character`)
+        loginPageStatus.value = false
         console.log('Game data loaded successfully')
     } catch (error) {
         console.error('Error loading game data: ', error)
@@ -82,7 +83,7 @@ const SwitchToLogin = () => {
 </script>
 
 <template>
-    <div class="player-manager-container bg-gray-900 text-white
+   <div class="player-manager-container bg-gray-900 text-white
    min-h-screen flex flex-col items-center justify-center p-8" v-if="loginPageStatus">
 
    <PlayerUser v-if="currentUser" :user="currentUser" />
@@ -126,7 +127,8 @@ const SwitchToLogin = () => {
     </div>
 
    </div>
-   <div v-if="currentUser" class="game-logged-in-container w-full max-w-4xl">
+  </div>
+  <div v-if="currentUser" class="game-logged-in-container w-full max-w-4xl">
     <div class="user-info-bar flex justify-between items-center mb-4">
      <PlayerUser :user="currentUser" />
      <button @click="logoutUser" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">
@@ -140,7 +142,6 @@ const SwitchToLogin = () => {
         :characters="characters" 
       />
    </div>
-  </div>
   <mainMenu v-if="mainMenuStatus"/>
   <AddPlayerUser v-if="createUserStatus"/>
 
