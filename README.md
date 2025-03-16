@@ -37,15 +37,15 @@
 - Lobby
 
 ##### Progress Table
-| Week      | StudentID        | Description                                                                     |
-|-----------|------------------|---------------------------------------------------------------------------------|
-| WEEK 1    |028, 035, 044, 058| Create Git Repo, Invitation                                                     | **START REMOVE FROM THIS LINE AND MAKE SURE THE PIPE WAS IN THE SAME ROW**
-| WEEK 2    |028, 035, 044, 058| Discuss Our Project Name, Brainstorming concept, Give members Responsibilities  |
-| --------- |044               | Make a template and components                                                  | 
-| WEEK 3    |044               | Start Create User Function, Login-Logout                                        |
-| --------- |028               | Create Flipping Coin (Head or Tail), Card layout, Create Player Character                                |
-| --------- |035               | Create Card & Table Layout, Lane & Square Component Layout                       |
-| --------- |058               | Show Inventory after login                                                      |
+| Week      | StudentID        | Description                                                                                     |
+|-----------|------------------|-------------------------------------------------------------------------------------------------|
+| WEEK 1    |028, 035, 044, 058| Create Git Repo, Invitation                                                                     | **START REMOVE FROM THIS LINE AND MAKE SURE THE PIPE WAS IN THE SAME ROW**
+| WEEK 2    |028, 035, 044, 058| Discuss Our Project Name, Brainstorming concept, Give members Responsibilities                  |
+| --------- |044               | Make a template and components                                                                  | 
+| WEEK 3    |044               | Start Create User Function, Login-Logout                                                        |
+| --------- |028               | Create Flipping Coin (Head or Tail), Card layout, Create Player Character                       |
+| --------- |035               | Create Card & Table Layout, Lane & Square Component Layout, Sample Table System                 |
+| --------- |058               | Show Inventory after login                                                                      |
 
 ##### This table was create for certify what you have done in each week within short Description by remove the line that i was marked
 ##### For example:
