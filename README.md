@@ -42,7 +42,7 @@
 | WEEK 1    |028, 035, 044, 058| Create Git Repo, Invitation                                                                     | **START REMOVE FROM THIS LINE AND MAKE SURE THE PIPE WAS IN THE SAME ROW**
 | WEEK 2    |028, 035, 044, 058| Discuss Our Project Name, Brainstorming concept, Give members Responsibilities                  |
 | --------- |044               | Make a template and components                                                                  | 
-| WEEK 3    |044               | Start Create User Function, Login-Logout                                                        |
+| WEEK 3    |044               | Start Create User Function, Login-Logout, mainmenu, auto add player inventory                                                        |
 | --------- |028               | Create Flipping Coin (Head or Tail), Card layout, Create Player Character                       |
 | --------- |035               | Create Card & Table Layout, Lane & Square Component Layout, Sample Table System                 |
 | --------- |058               | Show Inventory after login                                                                      |
