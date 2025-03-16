@@ -4,6 +4,7 @@ import AddPlayerUser from './PlayerComponents/AddPlayerUser.vue';
 import PlayerInventory from './PlayerComponents/PlayerInventory.vue';
 import { ref, computed ,onMounted } from 'vue';
 import { getItems } from '@/lib/fetchUtils';
+import mainMenu from './UI/mainMenu.vue';
 
 const userAccount = ref([])
 const loginPageStatus = ref(true)
@@ -11,6 +12,8 @@ const currentUser = ref(null)
 const loginUsername = ref('')
 const loginPassword = ref('')
 const loginError = ref('')
+const mainMenuStatus = ref(false)
+const createUserStatus = ref(false)
 
 onMounted(async () => {
     try{
@@ -22,6 +25,10 @@ onMounted(async () => {
     }
 
 })
+const switchMainmenu = () =>{
+    mainMenuStatus.value=true
+    loginPageStatus.value=false
+}
 
 const loginUser = async() => {
     //login script
@@ -65,6 +72,7 @@ const userInventory = computed(() => {
 //CreateUser
 const SwitchToCreateUser = () =>{
     loginPageStatus.value = false
+    createUserStatus.value = true
 }
 
 const SwitchToLogin = () => {
@@ -74,17 +82,17 @@ const SwitchToLogin = () => {
 </script>
 
 <template>
-     <div class="player-manager-container bg-gray-900 text-white
-   min-h-screen flex flex-col items-center justify-center p-8">
+    <div class="player-manager-container bg-gray-900 text-white
+   min-h-screen flex flex-col items-center justify-center p-8" v-if="loginPageStatus">
 
    <PlayerUser v-if="currentUser" :user="currentUser" />
 
    <div v-if="!currentUser" class="auth-container w-full max-w-md">
 
     <div v-if="loginPageStatus" class="login-section bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
-    <h1 class="text-4xl font-bold mb-8 text-center">
-    война(Voyna) Of Meme
-   </h1>
+        <h1 class="text-4xl font-bold mb-8 text-center">
+             война(Voyna) Of Meme
+        </h1>
      <h2  class="text-2xl font-semibold mb-4 text-center text-white">Login</h2>
      <div v-if="loginError" class="bg-red-100 border border-red-400
       text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -112,9 +120,10 @@ const SwitchToLogin = () => {
        Need an account? Create one
       </button>
      </div>
+     <button type="button" @click="switchMainmenu()" class="text-sm text-blue-400 hover:text-blue-300 focus:outline-none">
+       Back To Menu
+      </button>
     </div>
-
-    <AddPlayerUser v-if="!loginPageStatus"/>
 
    </div>
    <div v-if="currentUser" class="game-logged-in-container w-full max-w-4xl">
@@ -132,7 +141,8 @@ const SwitchToLogin = () => {
       />
    </div>
   </div>
-
+  <mainMenu v-if="mainMenuStatus"/>
+  <AddPlayerUser v-if="createUserStatus"/>
 
 </template>
 
