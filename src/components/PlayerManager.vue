@@ -5,6 +5,7 @@ import PlayerInventory from './PlayerComponents/PlayerInventory.vue';
 import { ref, computed ,onMounted } from 'vue';
 import { getItems } from '@/lib/fetchUtils';
 import mainMenu from './UI/mainMenu.vue';
+import PlayerDeck from './PlayerComponents/PlayerDeck.vue';
 
 const userAccount = ref([])
 const loginPageStatus = ref(true)
