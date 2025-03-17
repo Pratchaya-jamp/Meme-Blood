@@ -5,9 +5,11 @@ const DeckProp = defineProps({
         require:true
     }
 })
+
 </script>
 
 <template>
+
 
 </template>
 

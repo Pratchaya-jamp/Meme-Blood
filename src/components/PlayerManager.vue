@@ -5,6 +5,7 @@ import PlayerInventory from './PlayerComponents/PlayerInventory.vue';
 import { ref, computed ,onMounted } from 'vue';
 import { getItems } from '@/lib/fetchUtils';
 import mainMenu from './UI/mainMenu.vue';
+import PlayerDeck from './PlayerComponents/PlayerDeck.vue';
 
 const userAccount = ref([])
 const loginPageStatus = ref(true)
@@ -128,20 +129,23 @@ const SwitchToLogin = () => {
 
    </div>
   </div>
-  <div v-if="currentUser" class="game-logged-in-container w-full max-w-4xl">
-    <div class="user-info-bar flex justify-between items-center mb-4">
-     <PlayerUser :user="currentUser" />
-     <button @click="logoutUser" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">
+  <div v-if="currentUser" class="game-logged-in-container w-full h-screen flex flex-col">
+  <div class="user-info-bar flex justify-between items-center mb-4">
+    <PlayerUser :user="currentUser" />
+    <button
+      @click="logoutUser"
+      class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">
       Logout
-     </button>
-    </div>
-    <PlayerInventory 
-        :inventory="userInventory" 
-        :cards="cards" 
-        :decks="decks" 
-        :characters="characters" 
-      />
-   </div>
+    </button>
+  </div>
+  <PlayerInventory
+      :inventory="userInventory"
+      :cards="cards"
+      :decks="decks"
+      :characters="characters"
+      class="flex-1 overflow-y-auto"/>
+  </div>
+
   <mainMenu v-if="mainMenuStatus"/>
   <AddPlayerUser v-if="createUserStatus"/>
 
