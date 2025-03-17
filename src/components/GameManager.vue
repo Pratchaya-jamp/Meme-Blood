@@ -1,5 +1,4 @@
 <script setup>
-import Hand from "./mainGameComponents/Hand.vue";
 import TableGame from "./mainGameComponents/Table.vue";
 import PlayerCharacter from "./mainGameComponents/PlayerCharacter.vue";
 
@@ -24,5 +23,4 @@ import PlayerCharacter from "./mainGameComponents/PlayerCharacter.vue";
       </template>
     </PlayerCharacter>
   </div>
-  <Hand />
 </template>

@@ -1,3 +1,3 @@
 <script>
-//deckที่ใช้เก็บการ์ด
+//The deck that select before game started.
 </script>
