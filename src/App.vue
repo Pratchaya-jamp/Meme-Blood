@@ -6,10 +6,10 @@ import mainMenu from './components/UI/mainMenu.vue';
 </script>
 
 <template>
-  <GameManager />
+  <!--<GameManager />-->
     <!-- <PlayerManager/> -->
     <!-- <HeadOrTail/> -->
-    <!-- <mainMenu/> -->
+    <mainMenu/>
 </template>
 
 <style scoped>
