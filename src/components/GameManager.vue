@@ -6,18 +6,25 @@ import PlayerCharacter from "./mainGameComponents/PlayerCharacter.vue";
 </script>
 
 <template>
-  <div class="flex items-center justify-center gap-20">
+  <div class="flex items-center justify-center">
     <!-- Left Player -->
-    <PlayerCharacter selectId="1669">
+    <PlayerCharacter 
+      :selectId="111"
+      class="-mr-125 -mt-100"
+    >
       <template #image>
         <img src="../assets/logo.svg" alt="Left Player" class="w-24 h-24 rounded-full shadow-lg">  
       </template>
     </PlayerCharacter>
 
+    <!-- Table & Hand -->
     <TableGame />
     
     <!-- Right Player -->
-    <PlayerCharacter selectId="9f71">
+    <PlayerCharacter 
+      :selectId="112"
+      class="-ml-125 -mt-100"
+    >
       <template #image>
         <img src="../assets/logo.svg" alt="Right Player" class="w-24 h-24 rounded-full shadow-lg">  
       </template>
