@@ -2,6 +2,7 @@
 import { defineProps, defineEmits } from "vue";
 import Card from "./Card.vue";
 
+//Receive from GameManager
 const handProps = defineProps({
   player: {
     type: Number,
