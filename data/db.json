@@ -57,6 +57,24 @@
         111,
         112
       ]
+    },
+    {
+      "id": "56b0",
+      "cardid": [],
+      "deckid": [],
+      "characterid": [
+        111
+      ]
+    },
+    {
+      "id": "516a",
+      "idinventory": 2986,
+      "uid": 2946,
+      "cardid": [],
+      "deckid": [],
+      "characterid": [
+        111
+      ]
     }
   ],
   "character": [
@@ -249,6 +267,193 @@
       "pawnsRequired": "2",
       "cardRarity": "Legend",
       "id": "ee9f"
+    },
+    {
+      "idcard": 117,
+      "cardname": "Siamese Cat and Cucumber",
+      "Ability": true,
+      "abilityType": "debuff",
+      "cardinfo": "Cat sees cucumber, goes into panic mode.",
+      "Power": 1,
+      "pawnsRequired": "2",
+      "cardRarity": "Standard",
+      "id": "4i8r"
+    },
+    {
+      "idcard": 118,
+      "cardname": "Confusing Black Dog",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "What is going on here? Nobody knows.",
+      "Power": 1,
+      "pawnsRequired": "1",
+      "cardRarity": "Standard",
+      "id": "5y3t"
+    },
+    {
+      "idcard": 119,
+      "cardname": "Just A Little",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "Just a little bit of chaos for fun.",
+      "Power": 1,
+      "pawnsRequired": "1",
+      "cardRarity": "Standard",
+      "id": "g6d7"
+    },
+    {
+      "idcard": 120,
+      "cardname": "You're not that guy",
+      "Ability": true,
+      "abilityType": "debuff",
+      "cardinfo": "You wish, but you're definitely not.",
+      "Power": 2,
+      "pawnsRequired": "2",
+      "cardRarity": "Epic",
+      "id": "9p7v"
+    },
+    {
+      "idcard": 121,
+      "cardname": "Sad Keanu",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "Keanu's just sad and tired of everything.",
+      "Power": 1,
+      "pawnsRequired": "1",
+      "cardRarity": "Standard",
+      "id": "q1f4"
+    },
+    {
+      "idcard": 122,
+      "cardname": "Talking to Brick Wall",
+      "Ability": true,
+      "abilityType": "debuff",
+      "cardinfo": "It's like talking to a brick wall... no one listens.",
+      "Power": 2,
+      "pawnsRequired": "2",
+      "cardRarity": "Standard",
+      "id": "d5j0"
+    },
+    {
+      "idcard": 123,
+      "cardname": "Why r u Gae ?",
+      "Ability": true,
+      "abilityType": "buff",
+      "cardinfo": "When you ask, but they give you a sly smile.",
+      "Power": 3,
+      "pawnsRequired": "3",
+      "cardRarity": "Legend",
+      "id": "t3f1"
+    },
+    {
+      "idcard": 124,
+      "cardname": "Giga Chad",
+      "Ability": true,
+      "abilityType": "buff",
+      "cardinfo": "Peak masculinity achieved. Prepare to be jealous.",
+      "Power": 2,
+      "pawnsRequired": "2",
+      "cardRarity": "Epic",
+      "id": "h6j0"
+    },
+    {
+      "idcard": 125,
+      "cardname": "Kazuya Guy",
+      "Ability": true,
+      "abilityType": "debuff",
+      "cardinfo": "He’s about to throw hands... watch out.",
+      "Power": 3,
+      "pawnsRequired": "2",
+      "cardRarity": "Epic",
+      "id": "c5z8"
+    },
+    {
+      "idcard": 126,
+      "cardname": "Evil Kermit",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "Embrace the dark side. It’s fun over here.",
+      "Power": 1,
+      "pawnsRequired": "1",
+      "cardRarity": "Standard",
+      "id": "y7m0"
+    },
+    {
+      "idcard": 127,
+      "cardname": "Gomen Amanai",
+      "Ability": true,
+      "abilityType": "buff",
+      "cardinfo": "Sorry, I messed up. Again.",
+      "Power": 3,
+      "pawnsRequired": "3",
+      "cardRarity": "Legend",
+      "id": "j1l8"
+    },
+    {
+      "idcard": 128,
+      "cardname": "Melon Helmet",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "Protect your brain... in style.",
+      "Power": 2,
+      "pawnsRequired": "2",
+      "cardRarity": "Standard",
+      "id": "o4d9"
+    },
+    {
+      "idcard": 129,
+      "cardname": "China Trump",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "Make memes great again. YUGE memes.",
+      "Power": 2,
+      "pawnsRequired": "2",
+      "cardRarity": "Epic",
+      "id": "l2v5"
+    },
+    {
+      "idcard": 130,
+      "cardname": "Sigma Cat",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "Mewing with supreme confidence. Sigma vibes.",
+      "Power": 1,
+      "pawnsRequired": "1",
+      "cardRarity": "Standard",
+      "id": "b3g9"
+    },
+    {
+      "idcard": 131,
+      "cardname": "Polygon White",
+      "Ability": true,
+      "abilityType": "debuff",
+      "cardinfo": "Walter White, but in pixelated glory. Science!",
+      "Power": 3,
+      "pawnsRequired": "3",
+      "cardRarity": "Legend",
+      "id": "f6s7"
+    },
+    {
+      "idcard": 132,
+      "cardname": "All-might Wanna Be",
+      "Ability": true,
+      "abilityType": "buff",
+      "cardinfo": "When you try so hard to be All Might, but end up just... not.",
+      "Power": 2,
+      "pawnsRequired": "2",
+      "cardRarity": "Epic",
+      "id": "j9d4"
+    },
+    {
+      "idcard": 133,
+      "cardname": "Dora-A",
+      "Ability": true,
+      "abilityType": "debuff",
+      "cardinfo": "When cosplay takes a turn for the weird... and funny.",
+      "Power": 2,
+      "pawnsRequired": "2",
+      "cardRarity": "Epic",
+      "id": "r7s2"
     }
   ],
   "deck": [
@@ -265,10 +470,8 @@
     {
       "deckid": 1022,
       "cardid": [
-        101,
-        102,
-        104,
-        106
+        103,
+        104
       ],
       "id": "fec6"
     },
