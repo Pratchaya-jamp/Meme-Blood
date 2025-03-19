@@ -57,6 +57,24 @@
         111,
         112
       ]
+    },
+    {
+      "id": "56b0",
+      "cardid": [],
+      "deckid": [],
+      "characterid": [
+        111
+      ]
+    },
+    {
+      "id": "516a",
+      "idinventory": 2986,
+      "uid": 2946,
+      "cardid": [],
+      "deckid": [],
+      "characterid": [
+        111
+      ]
     }
   ],
   "character": [
@@ -442,17 +460,18 @@
     {
       "deckid": 1011,
       "cardid": [
-        102,
-        108
+        101,
+        103,
+        104,
+        106
       ],
       "id": "df49"
     },
     {
       "deckid": 1022,
       "cardid": [
-        102,
-        104,
-        103
+        103,
+        104
       ],
       "id": "fec6"
     },

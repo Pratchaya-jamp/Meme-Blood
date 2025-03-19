@@ -29,6 +29,9 @@ onMounted(async () => {
  const isInvIdDuplicate = (ivnToCheck) => {
     return userInventory.value.some(ivn => ivn.idinventory === ivnToCheck)
  }
+ const genId = () =>{
+    return Math.floor(1000 + Math.random() * 9000)
+ }
 
 const CreateUser = async () => {
     createUserError.value = ''
@@ -50,7 +53,7 @@ const CreateUser = async () => {
         let uid
         let duplicateUid = true
         while(duplicateUid){
-            uid = Math.floor(1000 + Math.random() * 9000)
+            uid = genId()
             duplicateUid = isUidDuplicate(uid)
             if(!duplicateUid){
                 console.log('Uid gen complete')
@@ -60,7 +63,7 @@ const CreateUser = async () => {
         let idinv
         let duplicateidinv = true
         while(duplicateidinv){
-            idinv = Math.floor(1000 + Math.random() * 9000)
+            idinv = genId()
             duplicateidinv = isInvIdDuplicate(idinv)
             if(!duplicateidinv){
                 console.log('IvnId gen complete')
