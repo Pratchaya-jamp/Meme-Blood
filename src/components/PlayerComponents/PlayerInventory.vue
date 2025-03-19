@@ -1,7 +1,6 @@
 <script setup>
-import { editItem } from '@/lib/fetchUtils';
+import { editItem,addItem } from '@/lib/fetchUtils';
 import { computed, ref } from 'vue'
-
 const inventoryProp = defineProps({
     inventory:{
         type:Array,
@@ -36,10 +35,11 @@ const inventoryDetails = computed(() => {
 
 const uniqueDecks = computed(() => {
     const allDeckIds = inventoryDetails.value.flatMap(item => item.deckid);
-    return [...new Set(allDeckIds)];
+    return [...new Set(allDeckIds)]
 })
+
 const getCardsInDeck = computed(() => {
-    if (!selectedDeck.value) {
+    if (!selectedDeck.value || selectedDeck.value === 'AddDeck') {
         return
     }
     const foundDeck = inventoryProp.decks.find(deck => deck.deckid === selectedDeck.value);
@@ -58,6 +58,11 @@ const getCardsInInventory = computed(() =>{
     return cardsInInventory.filter(card => !cardInDeck.includes(card.idcard))
 })
 const editingDeck = async () =>{
+    if(selectedDeck.value === 'AddDeck'){
+        let newdeck = {
+        deckid:  Math.floor(1000 + Math.random() * 9000),
+        cardid: selectedInventoryCards.value }
+    }
     if(!selectedDeck.value || selectedInventoryCards.value.length === 0){
         alert('Please select a deck and at least one card from the inventory.')
         return
@@ -96,7 +101,6 @@ const editingDeck = async () =>{
             }
         }
     }
-
 const setAddCard = () =>{
     addCard.value = true
     removeCard.value = false
@@ -149,10 +153,10 @@ const selectInventoryCardFunc = (card) => {
   
       <div v-if="inventoryDetails.length > 0">
         <h3 class="text-lg font-semibold text-white mb-2">Inventory Details:</h3>
-  
         <label for="selectedDeck" class="block text-gray-200 text-sm font-bold mb-2 w-fit">Select Deck:</label>
         <select v-model="selectedDeck" id="selectedDeck" class="shadow border rounded w-full py-2 px-3 bg-gray-700 text-white border-gray-600">
           <option v-for="deck in uniqueDecks" :key="deck" :value="deck">{{ deck }}</option>
+          <option value="AddDeck"> Add Deck </option>
         </select>
   
         <div v-if="selectedDeck && getCardsInDeck && getCardsInDeck.length > 0" class="mt-4 flex flex-wrap gap-4">
@@ -200,5 +204,6 @@ const selectInventoryCardFunc = (card) => {
         </li>
       </ul>
     </div>
+
   </template>
 <style scoped></style>
