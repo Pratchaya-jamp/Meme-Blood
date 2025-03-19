@@ -57,6 +57,24 @@
         111,
         112
       ]
+    },
+    {
+      "id": "56b0",
+      "cardid": [],
+      "deckid": [],
+      "characterid": [
+        111
+      ]
+    },
+    {
+      "id": "516a",
+      "idinventory": 2986,
+      "uid": 2946,
+      "cardid": [],
+      "deckid": [],
+      "characterid": [
+        111
+      ]
     }
   ],
   "character": [
@@ -241,556 +259,6 @@
     },
     {
       "idcard": 116,
-      "cardname": "Mocking SpongeBob",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "mOcKiNg SpOnGeBoB.",
-      "Power": 1,
-      "pawnsRequired": "1",
-      "cardRarity": "Standard",
-      "id": "25b4"
-    },
-    {
-      "idcard": 117,
-      "cardname": "This is Fine Dog",
-      "Ability": true,
-      "abilityType": "buff",
-      "cardinfo": "Everything is fine.",
-      "Power": 1,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "a389"
-    },
-    {
-      "idcard": 118,
-      "cardname": "Coffin Dance",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "Astronomia.",
-      "Power": 2,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "a9f1"
-    },
-    {
-      "idcard": 119,
-      "cardname": "Philosoraptor",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "Deep thoughts.",
-      "Power": 4,
-      "pawnsRequired": "3",
-      "cardRarity": "Legend",
-      "id": "4cab"
-    },
-    {
-      "idcard": 120,
-      "cardname": "Success Kid",
-      "Ability": true,
-      "abilityType": "buff",
-      "cardinfo": "Victory!",
-      "Power": 1,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "05ab"
-    },
-    {
-      "idcard": 121,
-      "cardname": "Roll Safe",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "Thinking outside the box.",
-      "Power": 2,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "2471"
-    },
-    {
-      "idcard": 122,
-      "cardname": "Harambe",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "Dicks out.",
-      "Power": 2,
-      "pawnsRequired": "2",
-      "cardRarity": "Epic",
-      "id": "a825"
-    },
-    {
-      "idcard": 123,
-      "cardname": "Left Exit 12",
-      "Ability": true,
-      "abilityType": "buff",
-      "cardinfo": "Sudden realization.",
-      "Power": 1,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "5ee0"
-    },
-    {
-      "idcard": 124,
-      "cardname": "Two Buttons",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "Difficult choices.",
-      "Power": 3,
-      "pawnsRequired": "2",
-      "cardRarity": "Epic",
-      "id": "3993"
-    },
-    {
-      "idcard": 125,
-      "cardname": "Is This a Pigeon?",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "Is this a...?",
-      "Power": 1,
-      "pawnsRequired": "1",
-      "cardRarity": "Standard",
-      "id": "1d39"
-    },
-    {
-      "idcard": 126,
-      "cardname": "Arthur's Fist",
-      "Ability": true,
-      "abilityType": "buff",
-      "cardinfo": "Anger intensifies.",
-      "Power": 1,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "82a2"
-    },
-    {
-      "idcard": 127,
-      "cardname": "Surprised Pikachu",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "Shocking revelations.",
-      "Power": 2,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "a51f"
-    },
-    {
-      "idcard": 128,
-      "cardname": "Gru's Plan",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "A cunning plan.",
-      "Power": 2,
-      "pawnsRequired": "2",
-      "cardRarity": "Epic",
-      "id": "fed3"
-    },
-    {
-      "idcard": 129,
-      "cardname": "Woman Pointing at a Cat",
-      "Ability": true,
-      "abilityType": "buff",
-      "cardinfo": "Accusations fly.",
-      "Power": 1,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "275a"
-    },
-    {
-      "idcard": 130,
-      "cardname": "American Chopper Argument",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "Heated debate.",
-      "Power": 3,
-      "pawnsRequired": "2",
-      "cardRarity": "Epic",
-      "id": "313f"
-    },
-    {
-      "idcard": 131,
-      "cardname": "Bad Luck Brian",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "Just my luck.",
-      "Power": 1,
-      "pawnsRequired": "1",
-      "cardRarity": "Standard",
-      "id": "6848"
-    },
-    {
-      "idcard": 132,
-      "cardname": "First World Problems",
-      "Ability": true,
-      "abilityType": "buff",
-      "cardinfo": "Minor inconveniences.",
-      "Power": 1,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "887f"
-    },
-    {
-      "idcard": 133,
-      "cardname": "Salt Bae",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "A dash of flair.",
-      "Power": 2,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "8e16"
-    },
-    {
-      "idcard": 134,
-      "cardname": "Ancient Aliens",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "Aliens? I think not.",
-      "Power": 4,
-      "pawnsRequired": "3",
-      "cardRarity": "Legend",
-      "id": "1db2"
-    },
-    {
-      "idcard": 135,
-      "cardname": "Leonardo DiCaprio Laughing",
-      "Ability": true,
-      "abilityType": "buff",
-      "cardinfo": "Pure joy.",
-      "Power": 1,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "68f0"
-    },
-    {
-      "idcard": 136,
-      "cardname": "Expanding Brain Galaxy",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "Cosmic knowledge.",
-      "Power": 2,
-      "pawnsRequired": "2",
-      "cardRarity": "Epic",
-      "id": "54e6"
-    },
-    {
-      "idcard": 137,
-      "cardname": "Distracted Boyfriend Galaxy",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "Galactic distraction.",
-      "Power": 2,
-      "pawnsRequired": "2",
-      "cardRarity": "Epic",
-      "id": "3f57"
-    },
-    {
-      "idcard": 138,
-      "cardname": "Pepe the Frog Wizard",
-      "Ability": true,
-      "abilityType": "buff",
-      "cardinfo": "Magical feels.",
-      "Power": 1,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "11b2"
-    },
-    {
-      "idcard": 139,
-      "cardname": "Troll Face Ninja",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "Sneaky problem?",
-      "Power": 3,
-      "pawnsRequired": "2",
-      "cardRarity": "Epic",
-      "id": "23d7"
-    },
-    {
-      "idcard": 140,
-      "cardname": "Doge Astronaut",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "To the moon!",
-      "Power": 1,
-      "pawnsRequired": "1",
-      "cardRarity": "Standard",
-      "id": "31f9"
-    },
-    {
-      "idcard": 141,
-      "cardname": "Keyboard Cat Rocker",
-      "Ability": true,
-      "abilityType": "buff",
-      "cardinfo": "Rocking you off!",
-      "Power": 1,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "34db"
-    },
-    {
-      "idcard": 142,
-      "cardname": "Dancing Banana Party",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "Party time!",
-      "Power": 2,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "9786"
-    },
-    {
-      "idcard": 143,
-      "cardname": "Rick Astley Hologram",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "Never gonna give you up... digitally.",
-      "Power": 3,
-      "pawnsRequired": "3",
-      "cardRarity": "Epic",
-      "id": "5158"
-    },
-    {
-      "idcard": 144,
-      "cardname": "Hide the Pain Harold Robot",
-      "Ability": true,
-      "abilityType": "buff",
-      "cardinfo": "Robotic suffering.",
-      "Power": 1,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "1f09"
-    },
-    {
-      "idcard": 145,
-      "cardname": "Woman Yelling at Cat Lawyer",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "Objection!",
-      "Power": 2,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "9295"
-    },
-    {
-      "idcard": 146,
-      "cardname": "Big Chungus King",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "All hail the Chungus.",
-      "Power": 2,
-      "pawnsRequired": "2",
-      "cardRarity": "Epic",
-      "id": "4747"
-    },
-    {
-      "idcard": 147,
-      "cardname": "Drake Meme Superhero",
-      "Ability": true,
-      "abilityType": "buff",
-      "cardinfo": "Super approval.",
-      "Power": 1,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "ec8f"
-    },
-    {
-      "idcard": 148,
-      "cardname": "Expanding Brain Universe",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "Ultimate knowledge.",
-      "Power": 3,
-      "pawnsRequired": "2",
-      "cardRarity": "Epic",
-      "id": "0c14"
-    },
-    {
-      "idcard": 149,
-      "cardname": "Mocking SpongeBob Pirate",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "aRrR mOcKiNg SpOnGeBoB.",
-      "Power": 1,
-      "pawnsRequired": "1",
-      "cardRarity": "Standard",
-      "id": "dec0"
-    },
-    {
-      "idcard": 150,
-      "cardname": "This is Fine Dog Chef",
-      "Ability": true,
-      "abilityType": "buff",
-      "cardinfo": "Everything is fine...ly cooked.",
-      "Power": 1,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "4de8"
-    },
-    {
-      "idcard": 151,
-      "cardname": "Coffin Dance Astronauts",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "Cosmic Astronomia.",
-      "Power": 2,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "b711"
-    },
-    {
-      "idcard": 152,
-      "cardname": "Philosoraptor God",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "Divine thoughts.",
-      "Power": 4,
-      "pawnsRequired": "3",
-      "cardRarity": "Legend",
-      "id": "6194"
-    },
-    {
-      "idcard": 153,
-      "cardname": "Success Kid President",
-      "Ability": true,
-      "abilityType": "buff",
-      "cardinfo": "Presidential victory!",
-      "Power": 1,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "7296"
-    },
-    {
-      "idcard": 154,
-      "cardname": "Roll Safe Detective",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "Investigative thinking.",
-      "Power": 2,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "3966"
-    },
-    {
-      "idcard": 155,
-      "cardname": "Harambe Guardian",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "Protecting us all.",
-      "Power": 2,
-      "pawnsRequired": "2",
-      "cardRarity": "Epic",
-      "id": "1404"
-    },
-    {
-      "idcard": 156,
-      "cardname": "Left Exit 12 Scientist",
-      "Ability": true,
-      "abilityType": "buff",
-      "cardinfo": "Scientific realization.",
-      "Power": 1,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "d1a8"
-    },
-    {
-      "idcard": 157,
-      "cardname": "Two Buttons Decision Maker",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "The ultimate choice.",
-      "Power": 3,
-      "pawnsRequired": "2",
-      "cardRarity": "Epic",
-      "id": "487a"
-    },
-    {
-      "idcard": 158,
-      "cardname": "Is This a Pigeon? Alien",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "Is this an... alien?",
-      "Power": 1,
-      "pawnsRequired": "1",
-      "cardRarity": "Standard",
-      "id": "328a"
-    },
-    {
-      "idcard": 159,
-      "cardname": "Arthur's Fist Fire",
-      "Ability": true,
-      "abilityType": "buff",
-      "cardinfo": "Burning anger.",
-      "Power": 1,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "5e78"
-    },
-    {
-      "idcard": 160,
-      "cardname": "Surprised Pikachu Rockstar",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "Shocking performance.",
-      "Power": 2,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "f0f3"
-    },
-    {
-      "idcard": 161,
-      "cardname": "Gru's Plan Mastermind",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "The ultimate plan.",
-      "Power": 2,
-      "pawnsRequired": "2",
-      "cardRarity": "Epic",
-      "id": "5428"
-    },
-    {
-      "idcard": 162,
-      "cardname": "Woman Pointing at a Cat Detective",
-      "Ability": true,
-      "abilityType": "buff",
-      "cardinfo": "The cat is the culprit!",
-      "Power": 1,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "28e1"
-    },
-    {
-      "idcard": 163,
-      "cardname": "American Chopper Argument Finale",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "The final showdown.",
-      "Power": 3,
-      "pawnsRequired": "2",
-      "cardRarity": "Epic",
-      "id": "cfd3"
-    },
-    {
-      "idcard": 184,
-      "cardname": "Why Are You Running?",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "Why are you running? WHY ARE YOU RUNNING?!",
-      "Power": 2,
-      "pawnsRequired": "2",
-      "cardRarity": "Standard",
-      "id": "2862"
-    },
-    {
-      "idcard": 185,
-      "cardname": "Omae Wa Mou Shindeiru",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "NANI?!",
-      "Power": 3,
-      "pawnsRequired": "2",
-      "cardRarity": "Epic",
-      "id": "3b68"
-    },
-    {
-      "idcard": 203,
       "cardname": "Code Geass: Lelouch's Geass",
       "Ability": true,
       "abilityType": "debuff",
@@ -799,6 +267,193 @@
       "pawnsRequired": "2",
       "cardRarity": "Legend",
       "id": "ee9f"
+    },
+    {
+      "idcard": 117,
+      "cardname": "Siamese Cat and Cucumber",
+      "Ability": true,
+      "abilityType": "debuff",
+      "cardinfo": "Cat sees cucumber, goes into panic mode.",
+      "Power": 1,
+      "pawnsRequired": "2",
+      "cardRarity": "Standard",
+      "id": "4i8r"
+    },
+    {
+      "idcard": 118,
+      "cardname": "Confusing Black Dog",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "What is going on here? Nobody knows.",
+      "Power": 1,
+      "pawnsRequired": "1",
+      "cardRarity": "Standard",
+      "id": "5y3t"
+    },
+    {
+      "idcard": 119,
+      "cardname": "Just A Little",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "Just a little bit of chaos for fun.",
+      "Power": 1,
+      "pawnsRequired": "1",
+      "cardRarity": "Standard",
+      "id": "g6d7"
+    },
+    {
+      "idcard": 120,
+      "cardname": "You're not that guy",
+      "Ability": true,
+      "abilityType": "debuff",
+      "cardinfo": "You wish, but you're definitely not.",
+      "Power": 2,
+      "pawnsRequired": "2",
+      "cardRarity": "Epic",
+      "id": "9p7v"
+    },
+    {
+      "idcard": 121,
+      "cardname": "Sad Keanu",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "Keanu's just sad and tired of everything.",
+      "Power": 1,
+      "pawnsRequired": "1",
+      "cardRarity": "Standard",
+      "id": "q1f4"
+    },
+    {
+      "idcard": 122,
+      "cardname": "Talking to Brick Wall",
+      "Ability": true,
+      "abilityType": "debuff",
+      "cardinfo": "It's like talking to a brick wall... no one listens.",
+      "Power": 2,
+      "pawnsRequired": "2",
+      "cardRarity": "Standard",
+      "id": "d5j0"
+    },
+    {
+      "idcard": 123,
+      "cardname": "Why r u Gae ?",
+      "Ability": true,
+      "abilityType": "buff",
+      "cardinfo": "When you ask, but they give you a sly smile.",
+      "Power": 3,
+      "pawnsRequired": "3",
+      "cardRarity": "Legend",
+      "id": "t3f1"
+    },
+    {
+      "idcard": 124,
+      "cardname": "Giga Chad",
+      "Ability": true,
+      "abilityType": "buff",
+      "cardinfo": "Peak masculinity achieved. Prepare to be jealous.",
+      "Power": 2,
+      "pawnsRequired": "2",
+      "cardRarity": "Epic",
+      "id": "h6j0"
+    },
+    {
+      "idcard": 125,
+      "cardname": "Kazuya Guy",
+      "Ability": true,
+      "abilityType": "debuff",
+      "cardinfo": "He’s about to throw hands... watch out.",
+      "Power": 3,
+      "pawnsRequired": "2",
+      "cardRarity": "Epic",
+      "id": "c5z8"
+    },
+    {
+      "idcard": 126,
+      "cardname": "Evil Kermit",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "Embrace the dark side. It’s fun over here.",
+      "Power": 1,
+      "pawnsRequired": "1",
+      "cardRarity": "Standard",
+      "id": "y7m0"
+    },
+    {
+      "idcard": 127,
+      "cardname": "Gomen Amanai",
+      "Ability": true,
+      "abilityType": "buff",
+      "cardinfo": "Sorry, I messed up. Again.",
+      "Power": 3,
+      "pawnsRequired": "3",
+      "cardRarity": "Legend",
+      "id": "j1l8"
+    },
+    {
+      "idcard": 128,
+      "cardname": "Melon Helmet",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "Protect your brain... in style.",
+      "Power": 2,
+      "pawnsRequired": "2",
+      "cardRarity": "Standard",
+      "id": "o4d9"
+    },
+    {
+      "idcard": 129,
+      "cardname": "China Trump",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "Make memes great again. YUGE memes.",
+      "Power": 2,
+      "pawnsRequired": "2",
+      "cardRarity": "Epic",
+      "id": "l2v5"
+    },
+    {
+      "idcard": 130,
+      "cardname": "Sigma Cat",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "Mewing with supreme confidence. Sigma vibes.",
+      "Power": 1,
+      "pawnsRequired": "1",
+      "cardRarity": "Standard",
+      "id": "b3g9"
+    },
+    {
+      "idcard": 131,
+      "cardname": "Polygon White",
+      "Ability": true,
+      "abilityType": "debuff",
+      "cardinfo": "Walter White, but in pixelated glory. Science!",
+      "Power": 3,
+      "pawnsRequired": "3",
+      "cardRarity": "Legend",
+      "id": "f6s7"
+    },
+    {
+      "idcard": 132,
+      "cardname": "All-might Wanna Be",
+      "Ability": true,
+      "abilityType": "buff",
+      "cardinfo": "When you try so hard to be All Might, but end up just... not.",
+      "Power": 2,
+      "pawnsRequired": "2",
+      "cardRarity": "Epic",
+      "id": "j9d4"
+    },
+    {
+      "idcard": 133,
+      "cardname": "Dora-A",
+      "Ability": true,
+      "abilityType": "debuff",
+      "cardinfo": "When cosplay takes a turn for the weird... and funny.",
+      "Power": 2,
+      "pawnsRequired": "2",
+      "cardRarity": "Epic",
+      "id": "r7s2"
     }
   ],
   "deck": [
@@ -807,17 +462,16 @@
       "cardid": [
         101,
         103,
-        102,
-        106,
-        104
+        104,
+        106
       ],
       "id": "df49"
     },
     {
       "deckid": 1022,
       "cardid": [
-        101,
-        102
+        103,
+        104
       ],
       "id": "fec6"
     },
