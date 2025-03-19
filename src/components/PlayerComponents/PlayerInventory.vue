@@ -51,10 +51,11 @@ const getCardsInDeck = computed(() => {
 
 const getCardsInInventory = computed(() =>{
     const cardsInInventory = inventoryProp.cards.filter(card => inventoryDetails.value.some(inv => inv.card.includes(card.idcard)))
-
-    if(cardsInInventory){
+    if(!selectedDeck.value || !getCardsInDeck.value){
         return cardsInInventory
     }
+    const cardInDeck = getCardsInDeck.value.map(card => card && card.idcard).filter(id => id !== undefined)
+    return cardsInInventory.filter(card => !cardInDeck.includes(card.idcard))
 })
 const editingDeck = async () =>{
     if(!selectedDeck.value || selectedInventoryCards.value.length === 0){
@@ -87,6 +88,7 @@ const editingDeck = async () =>{
                 if(editedDeck){
                     alert('Card(s) removed from deck successfully')
                     selectedInventoryCards.value = []
+                    setNormalState()
                 }
                 }catch(error){
                     console.error('Failed to remove cards from deck:', error)
@@ -109,11 +111,34 @@ const setNormalState = () =>{
     removeCard.value = false
 }
 const selectInventoryCardFunc = (card) => {
-    const index = selectedInventoryCards.value.findIndex(selectedCard => selectedCard.idcard === card.idcard);
-    if (index === -1) {
-        selectedInventoryCards.value.push(card);
-    } else {
-        selectedInventoryCards.value.splice(index, 1);
+    const index = selectedInventoryCards.value.findIndex(selectedCard => selectedCard.idcard === card.idcard)
+
+    if(removeCard.value){
+        const isInDeck = getCardsInDeck.value.some(deckCard => deckCard && deckCard.idcard === card.idcard)
+        if(isInDeck){
+            if(index === -1){
+                selectedInventoryCards.value.push(card)
+            } else {
+                selectedInventoryCards.value.splice(index, 1)
+            }
+        
+        } else{
+            alert('Please select a card from the deck to remove.')
+            return
+        }
+    } 
+    else if(addCard.value){
+        const isInInventory = getCardsInInventory.value.some(invCard => invCard.idcard === card.idcard)
+        if(isInInventory){
+            if(index === -1){
+                selectedInventoryCards.value.push(card)
+            } else{
+                selectedInventoryCards.value.splice(index,1)
+            }
+        } else {
+            alert('Please select a card from the inventory to add.')
+            return
+        }
     }
 }
 </script>
@@ -169,14 +194,11 @@ const selectInventoryCardFunc = (card) => {
                 </div>
               </div>
             </div>
+            <button @click="editingDeck" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4">Edited</button>
             <p>Character: <span v-for="char in item.character" :key="char">(ID: {{ char }})</span></p>
           </div>
         </li>
       </ul>
-      <button @click="editingDeck" v-if="addCard || removeCard" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Confirm Edit</button>
     </div>
   </template>
-  
-
-
 <style scoped></style>
