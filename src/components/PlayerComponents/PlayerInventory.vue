@@ -1,7 +1,6 @@
 <script setup>
-import { editItem } from '@/lib/fetchUtils';
-import { computed, ref } from 'vue'
-
+import { editItem,addItem,deleteItemById } from '@/lib/fetchUtils';
+import { computed, ref,watch } from 'vue'
 const inventoryProp = defineProps({
     inventory:{
         type:Array,
@@ -18,8 +17,13 @@ const inventoryProp = defineProps({
     characters: {
         type: Array,
         required: true
+    },
+    currentUser: {
+        type: Object,
+        required: true
     }
-});
+})
+const emit = defineEmits(['deckAdded'])
 const selectedDeck = ref()
 const selectedInventoryCards = ref([]);
 const addCard = ref(false)
@@ -34,12 +38,17 @@ const inventoryDetails = computed(() => {
     }))
 })
 
+//const uniqueDecks = computed(() => {
+//    const allDeckIds = inventoryDetails.value.flatMap(item => item.deckid)
+//    return [...new Set(allDeckIds)]
+//})
 const uniqueDecks = computed(() => {
-    const allDeckIds = inventoryDetails.value.flatMap(item => item.deckid);
-    return [...new Set(allDeckIds)];
+    return [...new Set(inventoryProp.decks.map(deck => deck.deckid))]
 })
+
+
 const getCardsInDeck = computed(() => {
-    if (!selectedDeck.value) {
+    if (!selectedDeck.value || selectedDeck.value === 'AddDeck') {
         return
     }
     const foundDeck = inventoryProp.decks.find(deck => deck.deckid === selectedDeck.value);
@@ -62,6 +71,9 @@ const editingDeck = async () =>{
         alert('Please select a deck and at least one card from the inventory.')
         return
     }
+    if(selectedDeck.value === 'AddDeck'){
+       addingDeck()
+    }
     else{
         let deckToEdit = inventoryProp.decks.find(deck => deck.deckid === selectedDeck.value)
         if(addCard.value){
@@ -76,7 +88,7 @@ const editingDeck = async () =>{
                 selectedInventoryCards.value = []
             }
             }catch (error) {
-                console.error('Failed to update deck:', error)
+               console.log('Failed to update deck:', error)
             }
         }
         if(removeCard.value){
@@ -91,12 +103,55 @@ const editingDeck = async () =>{
                     setNormalState()
                 }
                 }catch(error){
-                    console.error('Failed to remove cards from deck:', error)
+                   console.log('Failed to remove cards from deck:', error)
                 }
             }
         }
     }
 
+const addingDeck = async () =>{
+    if (selectedInventoryCards.value.length === 0) {
+        alert('Please select at least one card to create a new deck.')
+        return
+    }
+
+    const newDeckId =  Math.floor(1000 + Math.random() * 9000)
+        const newDeck = {
+        deckid: newDeckId,
+        cardid: selectedInventoryCards.value.map(card => card.idcard)
+    }
+    try{
+        const addedDeck = await addItem(`${import.meta.env.VITE_APP_URL}/deck`,newDeck)
+        if(addedDeck){
+            console.log(`Deck ${newDeckId} added successfully.`)
+
+            inventoryProp.decks.push(newDeck)
+
+            emit('deckAdded');
+
+            if (inventoryProp.inventory.length > 0 && inventoryProp.currentUser) {
+                const userInventoryItem = inventoryProp.inventory.find(inv => inv.uid === inventoryProp.currentUser.uid)
+                if (userInventoryItem) {
+                    const updatedInventoryItem = { ...userInventoryItem }
+                    updatedInventoryItem.deckid = updatedInventoryItem.deckid ? [...updatedInventoryItem.deckid, newDeckId] : [newDeckId]
+
+                    try {
+                        await editItem(`${import.meta.env.VITE_APP_URL}/inventory`, userInventoryItem.id, updatedInventoryItem)
+                        console.log(`Deck ID ${newDeckId} added to inventory.`)
+                    } catch (error){
+                        alert('Failed to update inventory with the new deck ID.');
+                        console.error("Error updating inventory:", error); // Log the error for debugging
+                    }
+                }
+            }
+
+            selectedDeck.value = newDeckId
+            selectedInventoryCards.value = []
+        }
+    }catch(error){
+        console.error('Failed to add new deck:', error); // Log the error for debugging
+    }
+}
 const setAddCard = () =>{
     addCard.value = true
     removeCard.value = false
@@ -112,7 +167,7 @@ const setNormalState = () =>{
 }
 const selectInventoryCardFunc = (card) => {
     const index = selectedInventoryCards.value.findIndex(selectedCard => selectedCard.idcard === card.idcard)
-
+    const isInInventory = getCardsInInventory.value.some(invCard => invCard.idcard === card.idcard)
     if(removeCard.value){
         const isInDeck = getCardsInDeck.value.some(deckCard => deckCard && deckCard.idcard === card.idcard)
         if(isInDeck){
@@ -128,7 +183,6 @@ const selectInventoryCardFunc = (card) => {
         }
     } 
     else if(addCard.value){
-        const isInInventory = getCardsInInventory.value.some(invCard => invCard.idcard === card.idcard)
         if(isInInventory){
             if(index === -1){
                 selectedInventoryCards.value.push(card)
@@ -139,8 +193,61 @@ const selectInventoryCardFunc = (card) => {
             alert('Please select a card from the inventory to add.')
             return
         }
+    }   else if (selectedDeck.value === 'AddDeck') {
+        if (isInInventory) {
+            if (index === -1) {
+                selectedInventoryCards.value.push(card);
+            } else {
+                selectedInventoryCards.value.splice(index, 1);
+            }
+        } else {
+            alert('Please select a card from the inventory to add.')
+            return;
+        }
     }
 }
+const removeSelectedDeck = async () =>{
+    if(!selectedDeck.value || selectedDeck.value === 'AddDeck'){
+        alert('Please select a deck to remove.');
+        return
+    }
+    const deckToDelete = inventoryProp.decks.find(deck => deck.deckid === selectedDeck.value)
+    if (!deckToDelete) {
+        alert('Deck not found.')
+        return
+    }
+
+    try {
+        await deleteItemById(`${import.meta.env.VITE_APP_URL}/deck`, deckToDelete.id)
+        console.log(`Deck ID ${selectedDeck.value} removed successfully.`)
+        if (inventoryProp.inventory.length > 0 && inventoryProp.currentUser) {
+            const userInventoryItem = inventoryProp.inventory.find(inv => inv.uid === inventoryProp.currentUser.uid)//ดึงข้อมูลinvก่อนหน้านั้น
+            if (userInventoryItem) {
+            const updatedInventoryItem = { ...userInventoryItem }
+                updatedInventoryItem.deckid = updatedInventoryItem.deckid.filter(id => id !== selectedDeck.value)
+                try {
+                    await editItem(`${import.meta.env.VITE_APP_URL}/inventory`, userInventoryItem.id, updatedInventoryItem)
+                    console.log(`Deck ID ${selectedDeck.value} removed from inventory for user ${inventoryProp.currentUser.uid}.`)
+                } catch (error) {
+                    alert('Failed to update inventory after removing the deck.')
+                    console.log('Error updating inventory:', error)
+                }
+            }
+        }
+        inventoryProp.decks = inventoryProp.decks.filter(deck => deck.deckid !== selectedDeck.value)
+        emit('deckAdded')
+        selectedDeck.value = null
+    }catch(error){
+        console.log('Error removing deck:', error);
+    }
+}
+//watch(uniqueDecks, (newUniqueDecks) => {
+//    console.log('Unique decks updated (delete):', newUniqueDecks);
+//})
+watch(uniqueDecks, (newUniqueDecks) => {
+    console.log('Unique decks updated (delete):', newUniqueDecks);
+    selectedDeck.value = null
+})
 </script>
 
 <template>
@@ -149,10 +256,10 @@ const selectInventoryCardFunc = (card) => {
   
       <div v-if="inventoryDetails.length > 0">
         <h3 class="text-lg font-semibold text-white mb-2">Inventory Details:</h3>
-  
         <label for="selectedDeck" class="block text-gray-200 text-sm font-bold mb-2 w-fit">Select Deck:</label>
-        <select v-model="selectedDeck" id="selectedDeck" class="shadow border rounded w-full py-2 px-3 bg-gray-700 text-white border-gray-600">
-          <option v-for="deck in uniqueDecks" :key="deck" :value="deck">{{ deck }}</option>
+        <select v-model="selectedDeck" id="selectedDeck" :key="uniqueDecks.length" class="shadow border rounded w-full py-2 px-3 bg-gray-700 text-white border-gray-600">
+            <option v-for="deck in uniqueDecks" :key="deck" :value="deck">{{ deck }}</option>
+            <option value="AddDeck"> Add Deck </option>
         </select>
   
         <div v-if="selectedDeck && getCardsInDeck && getCardsInDeck.length > 0" class="mt-4 flex flex-wrap gap-4">
@@ -168,6 +275,12 @@ const selectInventoryCardFunc = (card) => {
               ID: {{ card.idcard }}</div>
             <div class="absolute bottom-2 w-full text-center text-sm text-yellow-300 font-semibold">{{ card.cardname }}</div>
           </div>
+          <button
+                v-if="selectedDeck && selectedDeck !== 'AddDeck'"
+                @click="removeSelectedDeck"
+                class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded mt-2">
+                Remove Deck
+            </button>
         </div>
   
         <button @click="setAddCard" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4">Add Card to Deck</button>
@@ -178,7 +291,8 @@ const selectInventoryCardFunc = (card) => {
         <li v-for="item in inventoryDetails" :key="item.deckid">
           <div class="border-b border-gray-600 pb-2 mb-2">
             <h4 class="text-lg font-semibold text-white mb-2 w-full">Cards in Inventory</h4>
-            <p v-if="addCard">Add Card To Deck</p>
+            <p v-if="addCard && selectedDeck === 'AddDeck'">Select cards to create a new deck</p>
+            <p v-else-if="addCard">Add Card To Deck</p>
             <div class="flex flex-wrap gap-x-4 gap-y-4">
               <div v-for="card in getCardsInInventory" :key="card.idcard"
                    @click="selectInventoryCardFunc(card)"
@@ -200,5 +314,6 @@ const selectInventoryCardFunc = (card) => {
         </li>
       </ul>
     </div>
+
   </template>
 <style scoped></style>

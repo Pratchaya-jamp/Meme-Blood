@@ -44,9 +44,16 @@ const loginUser = async() => {
     else{
         loginError.value = 'Invalid username or password'
     }
-
 }
 
+const logoutUser = () =>{
+    currentUser.value = null
+    loginPageStatus.value = true
+    inventories.value = []
+    decks.value = []
+    cards.value = []
+    characters.value = []
+}
 //Inventory
 const inventories = ref([])
 const cards = ref([])
@@ -69,6 +76,16 @@ const userInventory = computed(() => {
     if (!currentUser.value) return []
     return inventories.value.filter(inv => inv.uid === currentUser.value.uid)
 })
+
+const handleDeckAdded = async () =>{
+    try{
+        decks.value = await getItems(`${import.meta.env.VITE_APP_URL}/deck`)
+        console.log('Decks data updated after adding a new deck.');
+    }catch(error)
+        {
+        console.log('Error loading deck data:',error)
+    }
+}
 
 //CreateUser
 const SwitchToCreateUser = () =>{
@@ -142,6 +159,8 @@ const SwitchToLogin = () => {
       :cards="cards"
       :decks="decks"
       :characters="characters"
+      :currentUser="currentUser"
+      @deckAdded="handleDeckAdded"
       class="flex-1 overflow-y-auto"/>
   </div>
 
