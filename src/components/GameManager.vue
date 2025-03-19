@@ -8,22 +8,23 @@ const currentTurn = ref(1); //player1 & player2
 const round = ref(1);
 const selectedCard = ref(null);
 const board = ref([
-  ["score", "pawn1", "blank", "blank", "blank", "blank", "pawn2", "score"],
-  ["score", "pawn1", "blank", "blank", "blank", "blank", "pawn2", "score"],
-  ["score", "pawn1", "blank", "blank", "blank", "blank", "pawn2", "score"],
+  ["score", {pawn1: 1}, "blank", "blank", "blank", "blank", {pawn2: 1}, "score"],
+  ["score", {pawn1: 1}, "blank", "blank", "blank", "blank", {pawn2: 1}, "score"],
+  ["score", {pawn1: 1}, "blank", "blank", "blank", "blank", {pawn2: 1}, "score"],
 ]);
+
 
 // Example each player's hand
 const playerHands = ref({
   1: [
-    { id: "05ab", cardname: "Success Kid", Power: 1, pawnsRequired: 2 },
-    { id: "2471", cardname: "Roll Safe", Power: 2, pawnsRequired: 2 },
-    { id: "a825", cardname: "Harambe", Power: 2, pawnsRequired: 2 },
+    { id: "05ab", cardname: "Success Kid", Power: 1, pawnsRequired: 1, slots:{pawn:[8, 12, 14], buff:[], debuff:[]} },
+    { id: "2471", cardname: "Roll Safe", Power: 2, pawnsRequired: 2, slots:{pawn:[8, 14, 15]}},
+    { id: "a825", cardname: "Harambe", Power: 2, pawnsRequired: 3, slots: {pawn: [15]} },
   ],
   2: [
-    { id: "b29c", cardname: "Grumpy Cat", Power: 3, pawnsRequired: 2 },
-    { id: "c671", cardname: "Doge", Power: 1, pawnsRequired: 1 },
-    { id: "d482", cardname: "Pepe", Power: 2, pawnsRequired: 2 },
+    { id: "b29c", cardname: "Grumpy Cat", Power: 3, pawnsRequired: 1, slots:{pawn:[8, 11]} },
+    { id: "c671", cardname: "Doge", Power: 1, pawnsRequired: 2, slots:{pawn:[8, 14, 15]} },
+    { id: "d482", cardname: "Pepe", Power: 2, pawnsRequired: 3, slots:{pawn:[8, 14, 15]} },
   ]
 });
 
@@ -34,20 +35,74 @@ const selectCard = (card) => {
 
 // Place a Card on the Board then Remove from Hand (receive from Table.vue)
 const placeCard = (rowIndex, colIndex) => {
-  if (!selectedCard.value) return;
-
-  // Place only on player's pawns
+  const boardSlot = board.value[rowIndex][colIndex];
   const validPawn = `pawn${currentTurn.value}`;
-  if (board.value[rowIndex][colIndex] === validPawn) {
+
+  // Check selectCard not null & pawnsRequired
+  if (!selectedCard.value || selectedCard.value.pawnsRequired > boardSlot[validPawn]) {
+    selectedCard.value = null; 
+    return;
+  }
+
+  if (typeof boardSlot === "object" && validPawn in boardSlot) {
+    // Replace card on pawn
     board.value[rowIndex][colIndex] = { ...selectedCard.value, player: currentTurn.value };
+
+    // Expand Pawn
+    const slot = selectedCard.value.slots;
+    if (slot.pawn){
+      for(let pawn of slot.pawn) {
+        expandPawnOnBoard(rowIndex, colIndex, pawn)
+      }
+    }
 
     // Remove the card from the player's hand
     playerHands.value[currentTurn.value] = playerHands.value[currentTurn.value].filter(c => c.id !== selectedCard.value.id);
     // Clear selection after placing
     selectedCard.value = null; 
   }
-  console.log(board.value)
 };
+
+const expandPawnOnBoard = (boardRow, boardCol, cardSlot) => {
+  // Validate inputs
+  if (cardSlot < 1 || cardSlot > 25) {
+      throw new Error("Card slot must be between 1 and 25");
+  }
+  if (boardRow < 0 || boardRow >= 3 || boardCol < 0 || boardCol >= 7) {
+      throw new Error("Board row and column must be within valid range (3x7 grid)");
+  }
+
+  // Grid sizes
+  const cardCols = 5;  // 5x5 card grid
+
+  // Convert to 0-based indices
+  const cardRow = Math.floor((cardSlot - 1) / cardCols);
+  const cardCol = (cardSlot - 1) % cardCols;
+
+  // Compute offset from card center (slot 13 is center, index [2,2])
+  const rowOffset = cardRow - 2;
+  const colOffset = cardCol - 2;
+
+  // Calculate final board position
+  const finalRow = boardRow + rowOffset;
+  const finalCol = boardCol + colOffset;
+
+  // Check boundaries (valid board: 3 rows, 7 columns)
+  if (finalRow < 0 || finalRow >= 3 || finalCol < 0 || finalCol >= 7) {
+      return null;
+  }
+
+  // Get the current turn's pawn type
+  const validPawn = `pawn${currentTurn.value}`;
+  const boardSlot = board.value[finalRow][finalCol];
+
+  // Expand Pawn on board
+  if (typeof boardSlot === "object" && validPawn in boardSlot) {
+    boardSlot[validPawn] += 1; // Increase pawn count
+  } else if(boardSlot !== 'score') {
+    board.value[finalRow][finalCol] = { [validPawn]: 1 }; // replace a new one if empty
+  }
+}
 
 // Watch for board array changes then switch turns
 board.value.forEach((row, index) => {
@@ -59,6 +114,7 @@ board.value.forEach((row, index) => {
     }
   );
 });
+
 </script>
 
 <template>

@@ -17,7 +17,7 @@ const emits = defineEmits(["placeCard"]);
 // Place a card only on valid spots (give it to GameManager.vue )
 const placeCard = (rowIndex, colIndex) => {
   const cell = props.board[rowIndex][colIndex];
-  if (typeof cell === "object") return; // Prevent replacing exist card
+  if (typeof cell === "object" && !('pawn1' in cell) && !('pawn2' in cell)) return; // Prevent replacing exist card
   emits("placeCard", rowIndex, colIndex);
 };
 
@@ -26,9 +26,10 @@ const getCellClass = (col) => {
   if (col === "score") return "bg-yellow-500 text-black font-bold";
   if (col === "blank") return "bg-gray-300";
   
-  if (col === "pawn1" && props.currentTurn === 1) return "border-4 border-blue-500";
-  if (col === "pawn2" && props.currentTurn === 2) return "border-4 border-red-500";
+  if ("pawn1" in col && props.currentTurn === 1) return "border-4 border-blue-500";
+  if ("pawn2" in col && props.currentTurn === 2) return "border-4 border-red-500";
 };
+
 </script>
 
 <template>
@@ -46,16 +47,20 @@ const getCellClass = (col) => {
             >
               <span v-if="col === 'score'">0</span>
               <span v-else-if="col === 'blank'"></span>
-              <span v-else-if="col === 'pawn1'">♙</span>
-              <span v-else-if="col === 'pawn2'">♙</span>
+              <span v-if="typeof col === 'object' && 'pawn1' in col">
+                <span v-for="(v, k) in col.pawn1" :key="k">♙</span>
+              </span>
+              <span v-if="typeof col === 'object' && 'pawn2' in col">
+                <span v-for="(v, k) in col.pawn2" :key="k">♙</span>
+              </span>
 
               <Card
-                v-else-if="typeof col === 'object'"
+                v-else-if="typeof col === 'object' && !('pawn1' in col) && !('pawn2' in col)"
                 :title="col.cardname"
                 :imageUrl="col.id"
                 :cost="col.Power"
                 :pawn="col.pawnsRequired"
-                size="scale-55 -mx-13.5 -my-20.5"
+                class="scale-55 -mx-13.5 -my-20.5"
               />
             </td>
           </tr>
