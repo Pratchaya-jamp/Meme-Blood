@@ -16,10 +16,6 @@ const cardProps = defineProps({
       type: Number,
       required: true
     },
-    size: {
-      type: String,
-      required: false
-    },
     // slots: {
     //   type: Object,
     //   required: true
