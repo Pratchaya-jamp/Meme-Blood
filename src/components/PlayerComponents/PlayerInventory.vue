@@ -1,6 +1,6 @@
 <script setup>
 import { editItem,addItem,deleteItemById } from '@/lib/fetchUtils';
-import { computed, ref,watch } from 'vue'
+import { computed, ref,watch, watchEffect } from 'vue'
 const inventoryProp = defineProps({
     inventory:{
         type:Array,
@@ -42,10 +42,36 @@ const inventoryDetails = computed(() => {
 //    const allDeckIds = inventoryDetails.value.flatMap(item => item.deckid)
 //    return [...new Set(allDeckIds)]
 //})
+
+//const uniqueDecks = computed(() => {
+//    return [...new Set(inventoryProp.decks.map(deck => deck.deckid))]
+//})
+
 const uniqueDecks = computed(() => {
-    return [...new Set(inventoryProp.decks.map(deck => deck.deckid))]
+    if (!inventoryProp.currentUser) return []
+
+    const userInventory = inventoryProp.inventory.find(inv => inv.uid === inventoryProp.currentUser.uid)
+    
+    if (!userInventory || !userInventory.deckid) return []
+
+    return inventoryProp.decks
+        .filter(deck => userInventory.deckid.includes(deck.deckid))
+        .map(deck => deck.deckid)
 })
 
+watch(() => inventoryProp.inventory, (newInventory) => {
+    if (!inventoryProp.currentUser) return
+
+    const userInventory = newInventory.find(inv => inv.uid === inventoryProp.currentUser.uid)
+
+    if (userInventory && userInventory.deckid) {
+        uniqueDecks.value = inventoryProp.decks
+            .filter(deck => userInventory.deckid.includes(deck.deckid))
+            .map(deck => deck.deckid);
+    } else {
+        uniqueDecks.value = []
+    }
+}, { immediate: true, deep: true })
 
 const getCardsInDeck = computed(() => {
     if (!selectedDeck.value || selectedDeck.value === 'AddDeck') {
@@ -85,7 +111,10 @@ const editingDeck = async () =>{
             const editedDeck = await editItem(`${import.meta.env.VITE_APP_URL}/deck`, deckToEdit.id, deckToEdit)
             if (editedDeck) {
                 alert('Deck updated successfully')
-                selectedInventoryCards.value = []
+                setTimeout(() => {
+                        selectedInventoryCards.value = []
+                        setNormalState()
+                    }, 300)
             }
             }catch (error) {
                console.log('Failed to update deck:', error)
@@ -99,13 +128,18 @@ const editingDeck = async () =>{
                 const editedDeck = await editItem(`${import.meta.env.VITE_APP_URL}/deck`, deckToEdit.id, deckToEdit)
                 if(editedDeck){
                     alert('Card(s) removed from deck successfully')
-                    selectedInventoryCards.value = []
-                    setNormalState()
+                    setTimeout(() => {
+                        selectedInventoryCards.value = []
+                        setNormalState()
+                    }, 300)
                 }
                 }catch(error){
                    console.log('Failed to remove cards from deck:', error)
                 }
             }
+
+            selectedInventoryCards.value = []
+            setNormalState()
         }
     }
 
@@ -118,25 +152,22 @@ const addingDeck = async () =>{
     const newDeckId =  Math.floor(1000 + Math.random() * 9000)
         const newDeck = {
         deckid: newDeckId,
-        cardid: selectedInventoryCards.value.map(card => card.idcard)
-    }
-    try{
-        const addedDeck = await addItem(`${import.meta.env.VITE_APP_URL}/deck`,newDeck)
-        if(addedDeck){
-            console.log(`Deck ${newDeckId} added successfully.`)
+        cardid: selectedInventoryCards.value.map(card => card.idcard),
+    };
 
-            inventoryProp.decks.push(newDeck)
-
-            emit('deckAdded');
-
+    try {
+        const addedDeck = await addItem(`${import.meta.env.VITE_APP_URL}/deck`, newDeck);
+        if (addedDeck) {
+            console.log(`Deck ${newDeckId} added successfully.`);
+            inventoryProp.decks.push(newDeck);
+ 
             if (inventoryProp.inventory.length > 0 && inventoryProp.currentUser) {
                 const userInventoryItem = inventoryProp.inventory.find(inv => inv.uid === inventoryProp.currentUser.uid)
                 if (userInventoryItem) {
-                    const updatedInventoryItem = { ...userInventoryItem }
-                    updatedInventoryItem.deckid = updatedInventoryItem.deckid ? [...updatedInventoryItem.deckid, newDeckId] : [newDeckId]
+                    userInventoryItem.deckid = [...(userInventoryItem.deckid || []), newDeckId];
 
                     try {
-                        await editItem(`${import.meta.env.VITE_APP_URL}/inventory`, userInventoryItem.id, updatedInventoryItem)
+                        await editItem(`${import.meta.env.VITE_APP_URL}/inventory`, userInventoryItem.id, userInventoryItem)
                         console.log(`Deck ID ${newDeckId} added to inventory.`)
                     } catch (error){
                         alert('Failed to update inventory with the new deck ID.');
@@ -211,43 +242,63 @@ const removeSelectedDeck = async () =>{
         alert('Please select a deck to remove.');
         return
     }
-    const deckToDelete = inventoryProp.decks.find(deck => deck.deckid === selectedDeck.value)
-    if (!deckToDelete) {
-        alert('Deck not found.')
-        return
+
+    const deckIndex = inventoryProp.decks.findIndex(deck => deck.deckid === selectedDeck.value);
+    if (deckIndex === -1) {
+        alert('Deck not found.');
+        return;
     }
 
+    const deckToDelete = inventoryProp.decks[deckIndex];
+
     try {
-        await deleteItemById(`${import.meta.env.VITE_APP_URL}/deck`, deckToDelete.id)
-        console.log(`Deck ID ${selectedDeck.value} removed successfully.`)
+        await deleteItemById(`${import.meta.env.VITE_APP_URL}/deck`, deckToDelete.id);
+        console.log(`Deck ID ${selectedDeck.value} removed successfully.`);
+
         if (inventoryProp.inventory.length > 0 && inventoryProp.currentUser) {
             const userInventoryItem = inventoryProp.inventory.find(inv => inv.uid === inventoryProp.currentUser.uid)//ดึงข้อมูลinvก่อนหน้านั้น
             if (userInventoryItem) {
-            const updatedInventoryItem = { ...userInventoryItem }
-                updatedInventoryItem.deckid = updatedInventoryItem.deckid.filter(id => id !== selectedDeck.value)
+                userInventoryItem.deckid = userInventoryItem.deckid.filter(id => id !== selectedDeck.value);
+
                 try {
-                    await editItem(`${import.meta.env.VITE_APP_URL}/inventory`, userInventoryItem.id, updatedInventoryItem)
-                    console.log(`Deck ID ${selectedDeck.value} removed from inventory for user ${inventoryProp.currentUser.uid}.`)
+                    await editItem(`${import.meta.env.VITE_APP_URL}/inventory`, userInventoryItem.id, userInventoryItem)
+                    console.log(`Deck ID ${selectedDeck.value} removed from inventory.`)
                 } catch (error) {
                     alert('Failed to update inventory after removing the deck.')
                     console.log('Error updating inventory:', error)
                 }
             }
         }
-        inventoryProp.decks = inventoryProp.decks.filter(deck => deck.deckid !== selectedDeck.value)
-        emit('deckAdded')
-        selectedDeck.value = null
-    }catch(error){
-        console.log('Error removing deck:', error);
+
+        inventoryProp.decks.splice(deckIndex, 1);
+
+        if (inventoryProp.decks.length > 0) {
+            selectedDeck.value = inventoryProp.decks[Math.max(0, deckIndex - 1)].deckid;
+        } else {
+            selectedDeck.value = null;
+        }
+
+    } catch (error) {
+        console.error('Error removing deck:', error);
     }
-}
+};
+
+
 //watch(uniqueDecks, (newUniqueDecks) => {
 //    console.log('Unique decks updated (delete):', newUniqueDecks);
 //})
-watch(uniqueDecks, (newUniqueDecks) => {
-    console.log('Unique decks updated (delete):', newUniqueDecks);
-    selectedDeck.value = null
-})
+
+watch(uniqueDecks, (newDecks) => {
+    if (newDecks.length > 0) {
+        selectedDeck.value = null; // ให้ default เป็น null เสมอ
+    }
+}, { immediate: true })
+
+watchEffect(() => {
+    if (inventoryProp.inventory.length > 0 && inventoryProp.decks.length > 0) {
+        console.log("Inventory and Decks Loaded:", inventoryProp.inventory, inventoryProp.decks);
+    }
+});
 </script>
 
 <template>
