@@ -2,6 +2,7 @@
 import { defineProps, defineEmits } from "vue";
 import Card from "./Card.vue";
 
+//Receive from GameManager
 const handProps = defineProps({
   player: {
     type: Number,
@@ -44,7 +45,7 @@ const selectCard = (card) => {
         :imageUrl="card.id"
         :cost="card.Power"
         :pawn="card.pawnsRequired"
-        size="scale-80 -mx-6 -mt-18 origin-bottom hover:scale-82"
+        class="scale-80 -mx-6 -mt-18 origin-bottom hover:scale-82"
       />
     </div>
   </div>

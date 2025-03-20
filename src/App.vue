@@ -9,7 +9,7 @@ import mainMenu from './components/UI/mainMenu.vue';
   <GameManager />
     <!-- <PlayerManager/>  -->
     <!-- <HeadOrTail/> -->
-     <!-- <mainMenu/>  -->
+    <!-- <mainMenu/> -->
 </template>
 
 <style scoped>

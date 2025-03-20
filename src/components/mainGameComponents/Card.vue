@@ -16,10 +16,10 @@ const cardProps = defineProps({
       type: Number,
       required: true
     },
-    size: {
-      type: String,
-      required: false
-    }
+    // slots: {
+    //   type: Object,
+    //   required: true
+    // }
 })
 </script>
 
@@ -49,7 +49,10 @@ const cardProps = defineProps({
         <template v-for="i in 25" :key="i">
           <div
             class="w-4 h-4 border border-gray-600"
-            :class="{ 'bg-yellow-400': [7, 11, 13, 17, 19].includes(i) }"
+            :class="{ 
+              'bg-yellow-400': [7, 11, 17, 19].includes(i),
+              'bg-white': i === 13
+             }"
           ></div>
         </template>
       </div>
