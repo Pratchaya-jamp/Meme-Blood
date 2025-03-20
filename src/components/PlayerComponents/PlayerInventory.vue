@@ -29,90 +29,43 @@ const selectedInventoryCards = ref([]);
 const addCard = ref(false)
 const removeCard = ref(false)
 
-//const inventoryDetails = computed(() => {
-  //  return inventoryProp.inventory.map(item => ({
-    //    deckid: item.deckid,
-      //  card: item.cardid.map(id => inventoryProp.cards.find(card => card.idcard === id)?.idcard || 'N/A'),
-        //deck: item.deckid.map(id => inventoryProp.decks.find(deck => deck.deckid === id)?.deckid || 'N/A'),
-        //character: item.characterid.map(id => inventoryProp.characters.find(char => char.idcharacter === id)?.idcharacter || 'N/A')
-    //}))
-//})
-const cardsMap = computed(() => {
-    return inventoryProp.cards.reduce((map, card) => {
-        map[card.idcard] = card
-        return map
-    }, {})
-})
-
-const decksMap = computed(() => {
-    return inventoryProp.decks.reduce((map, deck) => {
-        map[deck.deckid] = deck
-        return map
-    }, {})
-})
-
-const charactersMap = computed(() => {
-    return inventoryProp.characters.reduce((map, char) => {
-        map[char.idcharacter] = char
-        return map
-    }, {})
-})
-
 const inventoryDetails = computed(() => {
     return inventoryProp.inventory.map(item => ({
         deckid: item.deckid,
-        card: item.cardid.map(id => cardsMap.value[id]?.idcard || 'N/A'),
-        deck: item.deckid.map(id => decksMap.value[id]?.deckid || 'N/A'),
-        character: item.characterid.map(id => charactersMap.value[id]?.idcharacter || 'N/A')
+        card: item.cardid.map(id => inventoryProp.cards.find(card => card.idcard === id)?.idcard || 'N/A'),
+        deck: item.deckid.map(id => inventoryProp.decks.find(deck => deck.deckid === id)?.deckid || 'N/A'),
+        character: item.characterid.map(id => inventoryProp.characters.find(char => char.idcharacter === id)?.idcharacter || 'N/A')
     }))
 })
 
-
+//const uniqueDecks = computed(() => {
+//    const allDeckIds = inventoryDetails.value.flatMap(item => item.deckid)
+//    return [...new Set(allDeckIds)]
+//})
 const uniqueDecks = computed(() => {
     return [...new Set(inventoryProp.decks.map(deck => deck.deckid))]
 })
 
-const userDecks = computed(() => {
-    const userInventory = inventoryProp.inventory.find(inv => inv.uid === inventoryProp.currentUser.uid);
-    if (userInventory) {
-        return uniqueDecks.value.filter(deck => userInventory.deckid.includes(deck));
-    }
-    return [] 
-})
 
-
-
-//const getCardsInDeck = computed(() => {
-  //  if (!selectedDeck.value || selectedDeck.value === 'AddDeck') {
-    //    return
-    //}
-    //const foundDeck = inventoryProp.decks.find(deck => deck.deckid === selectedDeck.value);
-    //if (foundDeck && foundDeck.cardid) {
-      //  return foundDeck.cardid.map(cardId => inventoryProp.cards.find(card => card.idcard === cardId))
-    //}
-    //return
-//})
 const getCardsInDeck = computed(() => {
-    if (!selectedDeck.value || selectedDeck.value === 'AddDeck') return []
-    const deck = decksMap.value[selectedDeck.value]
-    return deck ? deck.cardid.map(id => cardsMap.value[id]) : []
+    if (!selectedDeck.value || selectedDeck.value === 'AddDeck') {
+        return
+    }
+    const foundDeck = inventoryProp.decks.find(deck => deck.deckid === selectedDeck.value);
+    if (foundDeck && foundDeck.cardid) {
+        return foundDeck.cardid.map(cardId => inventoryProp.cards.find(card => card.idcard === cardId))
+    }
+    return
 })
 
-//const getCardsInInventory = computed(() =>{
-  ///  const cardsInInventory = inventoryProp.cards.filter(card => inventoryDetails.value.some(inv => inv.card.includes(card.idcard)))
-    //if(!selectedDeck.value || !getCardsInDeck.value){
-      //  return cardsInInventory
-    //}
-    //const cardInDeck = getCardsInDeck.value.map(card => card && card.idcard).filter(id => id !== undefined)
-    //return cardsInInventory.filter(card => !cardInDeck.includes(card.idcard))
-//})
-const getCardsInInventory = computed(() => {
+const getCardsInInventory = computed(() =>{
     const cardsInInventory = inventoryProp.cards.filter(card => inventoryDetails.value.some(inv => inv.card.includes(card.idcard)))
-    if (!selectedDeck.value || !getCardsInDeck.value) return cardsInInventory
-    const cardInDeck = getCardsInDeck.value.map(card => card.idcard).filter(id => id !== undefined);
+    if(!selectedDeck.value || !getCardsInDeck.value){
+        return cardsInInventory
+    }
+    const cardInDeck = getCardsInDeck.value.map(card => card && card.idcard).filter(id => id !== undefined)
     return cardsInInventory.filter(card => !cardInDeck.includes(card.idcard))
 })
-
 const editingDeck = async () =>{
     if(!selectedDeck.value || selectedInventoryCards.value.length === 0){
         alert('Please select a deck and at least one card from the inventory.')
@@ -288,6 +241,13 @@ const removeSelectedDeck = async () =>{
         console.log('Error removing deck:', error);
     }
 }
+//watch(uniqueDecks, (newUniqueDecks) => {
+//    console.log('Unique decks updated (delete):', newUniqueDecks);
+//})
+watch(uniqueDecks, (newUniqueDecks) => {
+    console.log('Unique decks updated (delete):', newUniqueDecks);
+    selectedDeck.value = null
+})
 </script>
 
 <template>
@@ -297,11 +257,10 @@ const removeSelectedDeck = async () =>{
       <div v-if="inventoryDetails.length > 0">
         <h3 class="text-lg font-semibold text-white mb-2">Inventory Details:</h3>
         <label for="selectedDeck" class="block text-gray-200 text-sm font-bold mb-2 w-fit">Select Deck:</label>
-        <select v-model="selectedDeck" id="selectedDeck" :key="userDecks.length" class="shadow border rounded w-full py-2 px-3 bg-gray-700 text-white border-gray-600">
-            <option v-for="deck in userDecks" :key="deck" :value="deck">{{ deck }}</option>
+        <select v-model="selectedDeck" id="selectedDeck" :key="uniqueDecks.length" class="shadow border rounded w-full py-2 px-3 bg-gray-700 text-white border-gray-600">
+            <option v-for="deck in uniqueDecks" :key="deck" :value="deck">{{ deck }}</option>
             <option value="AddDeck"> Add Deck </option>
         </select>
-
   
         <div v-if="selectedDeck && getCardsInDeck && getCardsInDeck.length > 0" class="mt-4 flex flex-wrap gap-4">
           <h4 class="text-lg font-semibold text-white mb-2 w-full">Cards in Selected Deck:</h4>
