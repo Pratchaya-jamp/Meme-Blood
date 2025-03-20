@@ -18,13 +18,13 @@ const board = ref([
 const playerHands = ref({
   1: [
     { id: "05ab", cardname: "Success Kid", Power: 1, pawnsRequired: 1, slots:{ pawn:[8, 12, 14] } },
-    { id: "2471", cardname: "Roll Safe", Power: 2, pawnsRequired: 2, slots:{ pawn:[8, 14, 15], buff:[18], debuff:[] } },
-    { id: "a825", cardname: "Harambe", Power: 2, pawnsRequired: 3, slots: { pawn: [15] } },
+    { id: "2471", cardname: "Roll Safe", Power: 2, pawnsRequired: 2, slots:{ pawn:[8, 14, 15], buff:[18] } },
+    { id: "a825", cardname: "Harambe", Power: 2, pawnsRequired: 1, slots: { pawn: [15], debuff:[12] } },
   ],
   2: [
     { id: "b29c", cardname: "Grumpy Cat", Power: 3, pawnsRequired: 1, slots:{pawn:[8, 11]} },
-    { id: "c671", cardname: "Doge", Power: 1, pawnsRequired: 2, slots:{pawn:[8, 14, 15], buff:[18], debuff:[] } },
-    { id: "d482", cardname: "Pepe", Power: 2, pawnsRequired: 3, slots:{pawn:[8, 14, 15]} },
+    { id: "c671", cardname: "Doge", Power: 1, pawnsRequired: 2, slots:{pawn:[8, 14, 15], buff:[18 ]} },
+    { id: "d482", cardname: "Pepe", Power: 2, pawnsRequired: 3, slots:{pawn:[8, 14, 15], debuff:[12] } },
   ]
 });
 
@@ -39,7 +39,7 @@ const placeCard = (rowIndex, colIndex) => {
   const validPawn = `pawn${currentTurn.value}`;
 
   // Check selectCard not null & pawnsRequired
-  if (!selectedCard.value || selectedCard.value.pawnsRequired > boardSlot[validPawn]) {
+  if (!selectedCard.value || selectedCard.value.pawnsRequired > boardSlot.validPawn) {
     return;
   }
 
@@ -57,7 +57,13 @@ const placeCard = (rowIndex, colIndex) => {
     // Buff Score of Card
     if (slot.buff){
       for(let buff of slot.buff) {
-        expandPawnOnBoard(rowIndex, colIndex, buff)
+        expandPawnOnBoard(rowIndex, colIndex, buff, 'buff')
+      }
+    }
+    // Debuff Score of Card
+    if (slot.debuff){
+      for(let debuff of slot.debuff) {
+        expandPawnOnBoard(rowIndex, colIndex, debuff, 'debuff')
       }
     }
 
@@ -68,33 +74,35 @@ const placeCard = (rowIndex, colIndex) => {
   }
 };
 
-const expandPawnOnBoard = (boardRow, boardCol, cardSlot) => {
+const expandPawnOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
   // Validate inputs
   if (cardSlot < 1 || cardSlot > 25) {
-      return;
+    return;
   }
   if (boardRow < 0 || boardRow >= 3 || boardCol < 0 || boardCol >= 8) {
-      return;
+    return;
   }
 
   // Grid sizes
   const cardCols = 5;  // 5x5 card grid
 
   // Convert to 0-based indices
-  const cardRow = Math.floor((cardSlot - 1) / cardCols);
-  const cardCol = (cardSlot - 1) % cardCols;
+  const cardRow = Math.floor((cardSlot - 1) / cardCols); // ลบ 1 เพราะอัลกอริทึมจับเป็น 0-24 ไม่ใช่ 1-25 หาร 5 เพราะต้องการรู้ row ที่ต้องการวาง card
+  const cardCol = (cardSlot - 1) % cardCols; // ลบ 1 เพราะอัลกอริทึมจับเป็น 0-24 ไม่ใช่ 1-25 หาร 5 เพราะต้องการรู้ colume ที่ต้องการวาง card
 
-  // Compute offset from card center (slot 13 is center, index [2,2])
-  const rowOffset = cardRow - 2;
-  const colOffset = cardCol - 2;
+  // Compute offset from card center (slot 13 is center, index [2,2]) // ความคลาดเคลื่อนจาก slot 13 บน card
+  const rowOffset = cardRow - 2; // นับมาจาก 0-2 ดังนั้นตรงนี้คือ index ของ rowOffset
+  const colOffset = cardCol - 2; // นับมาจาก 0-2 ดังนั้นตรงนี้คือ index ของ colOffset
 
-  // Calculate final board position
+  // Calculate final board position ตำแหน่งช่องใน board ที่จะทำการเพิ่ม pawn , buff, debuff
   const finalRow = boardRow + rowOffset;
   const finalCol = boardCol + colOffset;
 
-  // Check boundaries (valid board: 3 rows, 7 columns)
+  console.log(`BoardRow: ${boardRow}, BoardCol: ${boardCol}, Card: ${cardSlot} | FRow: ${finalRow}, FColumn: ${finalCol}`)
+
+  // Check boundaries (valid board: 3 rows, 8 columns)
   if (finalRow < 0 || finalRow >= 3 || finalCol < 0 || finalCol >= 8) {
-    return;
+    return
   }
 
   // Get the current turn's pawn type
@@ -104,17 +112,25 @@ const expandPawnOnBoard = (boardRow, boardCol, cardSlot) => {
   // Expand Pawn on board
   if (typeof boardSlot === "object" && validPawn in boardSlot) {
     boardSlot[validPawn] += 1; // Increase pawn count
-  } else if(boardSlot === 'blank') {
-    board.value[finalRow][finalCol] = { [validPawn]: 1 }; // replace a new one if empty
+  } else if (boardSlot === "blank") {
+    board.value[finalRow][finalCol] = { [validPawn]: 1 }; // Replace a new one if empty
   }
 
   // Buff Card on board
-  if (typeof boardSlot === "object" && !(validPawn in boardSlot) && boardSlot !== 'blank') {
-    const targetCard = board.value[finalRow][finalCol];
-    console.log(targetCard.Power)
-    targetCard.Power += 1; // Increase power or score in card
+  if (typeof boardSlot === "object" && !(validPawn in boardSlot) && boardSlot !== "blank" && ability === "buff") {
+    board.value[finalRow][finalCol].Power += 1; // Increase power or score in card
   }
-}
+
+  // Debuff Card on board
+  if (typeof boardSlot === "object" && !(validPawn in boardSlot) && boardSlot !== "blank" && ability === "debuff") {
+    board.value[finalRow][finalCol].Power -= 1; // Decrease power or score in card
+
+    if (board.value[finalRow][finalCol].Power < 0) {
+      board.value[finalRow][finalCol].Power = 0;
+    }
+  }
+};
+
 
 // Watch for board array changes then switch turns
 board.value.forEach((row, index) => {
