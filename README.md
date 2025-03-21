@@ -47,6 +47,7 @@
 | --------- |035               | Create Card & Table Layout, Lane & Square Component Layout, Sample Table System                 |
 | --------- |058               | Show Inventory after login                                                                      |
 | WEEK 4    |058               | Make it show only login-user inventory, Card Picture Package, Fix bug Inventory not Update      |
+| --------- |044               | add deck system include add edit remove deck and show card in deck       
 
 ##### This table was create for certify what you have done in each week within short Description by remove the line that i was marked
 ##### For example:
