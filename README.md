@@ -11,16 +11,16 @@
 - [ ] Card System
 - [ ] Table System
 3. **Thiti Prasopsub** 66130500044
-- [ ] Inventory (Deck System)
-- [ ] PlayerManager
+- [x] Inventory (Deck System)
+- [x] PlayerManager
 - [ ] Card Available
 - [ ] Setting
 - [ ] Gacha System (Optional)
 4. **Pratchaya Champates** 66130500058
 - [x] Player Inventory
-- [ ] PlayerManager
+- [x] PlayerManager
 - [ ] Card Available
-- [ ] Card Design & Visual Motion (Optional)
+- [x] Card Design & Visual Motion (Optional)
 
 **Update CheckBox by remove blank space & add "X" in the box to certify what feature has finished.**
 
@@ -46,6 +46,7 @@
 | --------- |028               | Create Flipping Coin (Head or Tail), Card layout, Create Player Character                       |
 | --------- |035               | Create Card & Table Layout, Lane & Square Component Layout, Sample Table System                 |
 | --------- |058               | Show Inventory after login                                                                      |
+| WEEK 4    |058               | Make it show only login-user inventory, Card Picture Package, Fix bug Inventory not Update      |
 
 ##### This table was create for certify what you have done in each week within short Description by remove the line that i was marked
 ##### For example:
