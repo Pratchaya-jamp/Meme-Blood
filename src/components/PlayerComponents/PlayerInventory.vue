@@ -1,10 +1,11 @@
 <script setup>
 import { editItem,addItem,deleteItemById } from '@/lib/fetchUtils';
 import { computed, ref,watch, watchEffect } from 'vue'
+import GameManager from '../GameManager.vue';
 const inventoryProp = defineProps({
     inventory:{
         type:Array,
-        required:true
+        required: true
     },
     cards: {
         type: Array,
@@ -25,6 +26,7 @@ const inventoryProp = defineProps({
 })
 const emit = defineEmits(['deckAdded'])
 const selectedDeck = ref()
+const deckDetails = ref()
 const selectedInventoryCards = ref([]);
 const addCard = ref(false)
 const removeCard = ref(false)
@@ -288,6 +290,13 @@ const removeSelectedDeck = async () =>{
 //    console.log('Unique decks updated (delete):', newUniqueDecks);
 //})
 
+// Deck to Frontend
+watch(selectedDeck, (newDeck) => {
+  if (newDeck && newDeck !== "AddDeck") {
+    deckDetails.value = inventoryProp.decks.find(deck => deck.deckid === newDeck);
+  }
+});
+
 watch(uniqueDecks, (newDecks) => {
     if (newDecks.length > 0) {
         selectedDeck.value = null; // ให้ default เป็น null เสมอ
@@ -365,6 +374,6 @@ watchEffect(() => {
         </li>
       </ul>
     </div>
-
+    <GameManager :deck="deckDetails"/>
   </template>
 <style scoped></style>
