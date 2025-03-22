@@ -2,6 +2,7 @@
 import { editItem,addItem,deleteItemById } from '@/lib/fetchUtils';
 import { computed, ref,watch, watchEffect } from 'vue'
 import GameManager from '../GameManager.vue';
+import GameLobby from '../UI/GameLobby.vue';
 const inventoryProp = defineProps({
     inventory:{
         type:Array,
@@ -30,8 +31,9 @@ const deckDetails = ref()
 const selectedInventoryCards = ref([]);
 const addCard = ref(false)
 const removeCard = ref(false)
+const lobbyPageStatus = ref(false)
 
-const inventoryDetails = computed(() => {
+const inventoryDetails = computed(() => { //เรียกของในiventory
     return inventoryProp.inventory.map(item => ({
         deckid: item.deckid,
         card: item.cardid.map(id => inventoryProp.cards.find(card => card.idcard === id)?.idcard || 'N/A'),
@@ -39,17 +41,7 @@ const inventoryDetails = computed(() => {
         character: item.characterid.map(id => inventoryProp.characters.find(char => char.idcharacter === id)?.idcharacter || 'N/A')
     }))
 })
-
-//const uniqueDecks = computed(() => {
-//    const allDeckIds = inventoryDetails.value.flatMap(item => item.deckid)
-//    return [...new Set(allDeckIds)]
-//})
-
-//const uniqueDecks = computed(() => {
-//    return [...new Set(inventoryProp.decks.map(deck => deck.deckid))]
-//})
-
-const uniqueDecks = computed(() => {
+const uniqueDecks = computed(() => { //เรียกdeckในinventoryของuser
     if (!inventoryProp.currentUser) return []
 
     const userInventory = inventoryProp.inventory.find(inv => inv.uid === inventoryProp.currentUser.uid)
@@ -75,7 +67,7 @@ watch(() => inventoryProp.inventory, (newInventory) => {
     }
 }, { immediate: true, deep: true })
 
-const getCardsInDeck = computed(() => {
+const getCardsInDeck = computed(() => { //เรียกการ์ดที่อยู่ในdeckอีกที
     if (!selectedDeck.value || selectedDeck.value === 'AddDeck') {
         return
     }
@@ -86,7 +78,7 @@ const getCardsInDeck = computed(() => {
     return
 })
 
-const getCardsInInventory = computed(() =>{
+const getCardsInInventory = computed(() =>{ //เรียกcardในinventoryของuser
     const cardsInInventory = inventoryProp.cards.filter(card => inventoryDetails.value.some(inv => inv.card.includes(card.idcard)))
     if(!selectedDeck.value || !getCardsInDeck.value){
         return cardsInInventory
@@ -94,6 +86,20 @@ const getCardsInInventory = computed(() =>{
     const cardInDeck = getCardsInDeck.value.map(card => card && card.idcard).filter(id => id !== undefined)
     return cardsInInventory.filter(card => !cardInDeck.includes(card.idcard))
 })
+
+const availableCharacters = computed(() => { //เรียกตัวละครในinventoryของuser
+    if (!inventoryProp.currentUser) {
+            return
+        }
+    const userInventory = inventoryProp.inventory.find(inv => inv.uid === inventoryProp.currentUser.uid);
+    if (!userInventory || !userInventory.characterid) {
+            return
+        }
+    return userInventory.characterid.map(id => inventoryProp.characters
+            .find(char => char.idcharacter === id)?.idcharacter)
+            .filter(id => id !== undefined)
+})
+
 const editingDeck = async () =>{
     if(!selectedDeck.value || selectedInventoryCards.value.length === 0){
         alert('Please select a deck and at least one card from the inventory.')
@@ -285,12 +291,11 @@ const removeSelectedDeck = async () =>{
     }
 };
 
+const setLobbyPage = () => {
+    console.log("Switching to Lobby Page");
+    lobbyPageStatus.value = true;
+}
 
-//watch(uniqueDecks, (newUniqueDecks) => {
-//    console.log('Unique decks updated (delete):', newUniqueDecks);
-//})
-
-// Deck to Frontend
 watch(selectedDeck, (newDeck) => {
   if (newDeck && newDeck !== "AddDeck") {
     deckDetails.value = inventoryProp.decks.find(deck => deck.deckid === newDeck);
@@ -311,7 +316,7 @@ watchEffect(() => {
 </script>
 
 <template>
-    <div class="inventory-container bg-gray-800 p-6 rounded-lg shadow-lg max-w-full flex-grow">
+    <div class="inventory-container bg-gray-800 p-6 rounded-lg shadow-lg max-w-full flex-grow" v-if="!lobbyPageStatus" >
       <h2 class="text-2xl font-semibold mb-4 text-center text-white">Player Inventory</h2>
   
       <div v-if="inventoryDetails.length > 0">
@@ -373,7 +378,11 @@ watchEffect(() => {
           </div>
         </li>
       </ul>
+      <button @click="setLobbyPage" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4">Play</button>
     </div>
-    <GameManager :deck="deckDetails"/>
+    <GameLobby 
+        :decks="uniqueDecks"
+        :characters="availableCharacters" 
+        v-if="lobbyPageStatus" />
   </template>
 <style scoped></style>
