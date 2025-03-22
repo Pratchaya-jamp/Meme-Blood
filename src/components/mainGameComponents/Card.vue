@@ -12,14 +12,14 @@ const cardProps = defineProps({
         type: Number,
         required: true
     },
-    pawnRequired: {
-      type: Array,
+    pawnsRequired: {
+      type: String,
       required: true
     },
-    // slots: {
-    //   type: Array,
-    //   required: true
-    // }
+    pawnLocations: {
+      type: Array,
+      required: true
+    }
 })
 </script>
 
@@ -37,8 +37,8 @@ const cardProps = defineProps({
         <!-- ♙ -->
       </div>
     </div>
-    <div class="absolute top-2 right-2 w-10 h-10 bg-yellow-500 text-black text-2xl font-bold flex items-center justify-center rounded-full">
-      <!-- {{ cardProps.score }} -->
+    <div class="absolute top-1.5 right-1.5 w-12 h-12 bg-gray-700 text-black text-2xl text-yellow-500 font-bold flex items-center justify-center rounded-full z-10">
+      {{ cardProps.score }}
     </div>
 
     <div class="relative w-full h-full">
@@ -56,7 +56,7 @@ const cardProps = defineProps({
             <div
               class="w-3.5 h-3.5 bg-gray-600"
               :class="{ 
-                'bg-yellow-400': [7, 11, 17, 19].includes(i),
+                'bg-yellow-400': pawnLocations.includes(i),
                 'bg-white': i === 13
               }"
             ></div>

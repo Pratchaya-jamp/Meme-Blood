@@ -8,6 +8,8 @@ const currentTurn = ref(1); //player1 & player2
 const round = ref(1);
 const selectedCard = ref(null);
 const data = ref(null);
+const cardDetails = ref(null);
+
 const gameProps = defineProps({
   deck: {
     type: Object,
@@ -44,9 +46,10 @@ const updatePlayerHands = (deck) => {
   if (!deck || !deck.cardid) return;
 
   for(let card of deck.cardid){
-    const cardDetails = data.value.card.find(c => c.idcard === card)
-    playerHands.value[1].push(cardDetails);
+    cardDetails.value = data.value.card.find(c => c.idcard === card)
+    playerHands.value[1].push(cardDetails.value);
   }
+  console.log(`playerHands: ${currentTurn.value}`)
   console.log(playerHands.value[1])
 };
 
@@ -71,25 +74,43 @@ const placeCard = (rowIndex, colIndex) => {
     // Replace card on pawn
     board.value[rowIndex][colIndex] = { ...selectedCard.value, player: currentTurn.value };
 
-    const slot = selectedCard.value.slots;
+    // ----------------------------------------------- //
+
+    const slot = selectedCard.value.pawnLocations;
     // Expand Pawn
-    if (slot.pawn){
+    if (slot && slot.pawn){
       for(let pawn of slot.pawn) {
         expandPawnOnBoard(rowIndex, colIndex, pawn)
       }
     }
-    // Buff Score of Card
-    if (slot.buff){
-      for(let buff of slot.buff) {
-        expandPawnOnBoard(rowIndex, colIndex, buff, 'buff')
+
+    let arrayLength = 0;  // Define quantity of slot to buff/debuff
+    const rarity = selectedCard.value.cardRarity
+    if (rarity === 'Standard') {
+      arrayLength = 2
+    } else if (rarity === 'Epic') {
+      arrayLength = 3
+    } else if (rarity === 'Legend') {
+      arrayLength = 5
+    }
+
+    let randomSlots = [];
+    while (randomSlots.length < arrayLength) {
+      // Random numbers between 1 and 25
+      let randNum = Math.floor(Math.random() * 25) + 1;
+      // Check it's not the same
+      if (!randomSlots.includes(randNum)) {
+        randomSlots.push(randNum);
       }
     }
-    // Debuff Score of Card
-    if (slot.debuff){
-      for(let debuff of slot.debuff) {
-        expandPawnOnBoard(rowIndex, colIndex, debuff, 'debuff')
-      }
+
+    let slots = [] // Test Only 
+    // Loop through the generated random slots
+    for (let slot of randomSlots) {
+      expandPawnOnBoard(rowIndex, colIndex, slot, cardDetails.value.abilityType);
+      slots.push(slot) // Test Only 
     }
+    console.log(`${cardDetails.value.abilityType}: ${slots}`);
 
     // Remove the card from the player's hand
     playerHands.value[currentTurn.value] = playerHands.value[currentTurn.value].filter(c => c.id !== selectedCard.value.id);
@@ -134,9 +155,9 @@ const expandPawnOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
   const boardSlot = board.value[finalRow][finalCol];
 
   // Expand Pawn on board
-  if (typeof boardSlot === "object" && validPawn in boardSlot) {
+  if (typeof boardSlot === "object" && validPawn in boardSlot && !ability) {
     boardSlot[validPawn] += 1; // Increase pawn count
-  } else if (boardSlot === "blank") {
+  } else if (boardSlot === "blank" && !ability) {
     board.value[finalRow][finalCol] = { [validPawn]: 1 }; // Replace a new one if empty
   }
 

@@ -103,6 +103,7 @@
       "cardinfo": "Nah, I'm Good.",
       "Power": 1,
       "pawnsRequired": "1",
+      "pawnLocations": [2, 3, 8],
       "cardRarity": "Standard",
       "id": "53c9"
     },
@@ -125,6 +126,7 @@
       "cardinfo": "Skibidi Toilet Dob dob dob yes yes",
       "Power": 1,
       "pawnsRequired": "2",
+      "pawnLocations": [8, 12, 14, 18],
       "cardRarity": "Standard",
       "id": "08de"
     },
@@ -136,6 +138,7 @@
       "cardinfo": "Peanut butter jelly time!",
       "Power": 2,
       "pawnsRequired": "2",
+      "pawnLocations": [3, 4, 5, 8, 18, 23, 24, 25],
       "cardRarity": "Standard",
       "id": "7d7b"
     },
@@ -158,6 +161,7 @@
       "cardinfo": "Problem?",
       "Power": 2,
       "pawnsRequired": "2",
+      "pawnLocations": [1, 5, 16, 20, 22, 23, 24],
       "cardRarity": "Standard",
       "id": "e2d7"
     },
