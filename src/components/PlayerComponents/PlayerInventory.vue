@@ -2,6 +2,7 @@
 import { editItem,addItem,deleteItemById } from '@/lib/fetchUtils';
 import { computed, ref,watch, watchEffect } from 'vue'
 import GameManager from '../GameManager.vue';
+import GameLobby from '../UI/GameLobby.vue';
 const inventoryProp = defineProps({
     inventory:{
         type:Array,
@@ -30,8 +31,10 @@ const deckDetails = ref()
 const selectedInventoryCards = ref([]);
 const addCard = ref(false)
 const removeCard = ref(false)
+const lobbyPageStatus = ref(false)
+const maxDeckSize = 15
 
-const inventoryDetails = computed(() => {
+const inventoryDetails = computed(() => { //เรียกของในiventory
     return inventoryProp.inventory.map(item => ({
         deckid: item.deckid,
         card: item.cardid.map(id => inventoryProp.cards.find(card => card.idcard === id)?.idcard || 'N/A'),
@@ -39,17 +42,7 @@ const inventoryDetails = computed(() => {
         character: item.characterid.map(id => inventoryProp.characters.find(char => char.idcharacter === id)?.idcharacter || 'N/A')
     }))
 })
-
-//const uniqueDecks = computed(() => {
-//    const allDeckIds = inventoryDetails.value.flatMap(item => item.deckid)
-//    return [...new Set(allDeckIds)]
-//})
-
-//const uniqueDecks = computed(() => {
-//    return [...new Set(inventoryProp.decks.map(deck => deck.deckid))]
-//})
-
-const uniqueDecks = computed(() => {
+const uniqueDecks = computed(() => { //เรียกdeckในinventoryของuser
     if (!inventoryProp.currentUser) return []
 
     const userInventory = inventoryProp.inventory.find(inv => inv.uid === inventoryProp.currentUser.uid)
@@ -75,7 +68,7 @@ watch(() => inventoryProp.inventory, (newInventory) => {
     }
 }, { immediate: true, deep: true })
 
-const getCardsInDeck = computed(() => {
+const getCardsInDeck = computed(() => { //เรียกการ์ดที่อยู่ในdeckอีกที
     if (!selectedDeck.value || selectedDeck.value === 'AddDeck') {
         return
     }
@@ -86,7 +79,7 @@ const getCardsInDeck = computed(() => {
     return
 })
 
-const getCardsInInventory = computed(() =>{
+const getCardsInInventory = computed(() =>{ //เรียกcardในinventoryของuser
     const cardsInInventory = inventoryProp.cards.filter(card => inventoryDetails.value.some(inv => inv.card.includes(card.idcard)))
     if(!selectedDeck.value || !getCardsInDeck.value){
         return cardsInInventory
@@ -94,17 +87,40 @@ const getCardsInInventory = computed(() =>{
     const cardInDeck = getCardsInDeck.value.map(card => card && card.idcard).filter(id => id !== undefined)
     return cardsInInventory.filter(card => !cardInDeck.includes(card.idcard))
 })
+
+const availableCharacters = computed(() => { //เรียกตัวละครในinventoryของuser
+    if (!inventoryProp.currentUser) {
+            return
+        }
+    const userInventory = inventoryProp.inventory.find(inv => inv.uid === inventoryProp.currentUser.uid);
+    if (!userInventory || !userInventory.characterid) {
+            return
+        }
+    return userInventory.characterid.map(id => inventoryProp.characters
+            .find(char => char.idcharacter === id)?.idcharacter)
+            .filter(id => id !== undefined)
+})
+
 const editingDeck = async () =>{
     if(!selectedDeck.value || selectedInventoryCards.value.length === 0){
         alert('Please select a deck and at least one card from the inventory.')
         return
     }
     if(selectedDeck.value === 'AddDeck'){
-       addingDeck()
+        if (deckToEdit.cardid.length + selectedInventoryCards.value.length > maxDeckSize) {
+                alert(`Decks can have a maximum of ${maxDeckSize} cards.`)
+                return
+        } else {
+            addingDeck()
+        }
     }
     else{
         let deckToEdit = inventoryProp.decks.find(deck => deck.deckid === selectedDeck.value)
         if(addCard.value){
+            if (deckToEdit.cardid.length + selectedInventoryCards.value.length > maxDeckSize) {
+                alert(`Decks can have a maximum of ${maxDeckSize} cards.`)
+                return
+            }
             selectedInventoryCards.value.forEach(card => {
             if(!deckToEdit.cardid.includes(card.idcard)){
                 deckToEdit.cardid.push(card.idcard)
@@ -155,7 +171,7 @@ const addingDeck = async () =>{
         const newDeck = {
         deckid: newDeckId,
         cardid: selectedInventoryCards.value.map(card => card.idcard),
-    };
+    }
 
     try {
         const addedDeck = await addItem(`${import.meta.env.VITE_APP_URL}/deck`, newDeck);
@@ -285,12 +301,11 @@ const removeSelectedDeck = async () =>{
     }
 };
 
+const setLobbyPage = () => {
+    console.log("Switching to Lobby Page");
+    lobbyPageStatus.value = true;
+}
 
-//watch(uniqueDecks, (newUniqueDecks) => {
-//    console.log('Unique decks updated (delete):', newUniqueDecks);
-//})
-
-// Deck to Frontend
 watch(selectedDeck, (newDeck) => {
   if (newDeck && newDeck !== "AddDeck") {
     deckDetails.value = inventoryProp.decks.find(deck => deck.deckid === newDeck);
@@ -311,69 +326,99 @@ watchEffect(() => {
 </script>
 
 <template>
-    <div class="inventory-container bg-gray-800 p-6 rounded-lg shadow-lg max-w-full flex-grow">
-      <h2 class="text-2xl font-semibold mb-4 text-center text-white">Player Inventory</h2>
-  
-      <div v-if="inventoryDetails.length > 0">
-        <h3 class="text-lg font-semibold text-white mb-2">Inventory Details:</h3>
-        <label for="selectedDeck" class="block text-gray-200 text-sm font-bold mb-2 w-fit">Select Deck:</label>
-        <select v-model="selectedDeck" id="selectedDeck" :key="uniqueDecks.length" class="shadow border rounded w-full py-2 px-3 bg-gray-700 text-white border-gray-600">
-            <option v-for="deck in uniqueDecks" :key="deck" :value="deck">{{ deck }}</option>
-            <option value="AddDeck"> Add Deck </option>
-        </select>
-  
-        <div v-if="selectedDeck && getCardsInDeck && getCardsInDeck.length > 0" class="mt-4 flex flex-wrap gap-4">
-          <h4 class="text-lg font-semibold text-white mb-2 w-full">Cards in Selected Deck:</h4>
-          <p v-if="removeCard">Remove Card From Deck</p>
-          <div v-for="card in getCardsInDeck" :key="card.idcard"
-              @click="selectInventoryCardFunc(card)"
-              :class="[ 'cursor-pointer relative w-36 h-48 bg-gray-800 border-4 border-gray-600 rounded-lg hover:scale-105 transition-transform',
-               selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'shadow-lg' : '', 
-               addCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-green-600' : '', 
-               removeCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-red-600' : '']">
-            <div class="absolute top-2 left-2 bg-yellow-500 text-white text-sm px-2 py-1 rounded">
-              ID: {{ card.idcard }}</div>
-            <div class="absolute bottom-2 w-full text-center text-sm text-yellow-300 font-semibold">{{ card.cardname }}</div>
-          </div>
-          <button
-                v-if="selectedDeck && selectedDeck !== 'AddDeck'"
-                @click="removeSelectedDeck"
-                class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded mt-2">
-                Remove Deck
-            </button>
+    <div class="bg-gray-900 min-h-screen py-8 px-4" v-if="!lobbyPageStatus">
+        <div class="container mx-auto max-w-7xl bg-gray-800 rounded-lg shadow-xl overflow-hidden">
+            <header class="bg-gray-700 py-4 px-6 border-b border-gray-600">
+                <h2 class="text-2xl font-semibold text-white text-center">Player Inventory</h2>
+            </header>
+
+            <section class="p-6">
+                <h3 class="text-lg font-semibold text-gray-300 mb-4">Deck Management</h3>
+
+                <div class="mb-4">
+                    <label for="selectedDeck" class="block text-gray-400 text-sm font-bold mb-2">Select Deck:</label>
+                    <select v-model="selectedDeck" id="selectedDeck" :key="uniqueDecks.length"
+                        class="shadow border rounded w-full py-2 px-3 bg-gray-700 text-white border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <option v-for="deck in uniqueDecks" :key="deck" :value="deck">{{ deck }}</option>
+                        <option value="AddDeck"> Add Deck </option>
+                    </select>
+                </div>
+
+                <div v-if="selectedDeck && getCardsInDeck && getCardsInDeck.length > 0" class="mb-6">
+                    <h4 class="text-md font-semibold text-gray-300 mb-2">Cards in Selected Deck:</h4>
+                    <p v-if="removeCard" class="text-red-400 text-sm mb-2">Select cards to remove from the deck.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <div v-for="card in getCardsInDeck" :key="card.idcard"
+                            @click="selectInventoryCardFunc(card)"
+                            :class="[ 'cursor-pointer relative w-36 h-48 bg-gray-800 border-4 border-gray-600 rounded-lg hover:scale-105 transition-transform',
+                                selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'shadow-lg border-purple-500' : '',
+                                addCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-green-700 border-green-500' : '',
+                                removeCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-red-700 border-red-500' : '']">
+                            <div class="absolute top-2 left-2 bg-yellow-500 text-white text-sm px-2 py-1 rounded">
+                                ID: {{ card.idcard }}</div>
+                            <div class="absolute bottom-2 w-full text-center text-sm text-yellow-300 font-semibold">{{ card.cardname }}</div>
+                        </div>
+                    </div>
+                    <button
+                        v-if="selectedDeck && selectedDeck !== 'AddDeck'"
+                        @click="removeSelectedDeck"
+                        class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4 focus:outline-none focus:ring-2 focus:ring-red-500">
+                        Remove Deck
+                    </button>
+                </div>
+
+                <div class="flex gap-4 mb-4">
+                    <button @click="setAddCard"
+                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-green-500">
+                        {{ addCard ? 'Adding Card...' : 'Add Card to Deck' }}
+                    </button>
+                    <button @click="setRemoveCard"
+                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                        {{ removeCard ? 'Removing Card...' : 'Remove Card from Deck' }}
+                    </button>
+                    <button @click="setNormalState"
+                        class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                        Cancel
+                    </button>
+                </div>
+            </section>
+
+            <section class="p-6 border-t border-gray-600">
+                <h3 class="text-lg font-semibold text-gray-300 mb-4">Inventory Cards</h3>
+                <p v-if="addCard && selectedDeck === 'AddDeck'" class="text-green-400 text-sm mb-2">Select cards to create a new deck.</p>
+                <p v-else-if="addCard" class="text-green-400 text-sm mb-2">Select cards to add to the selected deck.</p>
+                <div class="flex flex-wrap gap-4">
+                    <div v-for="card in getCardsInInventory" :key="card.idcard"
+                        @click="selectInventoryCardFunc(card)"
+                        :class="[ 'cursor-pointer relative w-36 h-48 bg-gray-800 border-4 border-gray-600 rounded-lg hover:scale-105 transition-transform',
+                            selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'shadow-lg border-purple-500' : '',
+                            addCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-green-700 border-green-500' : '',
+                            removeCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-red-700 border-red-500' : '' ]">
+                        <div class="absolute top-2 left-2 bg-yellow-500 text-white text-sm px-2 py-1 rounded">
+                            ID: {{ card.idcard }}
+                        </div>
+                        <div class="absolute bottom-2 w-full text-center text-sm text-yellow-300 font-semibold">
+                            {{ card.cardname }}
+                        </div>
+                    </div>
+                </div>
+                <button @click="editingDeck"
+                    class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mt-4 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    {{ selectedDeck === 'AddDeck' ? 'Create Deck' : 'Save Changes' }}
+                </button>
+            </section>
+
+            <footer class="bg-gray-700 py-4 px-6 border-t border-gray-600 text-right">
+                <button @click="setLobbyPage"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Go to Lobby
+                </button>
+            </footer>
         </div>
-  
-        <button @click="setAddCard" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4">Add Card to Deck</button>
-        <button @click="setRemoveCard" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4">Remove Card from Deck</button>
-        <button @click="setNormalState" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4">Cancel</button>
-      </div>
-      <ul class="text-white">
-        <li v-for="item in inventoryDetails" :key="item.deckid">
-          <div class="border-b border-gray-600 pb-2 mb-2">
-            <h4 class="text-lg font-semibold text-white mb-2 w-full">Cards in Inventory</h4>
-            <p v-if="addCard && selectedDeck === 'AddDeck'">Select cards to create a new deck</p>
-            <p v-else-if="addCard">Add Card To Deck</p>
-            <div class="flex flex-wrap gap-x-4 gap-y-4">
-              <div v-for="card in getCardsInInventory" :key="card.idcard"
-                   @click="selectInventoryCardFunc(card)"
-                   :class="[ 'cursor-pointer relative w-36 h-48 bg-gray-800 border-4 border-gray-600 rounded-lg hover:scale-105 transition-transform',
-                   selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'shadow-lg' : '',
-                   addCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-green-600' : '', 
-                   removeCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-red-600' : '' ]">
-                <div class="absolute top-2 left-2 bg-yellow-500 text-white text-sm px-2 py-1 rounded">
-                  ID: {{ card.idcard }}
-                </div>
-                <div class="absolute bottom-2 w-full text-center text-sm text-yellow-300 font-semibold">
-                  {{ card.cardname }}
-                </div>
-              </div>
-            </div>
-            <button @click="editingDeck" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4">Edited</button>
-            <p>Character: <span v-for="char in item.character" :key="char">(ID: {{ char }})</span></p>
-          </div>
-        </li>
-      </ul>
     </div>
-    <GameManager :deck="deckDetails"/>
-  </template>
+    <GameLobby
+        :decks="uniqueDecks"
+        :characters="availableCharacters"
+        v-if="lobbyPageStatus" />
+</template>
 <style scoped></style>
