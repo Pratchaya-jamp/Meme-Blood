@@ -32,6 +32,7 @@ const selectedInventoryCards = ref([]);
 const addCard = ref(false)
 const removeCard = ref(false)
 const lobbyPageStatus = ref(false)
+const maxDeckSize = 15
 
 const inventoryDetails = computed(() => { //เรียกของในiventory
     return inventoryProp.inventory.map(item => ({
@@ -106,11 +107,20 @@ const editingDeck = async () =>{
         return
     }
     if(selectedDeck.value === 'AddDeck'){
-       addingDeck()
+        if (deckToEdit.cardid.length + selectedInventoryCards.value.length > maxDeckSize) {
+                alert(`Decks can have a maximum of ${maxDeckSize} cards.`)
+                return
+        } else {
+            addingDeck()
+        }
     }
     else{
         let deckToEdit = inventoryProp.decks.find(deck => deck.deckid === selectedDeck.value)
         if(addCard.value){
+            if (deckToEdit.cardid.length + selectedInventoryCards.value.length > maxDeckSize) {
+                alert(`Decks can have a maximum of ${maxDeckSize} cards.`)
+                return
+            }
             selectedInventoryCards.value.forEach(card => {
             if(!deckToEdit.cardid.includes(card.idcard)){
                 deckToEdit.cardid.push(card.idcard)
@@ -161,7 +171,7 @@ const addingDeck = async () =>{
         const newDeck = {
         deckid: newDeckId,
         cardid: selectedInventoryCards.value.map(card => card.idcard),
-    };
+    }
 
     try {
         const addedDeck = await addItem(`${import.meta.env.VITE_APP_URL}/deck`, newDeck);
