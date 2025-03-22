@@ -103,6 +103,7 @@
       "cardinfo": "Nah, I'm Good.",
       "Power": 1,
       "pawnsRequired": "1",
+      "pawnLocations": [7, 8, 9],
       "cardRarity": "Standard",
       "id": "53c9"
     },
@@ -114,6 +115,7 @@
       "cardinfo": "The confused-looking white cat at a dinner table.",
       "Power": 1,
       "pawnsRequired": "2",
+      "pawnLocations": [8, 18],
       "cardRarity": "Standard",
       "id": "7896"
     },
@@ -125,6 +127,7 @@
       "cardinfo": "Skibidi Toilet Dob dob dob yes yes",
       "Power": 1,
       "pawnsRequired": "2",
+      "pawnLocations": [8, 12, 14, 18],
       "cardRarity": "Standard",
       "id": "08de"
     },
@@ -136,6 +139,7 @@
       "cardinfo": "Peanut butter jelly time!",
       "Power": 2,
       "pawnsRequired": "2",
+      "pawnLocations": [8, 3],
       "cardRarity": "Standard",
       "id": "7d7b"
     },
@@ -147,6 +151,7 @@
       "cardinfo": "Playing you off, play us on!",
       "Power": 1,
       "pawnsRequired": "2",
+      "pawnLocations": [12, 24],
       "cardRarity": "Standard",
       "id": "b063"
     },
@@ -158,6 +163,7 @@
       "cardinfo": "Problem?",
       "Power": 2,
       "pawnsRequired": "2",
+      "pawnLocations": [7, 9, 17, 19],
       "cardRarity": "Standard",
       "id": "e2d7"
     },
@@ -169,6 +175,7 @@
       "cardinfo": "Much wow, very meme.",
       "Power": 1,
       "pawnsRequired": "1",
+      "pawnLocations": [11, 15],
       "cardRarity": "Standard",
       "id": "a2ed"
     },
@@ -180,6 +187,7 @@
       "cardinfo": "Feels good man.",
       "Power": 1,
       "pawnsRequired": "2",
+      "pawnLocations": [1, 3, 5],
       "cardRarity": "Standard",
       "id": "4f79"
     },
@@ -191,6 +199,7 @@
       "cardinfo": "Classic distraction.",
       "Power": 2,
       "pawnsRequired": "2",
+      "pawnLocations": [3, 23],
       "cardRarity": "Standard",
       "id": "257e"
     },
@@ -202,6 +211,7 @@
       "cardinfo": "Never gonna give you up...",
       "Power": 3,
       "pawnsRequired": "3",
+      "pawnLocations": [2, 3, 4, 8],
       "cardRarity": "Epic",
       "id": "aaca"
     },
@@ -213,6 +223,7 @@
       "cardinfo": "Internal suffering.",
       "Power": 1,
       "pawnsRequired": "2",
+      "pawnLocations": [12, 14, 15],
       "cardRarity": "Standard",
       "id": "49c1"
     },
@@ -224,6 +235,7 @@
       "cardinfo": "Confusion and anger.",
       "Power": 2,
       "pawnsRequired": "2",
+      "pawnLocations": [22, 24],
       "cardRarity": "Standard",
       "id": "a177"
     },
@@ -235,6 +247,7 @@
       "cardinfo": "Oh lawd he comin'.",
       "Power": 2,
       "pawnsRequired": "2",
+      "pawnLocations": [1, 6, 11, 2],
       "cardRarity": "Epic",
       "id": "882b"
     },
@@ -246,6 +259,7 @@
       "cardinfo": "Disapproving and approving.",
       "Power": 1,
       "pawnsRequired": "2",
+      "pawnLocations": [1, 5, 7, 9],
       "cardRarity": "Standard",
       "id": "6e6c"
     },
@@ -257,6 +271,7 @@
       "cardinfo": "Ascending levels of knowledge.",
       "Power": 3,
       "pawnsRequired": "2",
+      "pawnLocations": [6, 7, 9, 10],
       "cardRarity": "Epic",
       "id": "54d6"
     },
@@ -268,6 +283,7 @@
       "cardinfo": "The power of the king will isolate you.",
       "Power": 2,
       "pawnsRequired": "2",
+      "pawnLocations": [2, 3, 4, 7, 9],
       "cardRarity": "Legend",
       "id": "ee9f"
     },
@@ -279,6 +295,7 @@
       "cardinfo": "Cat sees cucumber, goes into panic mode.",
       "Power": 1,
       "pawnsRequired": "2",
+      "pawnLocations": [19, 20, 22],
       "cardRarity": "Standard",
       "id": "4i8r"
     },
@@ -290,6 +307,7 @@
       "cardinfo": "What is going on here? Nobody knows.",
       "Power": 1,
       "pawnsRequired": "1",
+      "pawnLocations": [1, 5, 21, 25],
       "cardRarity": "Standard",
       "id": "5y3t"
     },
@@ -301,6 +319,7 @@
       "cardinfo": "Just a little bit of chaos for fun.",
       "Power": 1,
       "pawnsRequired": "1",
+      "pawnLocations": [3, 6, 8, 10],
       "cardRarity": "Standard",
       "id": "g6d7"
     },
@@ -312,6 +331,7 @@
       "cardinfo": "You wish, but you're definitely not.",
       "Power": 2,
       "pawnsRequired": "2",
+      "pawnLocations": [18, 22, 24],
       "cardRarity": "Epic",
       "id": "9p7v"
     },
@@ -323,6 +343,7 @@
       "cardinfo": "Keanu's just sad and tired of everything.",
       "Power": 1,
       "pawnsRequired": "1",
+      "pawnLocations": [2, 4, 23],
       "cardRarity": "Standard",
       "id": "q1f4"
     },
@@ -334,6 +355,7 @@
       "cardinfo": "It's like talking to a brick wall... no one listens.",
       "Power": 2,
       "pawnsRequired": "2",
+      "pawnLocations": [6, 10, 16, 20],
       "cardRarity": "Standard",
       "id": "d5j0"
     },
@@ -345,6 +367,7 @@
       "cardinfo": "When you ask, but they give you a sly smile.",
       "Power": 3,
       "pawnsRequired": "3",
+      "pawnLocations": [7, 9, 11, 15, 18],
       "cardRarity": "Legend",
       "id": "t3f1"
     },
@@ -356,6 +379,7 @@
       "cardinfo": "Peak masculinity achieved. Prepare to be jealous.",
       "Power": 2,
       "pawnsRequired": "2",
+      "pawnLocations": [1, 15, 21],
       "cardRarity": "Epic",
       "id": "h6j0"
     },
@@ -367,6 +391,7 @@
       "cardinfo": "He’s about to throw hands... watch out.",
       "Power": 3,
       "pawnsRequired": "2",
+      "pawnLocations": [8, 21, 25],
       "cardRarity": "Epic",
       "id": "c5z8"
     },
@@ -378,6 +403,7 @@
       "cardinfo": "Embrace the dark side. It’s fun over here.",
       "Power": 1,
       "pawnsRequired": "1",
+      "pawnLocations": [1, 8, 5],
       "cardRarity": "Standard",
       "id": "y7m0"
     },
@@ -389,6 +415,7 @@
       "cardinfo": "Sorry, I messed up. Again.",
       "Power": 3,
       "pawnsRequired": "3",
+      "pawnLocations": [1, 2, 3, 4, 5, 8],
       "cardRarity": "Legend",
       "id": "j1l8"
     },
@@ -400,6 +427,7 @@
       "cardinfo": "Protect your brain... in style.",
       "Power": 2,
       "pawnsRequired": "2",
+      "pawnLocations": [6, 9, 17, 20],
       "cardRarity": "Standard",
       "id": "o4d9"
     },
@@ -411,6 +439,7 @@
       "cardinfo": "Make memes great again. YUGE memes.",
       "Power": 2,
       "pawnsRequired": "2",
+      "pawnLocations": [2, 4, 12, 14, 23],
       "cardRarity": "Epic",
       "id": "l2v5"
     },
@@ -422,6 +451,7 @@
       "cardinfo": "Mewing with supreme confidence. Sigma vibes.",
       "Power": 1,
       "pawnsRequired": "1",
+      "pawnLocations": [11, 12, 14, 15],
       "cardRarity": "Standard",
       "id": "b3g9"
     },
@@ -433,6 +463,7 @@
       "cardinfo": "Walter White, but in pixelated glory. Science!",
       "Power": 3,
       "pawnsRequired": "3",
+      "pawnLocations": [7, 9, 14],
       "cardRarity": "Legend",
       "id": "f6s7"
     },
@@ -444,6 +475,7 @@
       "cardinfo": "When you try so hard to be All Might, but end up just... not.",
       "Power": 2,
       "pawnsRequired": "2",
+      "pawnLocations": [5, 9, 15],
       "cardRarity": "Epic",
       "id": "j9d4"
     },
@@ -455,6 +487,7 @@
       "cardinfo": "When cosplay takes a turn for the weird... and funny.",
       "Power": 2,
       "pawnsRequired": "2",
+      "pawnLocations": [1, 10, 11, 20],
       "cardRarity": "Epic",
       "id": "r7s2"
     }
@@ -503,6 +536,37 @@
     {
       "id": "8435",
       "deckid": 9780,
+      "cardid": [
+        101,
+        102
+      ]
+    },
+    {
+      "id": "5794",
+      "deckid": 7421,
+      "cardid": [
+        101,
+        102
+      ]
+    },
+    {
+      "id": "c460",
+      "deckid": 2205,
+      "cardid": [
+        101,
+        102
+      ]
+    },
+    {
+      "id": "b89f",
+      "deckid": 7301,
+      "cardid": [
+        103
+      ]
+    },
+    {
+      "id": "91d5",
+      "deckid": 1757,
       "cardid": [
         101,
         102
