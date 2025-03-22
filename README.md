@@ -46,7 +46,7 @@
 | --------- |028               | Create Flipping Coin (Head or Tail), Card layout, Create Player Character                       |
 | --------- |035               | Create Card & Table Layout, Lane & Square Component Layout, Sample Table System                 |
 | --------- |058               | Show Inventory after login                                                                      |
-| WEEK 4    |058               | Make it show only login-user inventory, Card Picture Package, Fix bug Inventory not Update      |
+| WEEK 4    |058               | Make it show only login-user inventory, Card Picture Package, Fix bug Inventory not Update, Sound volume setting page      |
 | --------- |044               | add deck system include add edit remove deck and show card in deck       
 
 ##### This table was create for certify what you have done in each week within short Description by remove the line that i was marked
