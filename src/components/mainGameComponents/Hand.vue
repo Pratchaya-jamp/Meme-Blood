@@ -44,7 +44,8 @@ const selectCard = (card) => {
         :title="card.cardname"
         :imageUrl="`/cards/${card.idcard}.png`"
         :score="card.Power"
-        :pawnRequired="card.pawnsRequired"
+        :pawnsRequired="card.pawnsRequired"
+        :pawnLocations="card.pawnLocations"
         class="scale-80 -mx-6 -mt-18 origin-bottom hover:scale-82"
       />
     </div>

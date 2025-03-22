@@ -57,9 +57,10 @@ const getCellClass = (col) => {
               <Card
                 v-else-if="typeof col === 'object' && !('pawn1' in col) && !('pawn2' in col)"
                 :title="col.cardname"
-                :imageUrl="col.id"
-                :cost="col.Power"
-                :pawn="col.pawnsRequired"
+                :imageUrl="`/cards/${col.idcard}.png`"
+                :score="col.Power"
+                :pawnsRequired="col.pawnsRequired"
+                :pawnLocations="col.pawnLocations"
                 class="scale-55 -mx-13.5 -my-20.5"
               />
             </td>
