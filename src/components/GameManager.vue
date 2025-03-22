@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import PlayerCharacter from "./mainGameComponents/PlayerCharacter.vue";
 import TableGame from "./mainGameComponents/Table.vue";
 import Hand from "./mainGameComponents/Hand.vue";
@@ -7,26 +7,50 @@ import Hand from "./mainGameComponents/Hand.vue";
 const currentTurn = ref(1); //player1 & player2
 const round = ref(1);
 const selectedCard = ref(null);
+const data = ref(null);
+const gameProps = defineProps({
+  deck: {
+    type: Object,
+    required: true
+  }
+})
 const board = ref([
   ["score", {pawn1: 1}, "blank", "blank", "blank", "blank", {pawn2: 1}, "score"],
   ["score", {pawn1: 1}, "blank", "blank", "blank", "blank", {pawn2: 1}, "score"],
   ["score", {pawn1: 1}, "blank", "blank", "blank", "blank", {pawn2: 1}, "score"],
 ]);
 
-
-// Example each player's hand
-const playerHands = ref({
-  1: [
-    { id: "05ab", cardname: "Success Kid", Power: 1, pawnsRequired: 1, slots:{ pawn:[8, 12, 14] } },
-    { id: "2471", cardname: "Roll Safe", Power: 2, pawnsRequired: 2, slots:{ pawn:[8, 14, 15], buff:[18] } },
-    { id: "a825", cardname: "Harambe", Power: 2, pawnsRequired: 1, slots: { pawn: [15], debuff:[12] } },
-  ],
-  2: [
-    { id: "b29c", cardname: "Grumpy Cat", Power: 3, pawnsRequired: 1, slots:{pawn:[8, 11]} },
-    { id: "c671", cardname: "Doge", Power: 1, pawnsRequired: 2, slots:{pawn:[8, 14, 15], buff:[18 ]} },
-    { id: "d482", cardname: "Pepe", Power: 2, pawnsRequired: 3, slots:{pawn:[8, 14, 15], debuff:[12] } },
-  ]
+onMounted(async () => {
+  try {
+    const response = await fetch('../data/db.json'); // Fetch from public folder
+    if (!response.ok) throw new Error("Failed to load data");
+    data.value = await response.json();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
 });
+
+//TODO - add card on hand after our turn again
+
+//TODO - count score after not has any pawn on board
+
+const playerHands = ref({
+  1: [],  // Player 1's hand
+  2: [],  // Player 2's hand
+});
+
+// Example Player 1
+const updatePlayerHands = (deck) => {
+  if (!deck || !deck.cardid) return;
+
+  for(let card of deck.cardid){
+    const cardDetails = data.value.card.find(c => c.idcard === card)
+    playerHands.value[1].push(cardDetails);
+  }
+  console.log(playerHands.value[1])
+};
+
+// TODO - updatePlayerHands will work when flip coin
 
 // Select a card from Hand (receive from Hand.vue)
 const selectCard = (card) => {
@@ -39,7 +63,7 @@ const placeCard = (rowIndex, colIndex) => {
   const validPawn = `pawn${currentTurn.value}`;
 
   // Check selectCard not null & pawnsRequired
-  if (!selectedCard.value || selectedCard.value.pawnsRequired > boardSlot.validPawn) {
+  if (!selectedCard.value || boardSlot[validPawn] < selectedCard.value.pawnsRequired ) {
     return;
   }
 
@@ -98,7 +122,7 @@ const expandPawnOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
   const finalRow = boardRow + rowOffset;
   const finalCol = boardCol + colOffset;
 
-  console.log(`BoardRow: ${boardRow}, BoardCol: ${boardCol}, Card: ${cardSlot} | FRow: ${finalRow}, FColumn: ${finalCol}`)
+  // console.log(`BoardRow: ${boardRow}, BoardCol: ${boardCol}, Card: ${cardSlot} | FRow: ${finalRow}, FColumn: ${finalCol}`)
 
   // Check boundaries (valid board: 3 rows, 8 columns)
   if (finalRow < 0 || finalRow >= 3 || finalCol < 0 || finalCol >= 8) {
@@ -139,6 +163,8 @@ board.value.forEach((row, index) => {
     () => {
       currentTurn.value = currentTurn.value === 1 ? 2 : 1;
       if (currentTurn.value === 1) round.value++;
+
+      //TODO - check on pawn on board to count the score
     }
   );
 });
@@ -147,6 +173,14 @@ board.value.forEach((row, index) => {
 
 <template>
   <div class="flex flex-col items-center">
+    <!-- Test Show Card Button -->
+    <button
+      class="bg-blue-500 p-3 rounded-xl"
+      @click="updatePlayerHands(gameProps.deck)"
+    >
+      <b>Show Card</b>
+    </button>
+
     <div class="text-2xl font-bold mt-4">
       <span>Round: {{ round }}</span>
       <span class="ml-4" :class="currentTurn === 1 ? 'text-blue-500' : 'text-red-500'">

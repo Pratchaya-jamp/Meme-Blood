@@ -9,18 +9,19 @@
 2. **Songkiatchai Wongthaidee** 66130500035
 - [ ] Main Game Logic (Calculate Score)
 - [ ] Card System
-- [ ] Table System
+- [x] Table System
+- [x] Round System
 3. **Thiti Prasopsub** 66130500044
-- [ ] Inventory (Deck System)
-- [ ] PlayerManager
+- [x] Inventory (Deck System)
+- [x] PlayerManager
 - [ ] Card Available
 - [ ] Setting
 - [ ] Gacha System (Optional)
 4. **Pratchaya Champates** 66130500058
 - [x] Player Inventory
-- [ ] PlayerManager
+- [x] PlayerManager
 - [ ] Card Available
-- [ ] Card Design & Visual Motion (Optional)
+- [x] Card Design & Visual Motion (Optional)
 
 **Update CheckBox by remove blank space & add "X" in the box to certify what feature has finished.**
 
@@ -46,6 +47,9 @@
 | --------- |028               | Create Flipping Coin (Head or Tail), Card layout, Create Player Character                       |
 | --------- |035               | Create Card & Table Layout, Lane & Square Component Layout, Sample Table System                 |
 | --------- |058               | Show Inventory after login                                                                      |
+| WEEK 4    |058               | Make it show only login-user inventory, Card Picture Package, Fix bug Inventory not Update, Sound volume setting page      |
+| --------- |044               | add deck system include add edit remove deck and show card in deck                              |
+| --------- |035               | Add expand pawn on board system, Round System, Fetch card's data from backend to Hand           |
 
 ##### This table was create for certify what you have done in each week within short Description by remove the line that i was marked
 ##### For example:
