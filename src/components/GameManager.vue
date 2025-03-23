@@ -8,16 +8,22 @@ const currentTurn = ref(1); //player1 & player2
 const round = ref(1);
 const selectedCard = ref(null);
 const data = ref(null);
+const cardDetails = ref(null);
+
 const gameProps = defineProps({
-  deck: {
-    type: Object,
+  player1Deck: {
+    type: Number,
     required: true
-  }
+  },
+  player2Deck: {
+    type: Number,
+    required: true
+  },
 })
 const board = ref([
-  ["score", {pawn1: 1}, "blank", "blank", "blank", "blank", {pawn2: 1}, "score"],
-  ["score", {pawn1: 1}, "blank", "blank", "blank", "blank", {pawn2: 1}, "score"],
-  ["score", {pawn1: 1}, "blank", "blank", "blank", "blank", {pawn2: 1}, "score"],
+  ["score", {pawn1: 2}, "blank", "blank", "blank", "blank", {pawn2: 2}, "score"],
+  ["score", {pawn1: 2}, "blank", "blank", "blank", "blank", {pawn2: 2}, "score"],
+  ["score", {pawn1: 2}, "blank", "blank", "blank", "blank", {pawn2: 2}, "score"],
 ]);
 
 onMounted(async () => {
@@ -39,15 +45,26 @@ const playerHands = ref({
   2: [],  // Player 2's hand
 });
 
-// Example Player 1
-const updatePlayerHands = (deck) => {
-  if (!deck || !deck.cardid) return;
 
-  for(let card of deck.cardid){
-    const cardDetails = data.value.card.find(c => c.idcard === card)
-    playerHands.value[1].push(cardDetails);
+const updatePlayerHands = (player1Deck, player2Deck) => {
+  // Receive deckId
+  if (!player1Deck || !player2Deck) return;
+
+  const cardidP1 = data.value.deck.find(d => d.deckid === player1Deck)
+  for(let card of cardidP1.cardid){
+    cardDetails.value = data.value.card.find(c => c.idcard === card)
+    playerHands.value[1].push(cardDetails.value);
   }
+
+  const cardidP2 = data.value.deck.find(d => d.deckid === player2Deck)
+  for(let card of cardidP2.cardid){
+    cardDetails.value = data.value.card.find(c => c.idcard === card)
+    playerHands.value[2].push(cardDetails.value);
+  }
+  console.log(`playerHands: 1`)
   console.log(playerHands.value[1])
+  console.log(`playerHands: 2`)
+  console.log(playerHands.value[2])
 };
 
 // TODO - updatePlayerHands will work when flip coin
@@ -71,24 +88,44 @@ const placeCard = (rowIndex, colIndex) => {
     // Replace card on pawn
     board.value[rowIndex][colIndex] = { ...selectedCard.value, player: currentTurn.value };
 
-    const slot = selectedCard.value.slots;
+    // ----------------------------------------------- //
     // Expand Pawn
-    if (slot.pawn){
-      for(let pawn of slot.pawn) {
+    const slot = selectedCard.value.pawnLocations;
+    if (slot){
+      for(let pawn of slot) {
         expandPawnOnBoard(rowIndex, colIndex, pawn)
       }
     }
-    // Buff Score of Card
-    if (slot.buff){
-      for(let buff of slot.buff) {
-        expandPawnOnBoard(rowIndex, colIndex, buff, 'buff')
+
+    let arrayLength = 0;  // Define quantity of slot to buff/debuff
+    const abilityType = selectedCard.value.abilityType
+    if (abilityType !== 'non'){
+      const rarity = selectedCard.value.cardRarity
+      if (rarity === 'Standard') {
+        arrayLength = 2
+      } else if (rarity === 'Epic') {
+        arrayLength = 3
+      } else if (rarity === 'Legend') {
+        arrayLength = 5
       }
-    }
-    // Debuff Score of Card
-    if (slot.debuff){
-      for(let debuff of slot.debuff) {
-        expandPawnOnBoard(rowIndex, colIndex, debuff, 'debuff')
+  
+      let randomSlots = [];
+      while (randomSlots.length < arrayLength) {
+        // Random numbers between 1 and 25
+        let randNum = Math.floor(Math.random() * 25) + 1;
+        // Check it's not the same
+        if (!randomSlots.includes(randNum)) {
+          randomSlots.push(randNum);
+        }
       }
+  
+      let slots = [] // Test Only 
+      // Loop through the generated random slots
+      for (let slot of randomSlots) {
+        expandPawnOnBoard(rowIndex, colIndex, slot, abilityType);
+        slots.push(slot) // Test Only 
+      }
+      console.log(`${selectedCard.value.cardname} => ${abilityType}: ${slots}`);
     }
 
     // Remove the card from the player's hand
@@ -134,9 +171,9 @@ const expandPawnOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
   const boardSlot = board.value[finalRow][finalCol];
 
   // Expand Pawn on board
-  if (typeof boardSlot === "object" && validPawn in boardSlot) {
+  if (typeof boardSlot === "object" && validPawn in boardSlot && !ability) {
     boardSlot[validPawn] += 1; // Increase pawn count
-  } else if (boardSlot === "blank") {
+  } else if (boardSlot === "blank" && !ability) {
     board.value[finalRow][finalCol] = { [validPawn]: 1 }; // Replace a new one if empty
   }
 
@@ -157,17 +194,12 @@ const expandPawnOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
 
 
 // Watch for board array changes then switch turns
-board.value.forEach((row, index) => {
-  watch(
-    () => [...row], // Spread to create a shallow reference
-    () => {
-      currentTurn.value = currentTurn.value === 1 ? 2 : 1;
-      if (currentTurn.value === 1) round.value++;
-
-      //TODO - check on pawn on board to count the score
-    }
-  );
-});
+watch(board, () => {
+  currentTurn.value = currentTurn.value === 1 ? 2 : 1;
+  if (currentTurn.value === 1) {
+    round.value++; // New round starts
+  }
+}, { deep: true });
 
 </script>
 
@@ -176,7 +208,7 @@ board.value.forEach((row, index) => {
     <!-- Test Show Card Button -->
     <button
       class="bg-blue-500 p-3 rounded-xl"
-      @click="updatePlayerHands(gameProps.deck)"
+      @click="updatePlayerHands(gameProps.player1Deck, gameProps.player2Deck)"
     >
       <b>Show Card</b>
     </button>
