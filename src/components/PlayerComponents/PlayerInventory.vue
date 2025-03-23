@@ -354,9 +354,7 @@ watchEffect(() => {
                                 selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'shadow-lg border-purple-500' : '',
                                 addCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-green-700 border-green-500' : '',
                                 removeCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-red-700 border-red-500' : '']">
-                            <div class="absolute top-2 left-2 bg-yellow-500 text-white text-sm px-2 py-1 rounded">
-                                ID: {{ card.idcard }}</div>
-                            <div class="absolute bottom-2 w-full text-center text-sm text-yellow-300 font-semibold">{{ card.cardname }}</div>
+                            <img :src="`/cards/${card.idcard}.png`" class="w-full h-full object-cover rounded-lg">
                         </div>
                     </div>
                     <button
@@ -394,12 +392,7 @@ watchEffect(() => {
                             selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'shadow-lg border-purple-500' : '',
                             addCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-green-700 border-green-500' : '',
                             removeCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-red-700 border-red-500' : '' ]">
-                        <div class="absolute top-2 left-2 bg-yellow-500 text-white text-sm px-2 py-1 rounded">
-                            ID: {{ card.idcard }}
-                        </div>
-                        <div class="absolute bottom-2 w-full text-center text-sm text-yellow-300 font-semibold">
-                            {{ card.cardname }}
-                        </div>
+                        <img :src="`/cards/${card.idcard}.png`" class="w-full h-full object-cover rounded-lg">
                     </div>
                 </div>
                 <button @click="editingDeck"
