@@ -79,5 +79,7 @@ const getCharacterImage = (characterId) => {
         v-if="mainGamePagestatus"
         :player1Deck="selectedDeckPlayer1"
         :player2Deck="selectedDeckPlayer2"
+        :playerCharacter1="selectedCharPlayer1"
+        :playerCharacter2="selectedCharPlayer2"
     />
 </template>

@@ -19,6 +19,14 @@ const gameProps = defineProps({
     type: Number,
     required: true
   },
+  playerCharacter1: {
+    type: Number,
+    required: true
+  },
+  playerCharacter2: {
+    type: Number,
+    required: true
+  }
 })
 const board = ref([
   ["score", {pawn1: 2}, "blank", "blank", "blank", "blank", {pawn2: 2}, "score"],
@@ -223,7 +231,7 @@ watch(board, () => {
     <div class="flex gap-15 items-center justify-center">
       <!-- Left Player -->
       <PlayerCharacter 
-        :selectId="111"
+        :selectId="gameProps.playerCharacter1"
       >
         <template #image>
           <img src="../assets/logo.svg" alt="Left Player" class="w-24 h-24 rounded-full shadow-lg">  
@@ -235,7 +243,7 @@ watch(board, () => {
 
       <!-- Right Player -->
       <PlayerCharacter 
-        :selectId="112"
+        :selectId="gameProps.playerCharacter2"
       >
         <template #image>
           <img src="../assets/logo.svg" alt="Right Player" class="w-24 h-24 rounded-full shadow-lg">  
