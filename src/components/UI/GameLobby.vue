@@ -75,5 +75,9 @@ const getCharacterImage = (characterId) => {
             </div>
         </div>
     </div>
-    <GameManager v-if="mainGamePagestatus"/>
+    <GameManager 
+        v-if="mainGamePagestatus"
+        :player1Deck="selectedDeckPlayer1"
+        :player2Deck="selectedDeckPlayer2"
+    />
 </template>
