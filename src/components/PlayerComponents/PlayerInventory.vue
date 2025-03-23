@@ -107,7 +107,7 @@ const editingDeck = async () =>{
         return
     }
     if(selectedDeck.value === 'AddDeck'){
-        if (deckToEdit.cardid.length + selectedInventoryCards.value.length > maxDeckSize) {
+        if (selectedInventoryCards.value.length > maxDeckSize) {
                 alert(`Decks can have a maximum of ${maxDeckSize} cards.`)
                 return
         } else {
