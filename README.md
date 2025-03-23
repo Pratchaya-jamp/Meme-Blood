@@ -50,7 +50,7 @@
 | WEEK 4    |058               | Make it show only login-user inventory, Card Picture Package, Fix bug Inventory not Update, Sound volume setting page      |
 | --------- |044               | add deck system include add edit remove deck and show card in deck                              |
 | --------- |035               | Add expand pawn on board system, Round System, Fetch card's data from backend to Hand           |
-| --------- |028               | Update player layout position, add sample buff/debuff, add pawn locations card in db.json       |
+| --------- |028               | Update player layout position, Add sample buff/debuff, Add pawn locations card in db.json, Fetch player's data from backend       |
 
 ##### This table was create for certify what you have done in each week within short Description by remove the line that i was marked
 ##### For example:
