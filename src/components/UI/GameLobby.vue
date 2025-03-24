@@ -1,6 +1,7 @@
 1GameLobby.vue <script setup>
 import { ref,computed } from 'vue';
 import GameManager from '../GameManager.vue';
+import setting from './setting.vue';
 const props = defineProps({
     decks: {
         type: Array,
@@ -16,6 +17,7 @@ const selectedDeckPlayer2 = ref(null)
 const selectedCharPlayer1 = ref(null)
 const selectedCharPlayer2 = ref(null)
 const mainGamePagestatus = ref(false)
+const currentPage = ref('GameLobby')
 
 const availableDecksPlayer2 = computed(() => {
     if (selectedDeckPlayer1.value) {
@@ -25,6 +27,13 @@ const availableDecksPlayer2 = computed(() => {
 })
 const setMainGamePage = () =>{
     mainGamePagestatus.value = true
+}
+const showSettings = () => {
+    currentPage.value='Settings'
+}
+
+const goToLobby = () =>{
+    currentPage.value='GameLobby'
 }
 
 const characterImages = {
@@ -36,7 +45,7 @@ const getCharacterImage = (characterId) => {
 }
 </script>
 <template>
-    <div v-if="!mainGamePagestatus" class="flex h-screen bg-gray-800 text-white">
+    <div v-if="!mainGamePagestatus && currentPage === 'GameLobby'" class="flex h-screen bg-gray-800 text-white">
         <div class="w-1/2 flex flex-col items-center justify-center p-6 border-r border-gray-700">
             <h2 class="text-xl font-semibold mb-4">Player 1</h2>
             <select v-model="selectedDeckPlayer1" id="selectedDeckPlayer1" :key="decks.length"
@@ -74,10 +83,21 @@ const getCharacterImage = (characterId) => {
                 <img :src="getCharacterImage(selectedCharPlayer2)" alt="Player 2 Character" class="max-w-48 max-h-48 rounded-lg shadow-md">
             </div>
         </div>
+        <button @click="showSettings" 
+        class="px-8 py-4 text-xl rounded-lg cursor-pointer bg-gray-700 text-white hover:bg-gray-500 transition duration-300">
+        Settings</button>
     </div>
+    <setting v-if="currentPage === 'Settings'"/>
+  
+    <button @click="goToLobby" v-if="currentPage !== 'GameLobby'"
+            class="mt-6 px-6 py-3 text-lg rounded-lg bg-blue-500 text-white hover:bg-blue-700 transition">
+            Back to Lobby
+    </button>
     <GameManager 
         v-if="mainGamePagestatus"
         :player1Deck="selectedDeckPlayer1"
         :player2Deck="selectedDeckPlayer2"
+        :playerCharacter1="selectedCharPlayer1"
+        :playerCharacter2="selectedCharPlayer2"
     />
 </template>
