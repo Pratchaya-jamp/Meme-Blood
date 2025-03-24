@@ -8,7 +8,6 @@ const currentTurn = ref(1); //player1 & player2
 const round = ref(1);
 const selectedCard = ref(null);
 const data = ref(null);
-const cardDetails = ref(null);
 
 const gameProps = defineProps({
   player1Deck: {
@@ -44,38 +43,139 @@ onMounted(async () => {
   }
 });
 
-//TODO - add card on hand after our turn again
-
-//TODO - count score after not has any pawn on board
-
 const playerHands = ref({
   1: [],  // Player 1's hand
   2: [],  // Player 2's hand
 });
 
-
 const updatePlayerHands = (player1Deck, player2Deck) => {
-  // Receive deckId
   if (!player1Deck || !player2Deck) return;
 
-  const cardidP1 = data.value.deck.find(d => d.deckid === player1Deck)
-  for(let card of cardidP1.cardid){
-    cardDetails.value = data.value.card.find(c => c.idcard === card)
-    playerHands.value[1].push(cardDetails.value);
-  }
+  const getPlayerDeck = (deckId) => {
+    const deckInfo = data.value.deck.find(d => d.deckid === deckId);
+    if (!deckInfo) return [];
 
-  const cardidP2 = data.value.deck.find(d => d.deckid === player2Deck)
-  for(let card of cardidP2.cardid){
-    cardDetails.value = data.value.card.find(c => c.idcard === card)
-    playerHands.value[2].push(cardDetails.value);
-  }
-  console.log(`playerHands: 1`)
-  console.log(playerHands.value[1])
-  console.log(`playerHands: 2`)
-  console.log(playerHands.value[2])
+    return deckInfo.cardid
+      .map(cardId => data.value.card.find(c => c.idcard === cardId)) // Found cards in db.json from deck selected in each player
+      .filter(card => card !== undefined); // Remove undefined from not found cards in deck
+  };
+
+  const randomCards = (deck, playerSide) => {
+    if(deck.length === 0) return;
+    
+    const randomCards = [];
+    const quantityRandCards = 3; // Can define quantity random card from each player
+    
+    while (randomCards.length < quantityRandCards) {
+      const randNum = Math.floor(Math.random() * deck.length);
+      
+      // Check if index is not already selected
+      if (!randomCards.includes(randNum)) {
+        randomCards.push(randNum);
+      }
+    }
+
+    // Distrubute random card to player
+    const selectedRandCards = randomCards.map(num => deck[num]);
+    playerHands.value[playerSide].push(...selectedRandCards);
+
+    // Remove already distrubute cards from the deck
+    deck.filter((_, index) => !randomCards.includes(index));
+  };
+
+  const deckP1 = getPlayerDeck(player1Deck);
+  const deckP2 = getPlayerDeck(player2Deck);
+
+  randomCards(deckP1, 1);
+  randomCards(deckP2, 2);
+
+  // Logging (optional, can be removed in production)
+  console.log('Player 1 Hand:', playerHands.value[1]);
+  console.log('Player 2 Hand:', playerHands.value[2]);
 };
 
-// TODO - updatePlayerHands will work when flip coin
+//   // Receive deckId
+//   if (!player1Deck || !player2Deck) return;
+
+//   //TODO - add card on hand after our turn again
+//   // if (round.value > 1){
+//   //   console.log("ROUND")
+//   //   //TODO add 1 card to players
+//   //   if (currentTurn.value === 1) {
+      
+//   //   } else if (currentTurn.value === 2) {
+
+//   //   }
+//   //   return;
+//   // }
+
+//   let deckP1 = [];
+//   const cardidP1 = data.value.deck.find(d => d.deckid === player1Deck);
+//   for (let card of cardidP1.cardid) {
+//     let cardDetails = data.value.card.find(c => c.idcard === card);
+//     if (!cardDetails) {
+//       continue; // Skip adding undefined values
+//     }
+//     deckP1.push(cardDetails);
+//   }
+//   console.log('Final deckP1:', deckP1);
+
+//   let deckP2 = [];
+//   const cardidP2 = data.value.deck.find(d => d.deckid === player2Deck)
+//   for(let card of cardidP2.cardid){
+//     let cardDetails = data.value.card.find(c => c.idcard === card)
+//     if (!cardDetails) {
+//       continue; // Skip adding undefined values
+//     }
+//     deckP2.push(cardDetails)
+//   }
+//   console.log('Final deckP2: ', deckP2);
+
+//   const initQuantityCards = 3
+
+//   let randomCardsP1 = [];
+//   while (randomCardsP1.length < initQuantityCards) {
+//     // Random between 1 and maxCardInDeck
+//     let randNum = Math.floor(Math.random() * (deckP1.length - 1)) + 1;
+//     // Check it's not the same
+//     if (!randomCardsP1.includes(randNum)) {
+//       randomCardsP1.push(randNum);
+//     }
+//   }
+//   console.log('randomCardsP1', randomCardsP1)
+//   for (let card of randomCardsP1) {
+//     playerHands.value[1].push(deckP1[card]);
+//   }
+//   // After give to player's hand then remove it from player's deck for not duplicate card
+//   for (let card of randomCardsP1) {
+//     deckP1.splice(card, 1);
+//   }
+
+//   let randomCardsP2 = [];
+//   while (randomCardsP2.length < initQuantityCards) {
+//     // Random numbers between 1 and maxCardInDeck
+//     let randNum = Math.floor(Math.random() * deckP2.length);
+//     // Check it's not the same
+//     if (!randomCardsP2.includes(randNum)) {
+//       randomCardsP2.push(randNum);
+//     }
+//   }
+//   console.log('randomCardsP2', randomCardsP2)
+//   for (let card of randomCardsP2) {
+//     playerHands.value[2].push(deckP2[card]);
+//   }
+//   // After give to player's hand then remove it from player's deck for not duplicate card
+//   for (let card of randomCardsP2) {
+//     deckP2.splice(card, 1);
+//   }
+  
+//   console.log(`playerHands: 1`)
+//   console.log(playerHands.value[1])
+//   console.log(`playerHands: 2`)
+//   console.log(playerHands.value[2])
+// };
+
+// TODO - change currentTurn upon flip coin include initilize player's hand
 
 // Select a card from Hand (receive from Hand.vue)
 const selectCard = (card) => {
@@ -96,12 +196,11 @@ const placeCard = (rowIndex, colIndex) => {
     // Replace card on pawn
     board.value[rowIndex][colIndex] = { ...selectedCard.value, player: currentTurn.value };
 
-    // ----------------------------------------------- //
     // Expand Pawn
     const slot = selectedCard.value.pawnLocations;
     if (slot){
       for(let pawn of slot) {
-        expandPawnOnBoard(rowIndex, colIndex, pawn)
+        cardAbilityOnBoard(rowIndex, colIndex, pawn)
       }
     }
 
@@ -130,7 +229,7 @@ const placeCard = (rowIndex, colIndex) => {
       let slots = [] // Test Only 
       // Loop through the generated random slots
       for (let slot of randomSlots) {
-        expandPawnOnBoard(rowIndex, colIndex, slot, abilityType);
+        cardAbilityOnBoard(rowIndex, colIndex, slot, abilityType);
         slots.push(slot) // Test Only 
       }
       console.log(`${selectedCard.value.cardname} => ${abilityType}: ${slots}`);
@@ -143,7 +242,7 @@ const placeCard = (rowIndex, colIndex) => {
   }
 };
 
-const expandPawnOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
+const cardAbilityOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
   // Validate inputs
   if (cardSlot < 1 || cardSlot > 25) {
     return;
@@ -176,12 +275,13 @@ const expandPawnOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
 
   // Get the current turn's pawn type
   const validPawn = `pawn${currentTurn.value}`;
+  const enemyPawn = `pawn${currentTurn.value === 1 ? 2 : 1}`;
   const boardSlot = board.value[finalRow][finalCol];
 
   // Expand Pawn on board
   if (typeof boardSlot === "object" && validPawn in boardSlot && !ability) {
     boardSlot[validPawn] += 1; // Increase pawn count
-  } else if (boardSlot === "blank" && !ability) {
+  } else if (boardSlot === "blank" && !ability && !boardSlot.enemyPawn) {
     board.value[finalRow][finalCol] = { [validPawn]: 1 }; // Replace a new one if empty
   }
 
@@ -200,13 +300,20 @@ const expandPawnOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
   }
 };
 
-
 // Watch for board array changes then switch turns
 watch(board, () => {
+  // TODO - count score after not has any pawn on board OR not has card pawnRequired to Place on board
+  // if(!board.pawn1 && !board.pawn2){
+  //   //TODO calculate score
+  //   return;
+  // }
+
   currentTurn.value = currentTurn.value === 1 ? 2 : 1;
   if (currentTurn.value === 1) {
     round.value++; // New round starts
   }
+
+  // updatePlayerHands(gameProps.player1Deck, gameProps.player2Deck)
 }, { deep: true });
 
 </script>
