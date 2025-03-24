@@ -1,8 +1,8 @@
 <script setup>
 import { editItem,addItem,deleteItemById } from '@/lib/fetchUtils';
 import { computed, ref,watch, watchEffect } from 'vue'
-import GameManager from '../GameManager.vue';
 import GameLobby from '../UI/GameLobby.vue';
+import ShowCard from './ShowCard.vue';
 const inventoryProp = defineProps({
     inventory:{
         type:Array,
@@ -33,6 +33,8 @@ const addCard = ref(false)
 const removeCard = ref(false)
 const lobbyPageStatus = ref(false)
 const maxDeckSize = 15
+const showCardDetails = ref(false)
+const selectedCard = ref(null)
 
 const inventoryDetails = computed(() => { //เรียกของในiventory
     return inventoryProp.inventory.map(item => ({
@@ -242,7 +244,8 @@ const selectInventoryCardFunc = (card) => {
             alert('Please select a card from the inventory to add.')
             return
         }
-    }   else if (selectedDeck.value === 'AddDeck') {
+    }   
+    else if (selectedDeck.value === 'AddDeck') {
         if (isInInventory) {
             if (index === -1) {
                 selectedInventoryCards.value.push(card);
@@ -253,6 +256,9 @@ const selectInventoryCardFunc = (card) => {
             alert('Please select a card from the inventory to add.')
             return;
         }
+    }
+    else{
+        handleCardClick(card)
     }
 }
 const removeSelectedDeck = async () =>{
@@ -322,7 +328,19 @@ watchEffect(() => {
     if (inventoryProp.inventory.length > 0 && inventoryProp.decks.length > 0) {
         console.log("Inventory and Decks Loaded:", inventoryProp.inventory, inventoryProp.decks);
     }
-});
+})
+
+const handleCardClick = (card) => {
+if (!addCard.value && !removeCard.value) {
+  selectedCard.value = card
+  showCardDetails.value = true
+    }
+}
+
+const closeCardDetails = () => {
+  showCardDetails.value = false
+  selectedCard.value = null
+}
 </script>
 
 <template>
@@ -349,7 +367,7 @@ watchEffect(() => {
                     <p v-if="removeCard" class="text-red-400 text-sm mb-2">Select cards to remove from the deck.</p>
                     <div class="flex flex-wrap gap-4">
                         <div v-for="card in getCardsInDeck" :key="card.idcard"
-                            @click="selectInventoryCardFunc(card)"
+                            @click="selectInventoryCardFunc(card)" 
                             :class="[ 'cursor-pointer relative w-36 h-48 bg-gray-800 border-4 border-gray-600 rounded-lg hover:scale-105 transition-transform',
                                 selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'shadow-lg border-purple-500' : '',
                                 addCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-green-700 border-green-500' : '',
@@ -408,6 +426,7 @@ watchEffect(() => {
                 </button>
             </footer>
         </div>
+        <ShowCard v-if="showCardDetails && selectedCard" :card="selectedCard" @close="closeCardDetails" />
     </div>
     <GameLobby
         :decks="uniqueDecks"
