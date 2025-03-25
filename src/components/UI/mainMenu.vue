@@ -1,10 +1,15 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import PlayerManager from '../PlayerManager.vue';
-import mainMenuBg from '../../assets/Picture/Bg/mainmenu_bg.jpg'
+import mainMenuBg from '../../assets/Picture/Bg/mainmenu_bg.jpg';
 import setting from './setting.vue';
+import hoverSoundFile from '../../assets/se/hover.mp3';
 
-const currentPage = ref('MainMenu')
+const currentPage = ref('MainMenu');
+const seVolume = ref(100); // ค่าเริ่มต้นของ SE Volume
+const masterVolume = ref(100);  // ค่าเริ่มต้นของ Master Volume
+const isAudioUnlocked = ref(false);
+const hoverSound = new Audio(hoverSoundFile); // โหลดเสียงล่วงหน้า
 
 const showLogin = () => {
     currentPage.value='showlogin'
@@ -22,34 +27,60 @@ const exitGame = () =>{
     window.close()
 }
 
+hoverSound.volume = (seVolume.value / 100) * (masterVolume.value / 100);
+
+const unlockAudio = () => {
+    isAudioUnlocked.value = true;
+    console.log("Audio unlocked!");
+};
+
+// ฟังก์ชันเล่นเสียง hover
+const playHoverSound = () => {
+    if (!isAudioUnlocked.value) 
+    return
+
+    hoverSound.currentTime = 0
+    hoverSound.play().catch(error => console.error("Audio play error:", error));
+};
+
+watch([seVolume, masterVolume], () => {
+    hoverSound.volume = (seVolume.value / 100) * (masterVolume.value / 100);
+});
+
+const updateSeVolume = (value) => {
+    seVolume.value = value;
+};
 
 </script>
 
 <template>
-    <div v-if="currentPage === 'MainMenu'" 
+    <div @click="unlockAudio" v-if="currentPage === 'MainMenu'" 
         class="flex flex-col items-center justify-center min-h-screen bg-cover bg-center"
         :style="{ backgroundImage: `url(${mainMenuBg})` }">
         <h1 class="text-4xl font-bold mb-8 text-center text-white">
          война(Voyna) Of Meme
         </h1>
         <div class="flex flex-col gap-5">
-      <button @click="showLogin" 
-        class="px-8 py-4 text-xl rounded-lg cursor-pointer bg-gray-700 text-white hover:bg-gray-500 transition duration-300">
-        Play</button>
-      <button @click="showSettings" 
-        class="px-8 py-4 text-xl rounded-lg cursor-pointer bg-gray-700 text-white hover:bg-gray-500 transition duration-300">
-        Settings</button>
-      <button @click="exitGame" 
-        class="px-8 py-4 text-xl rounded-lg cursor-pointer bg-gray-700 text-white hover:bg-gray-500 transition duration-300">
-        Exit Game</button>
-     </div>
-  </div>
+            <button @click="showLogin" @mouseenter="playHoverSound"
+                class="px-8 py-4 text-xl rounded-lg cursor-pointer bg-gray-700 text-white hover:bg-gray-500 transition duration-300">
+                Play
+            </button>
+            <button @click="showSettings" @mouseenter="playHoverSound"
+                class="px-8 py-4 text-xl rounded-lg cursor-pointer bg-gray-700 text-white hover:bg-gray-500 transition duration-300">
+                Settings
+            </button>
+            <button @click="exitGame" @mouseenter="playHoverSound"
+                class="px-8 py-4 text-xl rounded-lg cursor-pointer bg-gray-700 text-white hover:bg-gray-500 transition duration-300">
+                Exit Game
+            </button>
+        </div>
+    </div>
 
-  <PlayerManager v-if="currentPage === 'showlogin'"/>
-  <setting v-if="currentPage === 'Settings'"/>
+    <PlayerManager v-if="currentPage === 'showlogin'"/>
+    <setting v-if="currentPage === 'Settings'" @updateSeVolume="updateSeVolume"/>
   
-  <button @click="goToMainMenu" v-if="currentPage !== 'MainMenu' && currentPage !== 'showlogin'"
-            class="mt-6 px-6 py-3 text-lg rounded-lg bg-blue-500 text-white hover:bg-blue-700 transition">
-            Back to Main Menu
-  </button>
+    <button @click="goToMainMenu" v-if="currentPage !== 'MainMenu' && currentPage !== 'showlogin'" @mouseenter="playHoverSound"
+        class="mt-6 px-6 py-3 text-lg rounded-lg bg-blue-500 text-white hover:bg-blue-700 transition">
+        Back to Main Menu
+    </button>
 </template>

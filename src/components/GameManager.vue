@@ -3,8 +3,9 @@ import { ref, watch, onMounted } from "vue";
 import PlayerCharacter from "./mainGameComponents/PlayerCharacter.vue";
 import TableGame from "./mainGameComponents/Table.vue";
 import Hand from "./mainGameComponents/Hand.vue";
+import HeadOrTail from "./mainGameComponents/HeadOrTail.vue";
 
-const currentTurn = ref(1); //player1 & player2
+const currentTurn = ref(null); // Receive number 1 or 2 for player1 & player2
 const round = ref(1);
 const selectedCard = ref(null);
 const data = ref(null);
@@ -32,11 +33,6 @@ const board = ref([
   ["score", {pawn1: 2}, "blank", "blank", "blank", "blank", {pawn2: 2}, "score"],
   ["score", {pawn1: 2}, "blank", "blank", "blank", "blank", {pawn2: 2}, "score"],
 ]);
-
-// Select a card from Hand (receive from Hand.vue)
-const selectCard = (card) => {
-  selectedCard.value = card;
-};
 
 onMounted(async () => {
   try {
@@ -117,10 +113,15 @@ const initCardPlayerHands = (player1Deck, player2Deck) => {
   console.log('Player 2 Hand:', playerHands.value[2]);
 };
 
-// TODO - change currentTurn upon flip coin include initilize player's hand 'initCardPlayerHands(gameProps.player1Deck, gameProps.player2Deck)'
-const flipCoin = () => {
+const flipCoin = (playerTurn) => {
+  currentTurn.value = playerTurn;
   initCardPlayerHands(gameProps.player1Deck, gameProps.player2Deck)
 }
+
+// Select a card from Hand (receive from Hand.vue)
+const selectCard = (card) => {
+  selectedCard.value = card;
+};
 
 // Place a Card on the Board then Remove from Hand (receive from Table.vue)
 const placeCard = (rowIndex, colIndex) => {
@@ -251,20 +252,14 @@ watch(board, () => {
 
   // TODO count score after not has any pawn on board OR NOT HAVE any card pawnRequired to place on board
   // TODO calculate score
-}, { deep: true});
+}, { deep: true });
 
 </script>
 
 <template>
-  <div class="flex flex-col items-center">
-    <!-- Test Show Card Button -->
-    <button
-      class="bg-blue-500 p-3 rounded-xl"
-      @click="flipCoin()"
-    >
-      <b>Flip Coin</b>
-    </button>
+  <HeadOrTail @playerTurn="flipCoin" />
 
+  <div class="flex flex-col items-center">
     <div class="text-2xl font-bold mt-4">
       <span>Round: {{ round }}</span>
       <span class="ml-4" :class="currentTurn === 1 ? 'text-blue-500' : 'text-red-500'">
