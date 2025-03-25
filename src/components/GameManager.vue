@@ -33,11 +33,6 @@ const board = ref([
   ["score", {pawn1: 2}, "blank", "blank", "blank", "blank", {pawn2: 2}, "score"],
 ]);
 
-// Select a card from Hand (receive from Hand.vue)
-const selectCard = (card) => {
-  selectedCard.value = card;
-};
-
 onMounted(async () => {
   try {
     const response = await fetch('../data/db.json'); // Fetch from public folder
@@ -53,48 +48,7 @@ const playerHands = ref({
   2: [],  // Player 2's hand
 });
 
-
-let deckP1 = [];
-let deckP2 = [];
-
-const updatePlayerHands = () => {
-  if(round.value > 1) {
-    getRandomCards(deckP1, currentTurn.value, 1)
-  }
-  console.log(`Update deckP1: `, deckP1)
-  console.log(`Update deckP2: `, deckP2)
-
-}
-
-const getRandomCards = (deck, playerSide, quantityRandCards) => {
-  if(deck.length === 0) return;
-  
-  // If requesting more cards than card in the deck adjust quantity
-  const actualQuantity = Math.min(quantityRandCards, deck.length);
-  
-  const randomCards = [];
-  
-  while (randomCards.length < actualQuantity) {
-    const randNum = Math.floor(Math.random() * deck.length);
-    
-    // Check if index is not already selected
-    if (!randomCards.includes(randNum)) {
-      randomCards.push(randNum);
-    }
-  }
-
-  // Distribute random card(s) to player
-  const selectedRandCards = randomCards.map(num => deck[num]);
-  playerHands.value[playerSide].push(...selectedRandCards);
-
-  // Remove already distributed cards in deck
-  randomCards.sort((a, b) => b - a); // Sort highest to lowest to prevent index shifting while remove
-  for (let index of randomCards) {
-    deck.splice(index, 1);
-  }
-};
-
-const initCardPlayerHands = (player1Deck, player2Deck) => {
+const updatePlayerHands = (player1Deck, player2Deck) => {
   if (!player1Deck || !player2Deck) return;
 
   const getPlayerDeck = (deckId) => {
@@ -106,21 +60,46 @@ const initCardPlayerHands = (player1Deck, player2Deck) => {
       .filter(card => card !== undefined); // Remove undefined from not found cards in deck
   };
 
-  deckP1 = getPlayerDeck(player1Deck);
-  deckP2 = getPlayerDeck(player2Deck);
+  const randomCards = (deck, playerSide) => {
+    if(deck.length === 0) return;
+    
+    const randomCards = [];
+    const quantityRandCards = 3; // Can define quantity random card from each player
+    
+    while (randomCards.length < quantityRandCards) {
+      const randNum = Math.floor(Math.random() * deck.length);
+      
+      // Check if index is not already selected
+      if (!randomCards.includes(randNum)) {
+        randomCards.push(randNum);
+      }
+    }
 
-  getRandomCards(deckP1, 1, 3);
-  getRandomCards(deckP2, 2, 3);
+    // Distrubute random card to player
+    const selectedRandCards = randomCards.map(num => deck[num]);
+    playerHands.value[playerSide].push(...selectedRandCards);
+
+    // Remove already distrubute cards from the deck
+    deck.filter((_, index) => !randomCards.includes(index));
+  };
+
+  const deckP1 = getPlayerDeck(player1Deck);
+  const deckP2 = getPlayerDeck(player2Deck);
+
+  randomCards(deckP1, 1);
+  randomCards(deckP2, 2);
 
   // Logging (optional, can be removed in production)
   console.log('Player 1 Hand:', playerHands.value[1]);
   console.log('Player 2 Hand:', playerHands.value[2]);
 };
 
-// TODO - change currentTurn upon flip coin include initilize player's hand 'initCardPlayerHands(gameProps.player1Deck, gameProps.player2Deck)'
-const flipCoin = () => {
-  initCardPlayerHands(gameProps.player1Deck, gameProps.player2Deck)
-}
+// TODO - change currentTurn upon flip coin include initilize player's hand
+
+// Select a card from Hand (receive from Hand.vue)
+const selectCard = (card) => {
+  selectedCard.value = card;
+};
 
 // Place a Card on the Board then Remove from Hand (receive from Table.vue)
 const placeCard = (rowIndex, colIndex) => {
@@ -242,16 +221,19 @@ const cardAbilityOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
 
 // Watch for board array changes then switch turns
 watch(board, () => {
+  // TODO - count score after not has any pawn on board OR not has card pawnRequired to Place on board
+  // if(!board.pawn1 && !board.pawn2){
+  //   //TODO calculate score
+  //   return;
+  // }
+
   currentTurn.value = currentTurn.value === 1 ? 2 : 1;
   if (currentTurn.value === 1) {
     round.value++; // New round starts
   }
 
-  updatePlayerHands();
-
-  // TODO count score after not has any pawn on board OR NOT HAVE any card pawnRequired to place on board
-  // TODO calculate score
-}, { deep: true});
+  // updatePlayerHands(gameProps.player1Deck, gameProps.player2Deck)
+}, { deep: true });
 
 </script>
 
@@ -260,9 +242,9 @@ watch(board, () => {
     <!-- Test Show Card Button -->
     <button
       class="bg-blue-500 p-3 rounded-xl"
-      @click="flipCoin()"
+      @click="updatePlayerHands(gameProps.player1Deck, gameProps.player2Deck)"
     >
-      <b>Flip Coin</b>
+      <b>Show Card</b>
     </button>
 
     <div class="text-2xl font-bold mt-4">
