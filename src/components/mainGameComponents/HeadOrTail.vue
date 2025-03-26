@@ -4,16 +4,26 @@ import { ref } from 'vue';
 const coin = ['Head', 'Tail']
 const resultCoin = ref(null)
 const isVisible = ref(true)
+const lock = ref(false)
 
 const emits = defineEmits(["playerTurn"])
 
 const flipCoin = () => {
-  const randomIndex = Math.floor(Math.random() * 2)
-  resultCoin.value = coin[randomIndex]
-  emits("playerTurn", resultCoin.value === 'Head' ? 1 : 2)
-  setTimeout(function(){
-    isVisible.value = false
-  }, 2000)
+  if (!lock.value) {
+    lock.value = true; // ล็อกปุ่มทันทีที่กด
+
+    const randomIndex = Math.floor(Math.random() * 2);
+    resultCoin.value = coin[randomIndex];
+
+    emits("playerTurn", resultCoin.value === 'Head' ? 1 : 2);
+
+    setTimeout(() => {
+      isVisible.value = false;
+      lock.value = false; // ปลดล็อกหลังจาก 2 วินาที
+    }, 2000);
+  } else {
+    console.log("คุณกดเร็วเกินไป");
+  }
 }
 </script>
 
@@ -37,6 +47,7 @@ const flipCoin = () => {
       
       <!-- Coin Flip Button -->
       <button 
+        v-if="!resultCoin"
         @click="flipCoin"
         class="bg-gradient-to-r from-yellow-600 to-yellow-400 font-bold text-black text-lg px-6 py-3 rounded-xl shadow-lg
                hover:scale-105 active:scale-95 transition-all duration-200"
