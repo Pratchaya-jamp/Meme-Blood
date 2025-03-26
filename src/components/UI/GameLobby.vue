@@ -10,6 +10,10 @@ const props = defineProps({
     characters: {
         type: Array,
         required: true
+    },
+    allCharacters: {
+        type: Array,
+        required: true
     }
 })
 const selectedDeckPlayer1 = ref(null)
@@ -25,6 +29,13 @@ const availableDecksPlayer2 = computed(() => {
     }
     return props.decks
 })
+
+const findCharacterName = (chId) => {
+    const character = props.allCharacters.find(character => character.idcharacter === chId);
+
+    return character ? character.charatername : 'Unknown Character';
+}
+
 const setMainGamePage = () =>{
     mainGamePagestatus.value = true
 }
@@ -34,14 +45,6 @@ const showSettings = () => {
 
 const goToLobby = () =>{
     currentPage.value='GameLobby'
-}
-
-const characterImages = {
-
-}
-
-const getCharacterImage = (characterId) => {
-
 }
 </script>
 <template>
@@ -59,7 +62,9 @@ const getCharacterImage = (characterId) => {
                 <option v-for="character in characters" :key="character" :value="character">{{ character }}</option>
             </select>
             <div v-if="selectedCharPlayer1">
-                <img :src="getCharacterImage(selectedCharPlayer1)" alt="Player 1 Character" class="max-w-48 max-h-48 rounded-lg shadow-md">
+                <img :src="`/Characters/${selectedCharPlayer1}.png`" alt="Player 1 Character" 
+                    class="max-w-48 max-h-48 rounded-lg shadow-md">
+                {{ findCharacterName(selectedCharPlayer1) }}
             </div>
         </div>
 
@@ -80,7 +85,9 @@ const getCharacterImage = (characterId) => {
                 <option v-for="character in characters" :key="character" :value="character">{{ character }}</option>
             </select>
             <div v-if="selectedCharPlayer2">
-                <img :src="getCharacterImage(selectedCharPlayer2)" alt="Player 2 Character" class="max-w-48 max-h-48 rounded-lg shadow-md">
+                <img :src="`/Characters/${selectedCharPlayer2}.png`" alt="Player 2 Character" 
+                    class="max-w-48 max-h-48 rounded-lg shadow-md">
+                    {{ findCharacterName(selectedCharPlayer2) }}
             </div>
         </div>
         <button @click="showSettings" 

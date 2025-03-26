@@ -431,6 +431,7 @@ const closeCardDetails = () => {
     <GameLobby
         :decks="uniqueDecks"
         :characters="availableCharacters"
+        :allCharacters="inventoryProp.characters"
         v-if="lobbyPageStatus" />
 </template>
 <style scoped></style>
