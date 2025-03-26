@@ -270,11 +270,8 @@ watch(board, () => {
     <div class="flex gap-15 items-center justify-center">
       <!-- Left Player -->
       <PlayerCharacter 
-        :selectId="gameProps.playerCharacter1"
+        :selectId="gameProps.playerCharacter1"  
       >
-        <template #image>
-          <img src="../assets/logo.svg" alt="Left Player" class="w-24 h-24 rounded-full shadow-lg">  
-        </template>
       </PlayerCharacter>
 
       <!-- Table -->
@@ -284,15 +281,15 @@ watch(board, () => {
       <PlayerCharacter 
         :selectId="gameProps.playerCharacter2"
       >
-        <template #image>
-          <img src="../assets/logo.svg" alt="Right Player" class="w-24 h-24 rounded-full shadow-lg">  
-        </template>
       </PlayerCharacter>
     </div>
 
-    <div class="flex gap-16 mt-5">
-      <Hand :player="1" :currentTurn="currentTurn" :hand="playerHands[1]" @selectCard="selectCard" />
-      <Hand :player="2" :currentTurn="currentTurn" :hand="playerHands[2]" @selectCard="selectCard" />
+    <div class="flex gap-16 justify-center mt-5">
+      <Hand v-if="currentTurn === 1" :player="1" :currentTurn="currentTurn" :hand="playerHands[1]" @selectCard="selectCard" />
     </div>
+  <div class="flex gap-16 mt-5 justify-center">
+    <Hand v-if="currentTurn === 2" :player="2" :currentTurn="currentTurn" :hand="playerHands[2]" @selectCard="selectCard" />
+  </div>
+
   </div>
 </template>

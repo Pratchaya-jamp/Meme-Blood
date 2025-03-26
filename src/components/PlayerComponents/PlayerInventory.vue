@@ -344,13 +344,13 @@ const closeCardDetails = () => {
 </script>
 
 <template>
-    <div class="bg-gray-900 min-h-screen py-8 px-4" v-if="!lobbyPageStatus">
-        <div class="container mx-auto max-w-7xl bg-gray-800 rounded-lg shadow-xl overflow-hidden">
+    <div class="bg-gray-900 min-h-screen w-full py-8 px-4 overflow-y-auto" v-if="!lobbyPageStatus">
+        <div class="container mx-auto max-w-7xl bg-gray-800 rounded-lg shadow-xl overflow-hidden flex flex-col">
             <header class="bg-gray-700 py-4 px-6 border-b border-gray-600">
                 <h2 class="text-2xl font-semibold text-white text-center">Player Inventory</h2>
             </header>
 
-            <section class="p-6">
+            <section class="p-6 flex-grow">
                 <h3 class="text-lg font-semibold text-gray-300 mb-4">Deck Management</h3>
 
                 <div class="mb-4">
@@ -367,11 +367,11 @@ const closeCardDetails = () => {
                     <p v-if="removeCard" class="text-red-400 text-sm mb-2">Select cards to remove from the deck.</p>
                     <div class="flex flex-wrap gap-4">
                         <div v-for="card in getCardsInDeck" :key="card.idcard"
-                            @click="selectInventoryCardFunc(card)" 
+                            @click="selectInventoryCardFunc(card)"
                             :class="[ 'cursor-pointer relative w-36 h-48 bg-gray-800 border-4 border-gray-600 rounded-lg hover:scale-105 transition-transform',
-                                selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'shadow-lg border-purple-500' : '',
-                                addCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-green-700 border-green-500' : '',
-                                removeCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-red-700 border-red-500' : '']">
+                                        selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'shadow-lg border-purple-500' : '',
+                                        addCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-green-700 border-green-500' : '',
+                                        removeCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-red-700 border-red-500' : '']">
                             <img :src="`/cards/${card.idcard}.png`" class="w-full h-full object-cover rounded-lg">
                         </div>
                     </div>
@@ -399,7 +399,7 @@ const closeCardDetails = () => {
                 </div>
             </section>
 
-            <section class="p-6 border-t border-gray-600">
+            <section class="p-6 border-t border-gray-600 flex-grow">
                 <h3 class="text-lg font-semibold text-gray-300 mb-4">Inventory Cards</h3>
                 <p v-if="addCard && selectedDeck === 'AddDeck'" class="text-green-400 text-sm mb-2">Select cards to create a new deck.</p>
                 <p v-else-if="addCard" class="text-green-400 text-sm mb-2">Select cards to add to the selected deck.</p>
@@ -407,9 +407,9 @@ const closeCardDetails = () => {
                     <div v-for="card in getCardsInInventory" :key="card.idcard"
                         @click="selectInventoryCardFunc(card)"
                         :class="[ 'cursor-pointer relative w-36 h-48 bg-gray-800 border-4 border-gray-600 rounded-lg hover:scale-105 transition-transform',
-                            selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'shadow-lg border-purple-500' : '',
-                            addCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-green-700 border-green-500' : '',
-                            removeCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-red-700 border-red-500' : '' ]">
+                                    selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'shadow-lg border-purple-500' : '',
+                                    addCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-green-700 border-green-500' : '',
+                                    removeCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-red-700 border-red-500' : '' ]">
                         <img :src="`/cards/${card.idcard}.png`" class="w-full h-full object-cover rounded-lg">
                     </div>
                 </div>
@@ -431,6 +431,8 @@ const closeCardDetails = () => {
     <GameLobby
         :decks="uniqueDecks"
         :characters="availableCharacters"
+        :allCharacters="inventoryProp.characters"
         v-if="lobbyPageStatus" />
 </template>
+
 <style scoped></style>
