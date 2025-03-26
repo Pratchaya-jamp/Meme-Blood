@@ -48,56 +48,59 @@ const goToLobby = () =>{
 }
 </script>
 <template>
-    <div v-if="!mainGamePagestatus && currentPage === 'GameLobby'" class="flex h-screen bg-gray-800 text-white">
-        <div class="w-1/2 flex flex-col items-center justify-center p-6 border-r border-gray-700">
-            <h2 class="text-xl font-semibold mb-4">Player 1</h2>
+    <div v-if="!mainGamePagestatus && currentPage === 'GameLobby'" 
+    class="flex h-screen bg-gradient-to-b from-black to-gray-900 text-white relative">
+        <div class="w-1/2 flex flex-col items-center justify-center p-8 border-r border-gray-700">
+            <h2 class="text-2xl font-bold text-blue-400 mb-4 tracking-widest">Player 1</h2>
             <select v-model="selectedDeckPlayer1" id="selectedDeckPlayer1" :key="decks.length"
-                class="shadow border rounded w-full py-2 px-3 bg-gray-700 text-white border-gray-600 mb-4">
+                class="w-3/4 bg-gray-800 text-white py-3 px-4 border border-blue-500 rounded-lg shadow-lg transition mb-4">
                 <option>Select Your deck</option>
                 <option v-for="deck in decks" :key="deck" :value="deck">{{ deck }}</option>
             </select>
             <select v-model="selectedCharPlayer1" id="selectedCharPlayer1" :key="characters.length"
-                class="shadow border rounded w-full py-2 px-3 bg-gray-700 text-white border-gray-600 mb-4">
+                class="w-3/4 bg-gray-800 text-white py-3 px-4 border border-blue-500 rounded-lg shadow-lg transition mb-4">
                 <option>Select Your character</option>
                 <option v-for="character in characters" :key="character" :value="character">{{ character }}</option>
             </select>
             <div v-if="selectedCharPlayer1">
                 <img :src="`/Characters/${selectedCharPlayer1}.png`" alt="Player 1 Character" 
-                    class="max-w-48 max-h-48 rounded-lg shadow-md">
-                {{ findCharacterName(selectedCharPlayer1) }}
+                    class="max-w-48 max-h-48 rounded-lg shadow-md border-2 border-blue-500">
+                    <p class="mt-2 text-lg text-gray-300">{{ findCharacterName(selectedCharPlayer1) }}</p>
             </div>
         </div>
 
         <div class="flex items-center justify-center">
-            <button @click="setMainGamePage" class="bg-green-500 hover:bg-green-700 text-white font-bold py-4 px-8 rounded">Play</button>
+            <button @click="setMainGamePage"  
+            class="bg-green-500 hover:bg-green-700 text-white font-bold py-4 px-12 rounded-xl text-xl shadow-2xl tracking-widest transition transform hover:scale-110">
+            Play</button>
         </div>
 
-        <div class="w-1/2 flex flex-col items-center justify-center p-6 border-l border-gray-700">
-            <h2 class="text-xl font-semibold mb-4">Player 2</h2>
+        <div class="w-1/2 flex flex-col items-center justify-center p-8 border-l border-gray-700">
+            <h2 class="text-2xl font-bold text-red-400 mb-4 tracking-widest">Player 2</h2>
             <select v-model="selectedDeckPlayer2" id="selectedDeckPlayer2" :key="decks.length"
-                class="shadow border rounded w-full py-2 px-3 bg-gray-700 text-white border-gray-600 mb-4">
+                class="w-3/4 bg-gray-800 text-white py-3 px-4 border border-red-500 rounded-lg shadow-lg transition mb-4">
                 <option>Select Your deck</option>
                 <option v-for="deck in availableDecksPlayer2" :key="deck" :value="deck">{{ deck }}</option>
             </select>
             <select v-model="selectedCharPlayer2" id="selectedCharPlayer2" :key="characters.length"
-                class="shadow border rounded w-full py-2 px-3 bg-gray-700 text-white border-gray-600 mb-4">
+                class="w-3/4 bg-gray-800 text-white py-3 px-4 border border-red-500 rounded-lg shadow-lg transition mb-4">
                 <option>Select Your character</option>
                 <option v-for="character in characters" :key="character" :value="character">{{ character }}</option>
             </select>
             <div v-if="selectedCharPlayer2">
                 <img :src="`/Characters/${selectedCharPlayer2}.png`" alt="Player 2 Character" 
-                    class="max-w-48 max-h-48 rounded-lg shadow-md">
-                    {{ findCharacterName(selectedCharPlayer2) }}
+                    class="max-w-48 max-h-48 rounded-lg shadow-md border-2 border-red-500">
+                    <p class="mt-2 text-lg text-gray-300">{{ findCharacterName(selectedCharPlayer2) }}</p>
             </div>
         </div>
         <button @click="showSettings" 
-        class="px-8 py-4 text-xl rounded-lg cursor-pointer bg-gray-700 text-white hover:bg-gray-500 transition duration-300">
+        class="absolute bottom-8 right-8 px-6 py-3 bg-gray-700 text-white text-lg rounded-lg shadow-lg hover:bg-gray-500 transition">
         Settings</button>
     </div>
     <setting v-if="currentPage === 'Settings'"/>
   
     <button @click="goToLobby" v-if="currentPage !== 'GameLobby'"
-            class="mt-6 px-6 py-3 text-lg rounded-lg bg-blue-500 text-white hover:bg-blue-700 transition">
+    class="mt-6 px-6 py-3 text-lg rounded-lg bg-blue-500 text-white hover:bg-blue-700 transition">
             Back to Lobby
     </button>
     <GameManager 

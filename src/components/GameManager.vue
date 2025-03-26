@@ -270,11 +270,8 @@ watch(board, () => {
     <div class="flex gap-15 items-center justify-center">
       <!-- Left Player -->
       <PlayerCharacter 
-        :selectId="gameProps.playerCharacter1"
+        :selectId="gameProps.playerCharacter1"  
       >
-        <template #image>
-          <img src="../assets/logo.svg" alt="Left Player" class="w-24 h-24 rounded-full shadow-lg">  
-        </template>
       </PlayerCharacter>
 
       <!-- Table -->
@@ -284,9 +281,6 @@ watch(board, () => {
       <PlayerCharacter 
         :selectId="gameProps.playerCharacter2"
       >
-        <template #image>
-          <img src="../assets/logo.svg" alt="Right Player" class="w-24 h-24 rounded-full shadow-lg">  
-        </template>
       </PlayerCharacter>
     </div>
 
