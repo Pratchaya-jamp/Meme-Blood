@@ -290,9 +290,12 @@ watch(board, () => {
       </PlayerCharacter>
     </div>
 
-    <div class="flex gap-16 mt-5">
-      <Hand :player="1" :currentTurn="currentTurn" :hand="playerHands[1]" @selectCard="selectCard" />
-      <Hand :player="2" :currentTurn="currentTurn" :hand="playerHands[2]" @selectCard="selectCard" />
+    <div class="flex gap-16 justify-center mt-5">
+      <Hand v-if="currentTurn === 1" :player="1" :currentTurn="currentTurn" :hand="playerHands[1]" @selectCard="selectCard" />
     </div>
+  <div class="flex gap-16 mt-5 justify-center">
+    <Hand v-if="currentTurn === 2" :player="2" :currentTurn="currentTurn" :hand="playerHands[2]" @selectCard="selectCard" />
+  </div>
+
   </div>
 </template>
