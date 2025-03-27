@@ -3,7 +3,7 @@ import { ref, watch, onMounted } from 'vue';
 import PlayerManager from '../PlayerManager.vue';
 import mainMenuBg from '../../assets/Picture/Bg/mainmenu_bg.jpg';
 import setting from './setting.vue';
-import hoverSoundFile from '../../assets/se/hover.mp3';
+import hoverSoundFile from '/sounds/se/hover.mp3';
 
 const currentPage = ref('MainMenu');
 const seVolume = ref(100); // ค่าเริ่มต้นของ SE Volume
