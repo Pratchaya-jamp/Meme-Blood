@@ -163,9 +163,9 @@
       "Power": 1,
       "pawnsRequired": "1",
       "pawnLocations": [
-        7,
         8,
-        9
+        14, 
+        18
       ],
       "cardRarity": "Standard",
       "id": "53c9"
@@ -180,7 +180,10 @@
       "pawnsRequired": "2",
       "pawnLocations": [
         8,
-        18
+        18,
+        3,
+        23,
+        14
       ],
       "cardRarity": "Standard",
       "id": "7896"
@@ -195,9 +198,21 @@
       "pawnsRequired": "2",
       "pawnLocations": [
         8,
-        12,
-        14,
-        18
+        9,18,19
+      ],
+      "cardRarity": "Standard",
+      "id": "08de"
+    },
+    {
+      "idcard": 134,
+      "cardname": "Skibidi Toilet",
+      "Ability": true,
+      "abilityType": "debuff",
+      "cardinfo": "Skibidi Toilet Dob dob dob yes yes",
+      "Power": 1,
+      "pawnsRequired": "2",
+      "pawnLocations": [
+        7,8,17,18
       ],
       "cardRarity": "Standard",
       "id": "08de"
@@ -211,8 +226,21 @@
       "Power": 2,
       "pawnsRequired": "2",
       "pawnLocations": [
-        8,
-        3
+        8,14
+      ],
+      "cardRarity": "Standard",
+      "id": "7d7b"
+    },
+    {
+      "idcard": 135,
+      "cardname": "Dancing Banana",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "Peanut butter jelly time!",
+      "Power": 2,
+      "pawnsRequired": "2",
+      "pawnLocations": [
+        8,12
       ],
       "cardRarity": "Standard",
       "id": "7d7b"
@@ -226,8 +254,21 @@
       "Power": 1,
       "pawnsRequired": "2",
       "pawnLocations": [
-        12,
-        24
+       14,8
+      ],
+      "cardRarity": "Standard",
+      "id": "b063"
+    },
+    {
+      "idcard": 136,
+      "cardname": "Keyboard Cat",
+      "Ability": true,
+      "abilityType": "buff",
+      "cardinfo": "Playing you off, play us on!",
+      "Power": 1,
+      "pawnsRequired": "2",
+      "pawnLocations": [
+       12,8
       ],
       "cardRarity": "Standard",
       "id": "b063"
