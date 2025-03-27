@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import PlayerCharacter from "./mainGameComponents/PlayerCharacter.vue";
 import TableGame from "./mainGameComponents/Table.vue";
 import Hand from "./mainGameComponents/Hand.vue";
@@ -28,6 +28,10 @@ const gameProps = defineProps({
   playerCharacter2: {
     type: Number,
     required: true
+  },
+  selectedMap: {
+    type: String,
+    required: true
   }
 })
 
@@ -39,7 +43,7 @@ const board = ref([
 
 onMounted(async () => {
   try {
-    const response = await fetch('../data/db.json'); // Fetch from public folder
+    const response = await fetch('/data/db.json');
     if (!response.ok) throw new Error("Failed to load data");
     data.value = await response.json();
   } catch (error) {
@@ -57,36 +61,42 @@ let deckP2 = [];
 
 // Add 1 random card to player's hand
 const updatePlayerHands = () => {
-  if (round.value > 1) {
-    getRandomCards(deckP1, currentTurn.value, 1); // Draw one card at the start of each turn
+  if(round.value > 1) {
+    getRandomCards(deckP1, currentTurn.value, 1)
   }
-  console.log(`Update deckP1: `, deckP1);
-  console.log(`Update deckP2: `, deckP2);
-};
+  console.log(`Update deckP1: `, deckP1)
+  console.log(`Update deckP2: `, deckP2)
+}
 
 const getRandomCards = (deck, playerSide, quantityRandCards) => {
-  if (deck.length === 0) return;
-
+  if(deck.length === 0) return;
+  
+  // If requesting more cards than card in the deck adjust quantity
+  const actualQuantity = Math.min(quantityRandCards, deck.length);
+  
   const randomCards = [];
-  const numberOfCardsToDraw = Math.min(quantityRandCards, deck.length); // Draw up to the deck size
-
-  while (randomCards.length < numberOfCardsToDraw) {
+  
+  while (randomCards.length < actualQuantity) {
     const randNum = Math.floor(Math.random() * deck.length);
-
+    
+    // Check if index is not already selected
     if (!randomCards.includes(randNum)) {
       randomCards.push(randNum);
     }
   }
 
+  // Distribute random card(s) to player
   const selectedRandCards = randomCards.map(num => deck[num]);
   playerHands.value[playerSide].push(...selectedRandCards);
 
-  randomCards.sort((a, b) => b - a);
+  // Remove already distributed cards in deck
+  randomCards.sort((a, b) => b - a); // Sort highest to lowest to prevent index shifting while remove
   for (let index of randomCards) {
     deck.splice(index, 1);
   }
 };
 
+// Random 3 cards at begining
 const initCardPlayerHands = (player1Deck, player2Deck) => {
   isGameEnd.value = false;
   if (!player1Deck || !player2Deck) return;
@@ -96,16 +106,17 @@ const initCardPlayerHands = (player1Deck, player2Deck) => {
     if (!deckInfo) return [];
 
     return deckInfo.cardid
-      .map(cardId => data.value.card.find(c => c.idcard === cardId))
-      .filter(card => card !== undefined);
+      .map(cardId => data.value.card.find(c => c.idcard === cardId)) // Found cards in db.json from deck selected in each player
+      .filter(card => card !== undefined); // Remove undefined from not found cards in deck
   };
 
   deckP1 = getPlayerDeck(player1Deck);
   deckP2 = getPlayerDeck(player2Deck);
 
-  getRandomCards(deckP1, 1, 4); // Draw 4 cards for player 1
-  getRandomCards(deckP2, 2, 4); // Draw 4 cards for player 2
+  getRandomCards(deckP1, 1, 3);
+  getRandomCards(deckP2, 2, 3);
 
+  // Logging (optional, can be removed in production)
   console.log('Player 1 Hand:', playerHands.value[1]);
   console.log('Player 2 Hand:', playerHands.value[2]);
 };
@@ -199,16 +210,18 @@ const cardAbilityOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
   const cardCols = 5;  // 5x5 card grid
 
   // Convert to 0-based indices
-  const cardRow = Math.floor((cardSlot - 1) / cardCols);
-  const cardCol = (cardSlot - 1) % cardCols;
+  const cardRow = Math.floor((cardSlot - 1) / cardCols); // ลบ 1 เพราะอัลกอริทึมจับเป็น 0-24 ไม่ใช่ 1-25 หาร 5 เพราะต้องการรู้ row ที่ต้องการวาง card
+  const cardCol = (cardSlot - 1) % cardCols; // ลบ 1 เพราะอัลกอริทึมจับเป็น 0-24 ไม่ใช่ 1-25 หาร 5 เพราะต้องการรู้ colume ที่ต้องการวาง card
 
-  // Compute offset from card center (slot 13 is center, index [2,2])
-  const rowOffset = cardRow - 2;
-  const colOffset = cardCol - 2;
+  // Compute offset from card center (slot 13 is center, index [2,2]) // ความคลาดเคลื่อนจาก slot 13 บน card
+  const rowOffset = cardRow - 2; // นับมาจาก 0-2 ดังนั้นตรงนี้คือ index ของ rowOffset
+  const colOffset = cardCol - 2; // นับมาจาก 0-2 ดังนั้นตรงนี้คือ index ของ colOffset
 
-  // Calculate final board position
+  // Calculate final board position ตำแหน่งช่องใน board ที่จะทำการเพิ่ม pawn , buff, debuff
   const finalRow = boardRow + rowOffset;
   const finalCol = boardCol + colOffset;
+
+  // console.log(`BoardRow: ${boardRow}, BoardCol: ${boardCol}, Card: ${cardSlot} | FRow: ${finalRow}, FColumn: ${finalCol}`)
 
   // Check boundaries (valid board: 3 rows, 8 columns)
   if (finalRow < 0 || finalRow >= 3 || finalCol < 0 || finalCol >= 8) {
@@ -222,23 +235,21 @@ const cardAbilityOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
 
   // Expand Pawn on board
   if (typeof boardSlot === "object" && validPawn in boardSlot && !ability) {
-    if ((boardSlot[validPawn] || 0) < 3) { // Check if pawn count is less than 3
-      boardSlot[validPawn] = (boardSlot[validPawn] || 0) + 1; // Increase pawn count
-    }
+    boardSlot[validPawn] += 1; // Increase pawn count
   } else if (boardSlot === "blank" && !ability && !boardSlot.enemyPawn) {
     board.value[finalRow][finalCol] = { [validPawn]: 1 }; // Replace a new one if empty
   }
 
   // Buff Card on board
   if (typeof boardSlot === "object" && !(validPawn in boardSlot) && boardSlot !== "blank" && ability === "buff") {
-    board.value[finalRow][finalCol].Power = (board.value[finalRow][finalCol].Power || 0) + 1; // Increase power or score in card
+    board.value[finalRow][finalCol].Power += 1; // Increase power or score in card
   }
 
   // Debuff Card on board
   if (typeof boardSlot === "object" && !(validPawn in boardSlot) && boardSlot !== "blank" && ability === "debuff") {
-    board.value[finalRow][finalCol].Power = (board.value[finalRow][finalCol].Power || 0) - 1; // Decrease power or score in card
+    board.value[finalRow][finalCol].Power -= 1; // Decrease power or score in card
 
-    if ((board.value[finalRow][finalCol].Power || 0) < 0) {
+    if (board.value[finalRow][finalCol].Power < 0) {
       board.value[finalRow][finalCol].Power = 0;
     }
   }
@@ -303,6 +314,7 @@ const calculateScore = () => {
     console.log(`🎉 Game Over! Final Scores → Player 1: ${totalScoreP1}, Player 2: ${totalScoreP2}`);
   }
 };
+
 const turnCounter = ref(0);
 
 // Change turn after placeCard
@@ -343,8 +355,14 @@ const skipTurn = () => {
 
 <template>
   <HeadOrTail @playerTurn="flipCoin" />
+  <img 
+    :src="selectedMap" 
+    alt="background" 
+    class="fixed w-screen h-screen"
+  >
 
-  <div class="flex flex-col items-center">
+  <!-- MAIN GAME -->
+  <div class="flex flex-col items-center z-10">
     <div class="text-2xl font-bold mt-4">
       <span>Round: {{ round }}</span>
       <span class="ml-4" :class="currentTurn === 1 ? 'text-blue-500' : 'text-red-500'">
@@ -353,14 +371,17 @@ const skipTurn = () => {
     </div>
 
     <div class="flex gap-15 items-center justify-center">
-      <PlayerCharacter
+      <!-- Left Player -->
+      <PlayerCharacter 
         :selectId="gameProps.playerCharacter1"
       >
       </PlayerCharacter>
 
+      <!-- Table -->
       <TableGame :currentTurn="currentTurn" :board="board" @placeCard="placeCard" />
 
-      <PlayerCharacter
+      <!-- Right Player -->
+      <PlayerCharacter 
         :selectId="gameProps.playerCharacter2"
       >
       </PlayerCharacter>
@@ -378,9 +399,10 @@ const skipTurn = () => {
     </div>
   </div>
 
+  <!-- END GAME -->
   <div
-    v-if="isGameEnd"
-    class="fixed inset-0 flex flex-col justify-center items-center z-20 w-screen h-screen bg-gray-800/90 mt-6 text-2xl font-bold text-center"
+    v-if="isGameEnd" 
+    class="fixed inset-0 flex flex-col justify-center items-center z-50 w-screen h-screen bg-gray-800/90 mt-6 text-2xl font-bold text-center"
   >
     <p class="text-blue-500">Player 1 Score: {{ scores[1] }}</p>
     <p class="text-red-500">Player 2 Score: {{ scores[2] }}</p>
