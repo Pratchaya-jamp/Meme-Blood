@@ -67,7 +67,8 @@
       ],
       "characterid": [
         111,
-        112
+        112,
+        999
       ]
     },
     {
@@ -108,27 +109,47 @@
   "character": [
     {
       "idcharacter": 111,
-      "charatername": "adolf kitler",
+      "charatername": "Adolf Kitler",
+      "themeColor": "bg-[#8f0000]",
+      "border": "border-[#db5b00]",
+      "textColor": "text-[#e3d5c1]",
+      "shadow": "shadow-[#8c8670]",
       "id": "1669"
     },
     {
       "idcharacter": 112,
       "charatername": "Chinese Elon",
+      "themeColor": "bg-[#cc0000]",
+      "border": "border-[#212121]",
+      "textColor": "text-[#818181]",
+      "shadow": "shadow-[#f2f2f2]",
       "id": "9f71"
     },
     {
       "idcharacter": 113,
-      "charatername": "Mr.Baby oil",
+      "charatername": "Mr. Baby Oil",
+      "themeColor": "bg-[#000000]",
+      "border": "border-[#d4b845]",
+      "textColor": "text-[#ff1414]",
+      "shadow": "shadow-[#5c46bd]",
       "id": "9f71"
     },
     {
       "idcharacter": 114,
-      "charatername": "Mr.Handsome All The Time",
+      "charatername": "Mr. Handsome All The Time",
+      "themeColor": "bg-gray-700",
+      "border": "border-gray-500",
+      "textColor": "text-white",
+      "shadow": "shadow-gray-400",
       "id": "9f71"
     },
     {
       "idcharacter": 999,
       "charatername": "Aerith Gainsborough",
+      "themeColor": "bg-[#FF868A]",
+      "border": "border-[#FFACAE]",
+      "textColor": "text-[#FFD5CC]",
+      "shadow": "shadow-[#EAEBBD]",
       "id": "9f71"
     }
   ],
@@ -844,6 +865,18 @@
         128,
         127,
         126
+      ]
+    },
+    {
+      "id": "79ca",
+      "deckid": 9895,
+      "cardid": [
+        132,
+        131,
+        130,
+        129,
+        127,
+        128
       ]
     }
   ]
