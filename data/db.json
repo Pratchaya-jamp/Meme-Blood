@@ -159,14 +159,13 @@
       "cardname": "Grumpy Cat",
       "Ability": false,
       "abilityType": "non",
-      "abilityLocation": [],
       "cardinfo": "Nah, I'm Good.",
       "Power": 1,
-      "pawnsRequired": 1,
+      "pawnsRequired": "1",
       "pawnLocations": [
+        7,
         8,
-        14,
-        18
+        9
       ],
       "cardRarity": "Standard",
       "id": "53c9"
@@ -178,20 +177,13 @@
       "abilityType": "buff",
       "cardinfo": "The confused-looking white cat at a dinner table.",
       "Power": 1,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         8,
-        18,
-        3,
-        23,
-        14
+        18
       ],
       "cardRarity": "Standard",
-      "id": "7896",
-      "abilityLocation": [
-        8,
-        18
-      ]
+      "id": "7896"
     },
     {
       "idcard": 103,
@@ -200,40 +192,15 @@
       "abilityType": "debuff",
       "cardinfo": "Skibidi Toilet Dob dob dob yes yes",
       "Power": 1,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         8,
-        9,
-        18,
-        19
-      ],
-      "cardRarity": "Standard",
-      "id": "08de",
-      "abilityLocation": [
-        8,
-        9
-      ]
-    },
-    {
-      "idcard": 134,
-      "cardname": "Skibidi Toilet",
-      "Ability": true,
-      "abilityType": "debuff",
-      "cardinfo": "Skibidi Toilet Dob dob dob yes yes",
-      "Power": 1,
-      "pawnsRequired": 2,
-      "pawnLocations": [
-        7,
-        8,
-        17,
+        12,
+        14,
         18
       ],
       "cardRarity": "Standard",
-      "id": "08de",
-      "abilityLocation": [
-        7,
-        8
-      ]
+      "id": "08de"
     },
     {
       "idcard": 104,
@@ -242,25 +209,10 @@
       "abilityType": "non",
       "cardinfo": "Peanut butter jelly time!",
       "Power": 2,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         8,
-        14
-      ],
-      "cardRarity": "Standard",
-      "id": "7d7b"
-    },
-    {
-      "idcard": 135,
-      "cardname": "Dancing Banana",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "Peanut butter jelly time!",
-      "Power": 2,
-      "pawnsRequired": 2,
-      "pawnLocations": [
-        8,
-        12
+        3
       ],
       "cardRarity": "Standard",
       "id": "7d7b"
@@ -272,36 +224,13 @@
       "abilityType": "buff",
       "cardinfo": "Playing you off, play us on!",
       "Power": 1,
-      "pawnsRequired": 2,
-      "pawnLocations": [
-        14,
-        8
-      ],
-      "cardRarity": "Standard",
-      "id": "b063",
-      "abilityLocation": [
-        14,
-        8
-      ]
-    },
-    {
-      "idcard": 136,
-      "cardname": "Keyboard Cat",
-      "Ability": true,
-      "abilityType": "buff",
-      "cardinfo": "Playing you off, play us on!",
-      "Power": 1,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         12,
-        8
+        24
       ],
       "cardRarity": "Standard",
-      "id": "b063",
-      "abilityLocation": [
-        12,
-        8
-      ]
+      "id": "b063"
     },
     {
       "idcard": 106,
@@ -310,7 +239,7 @@
       "abilityType": "debuff",
       "cardinfo": "Problem?",
       "Power": 2,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         7,
         9,
@@ -318,11 +247,7 @@
         19
       ],
       "cardRarity": "Standard",
-      "id": "e2d7",
-      "abilityLocation": [
-        7,
-        9
-      ]
+      "id": "e2d7"
     },
     {
       "idcard": 107,
@@ -331,7 +256,7 @@
       "abilityType": "non",
       "cardinfo": "Much wow, very meme.",
       "Power": 1,
-      "pawnsRequired": 1,
+      "pawnsRequired": "1",
       "pawnLocations": [
         11,
         15
@@ -346,18 +271,14 @@
       "abilityType": "buff",
       "cardinfo": "Feels good man.",
       "Power": 1,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         1,
         3,
         5
       ],
       "cardRarity": "Standard",
-      "id": "4f79",
-      "abilityLocation": [
-        1,
-        3
-      ]
+      "id": "4f79"
     },
     {
       "idcard": 109,
@@ -366,17 +287,13 @@
       "abilityType": "debuff",
       "cardinfo": "Classic distraction.",
       "Power": 2,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         3,
         23
       ],
       "cardRarity": "Standard",
-      "id": "257e",
-      "abilityLocation": [
-        3,
-        23
-      ]
+      "id": "257e"
     },
     {
       "idcard": 110,
@@ -385,7 +302,7 @@
       "abilityType": "non",
       "cardinfo": "Never gonna give you up...",
       "Power": 3,
-      "pawnsRequired": 3,
+      "pawnsRequired": "3",
       "pawnLocations": [
         2,
         3,
@@ -402,18 +319,14 @@
       "abilityType": "buff",
       "cardinfo": "Internal suffering.",
       "Power": 1,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         12,
         14,
         15
       ],
       "cardRarity": "Standard",
-      "id": "49c1",
-      "abilityLocation": [
-        12,
-        14
-      ]
+      "id": "49c1"
     },
     {
       "idcard": 112,
@@ -422,17 +335,13 @@
       "abilityType": "debuff",
       "cardinfo": "Confusion and anger.",
       "Power": 2,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         22,
         24
       ],
       "cardRarity": "Standard",
-      "id": "a177",
-      "abilityLocation": [
-        22,
-        24
-      ]
+      "id": "a177"
     },
     {
       "idcard": 113,
@@ -441,7 +350,7 @@
       "abilityType": "non",
       "cardinfo": "Oh lawd he comin'.",
       "Power": 2,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         1,
         6,
@@ -458,7 +367,7 @@
       "abilityType": "buff",
       "cardinfo": "Disapproving and approving.",
       "Power": 1,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         1,
         5,
@@ -466,11 +375,7 @@
         9
       ],
       "cardRarity": "Standard",
-      "id": "6e6c",
-      "abilityLocation": [
-        1,
-        5
-      ]
+      "id": "6e6c"
     },
     {
       "idcard": 115,
@@ -479,7 +384,7 @@
       "abilityType": "debuff",
       "cardinfo": "Ascending levels of knowledge.",
       "Power": 3,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         6,
         7,
@@ -487,11 +392,7 @@
         10
       ],
       "cardRarity": "Epic",
-      "id": "54d6",
-      "abilityLocation": [
-        6,
-        7
-      ]
+      "id": "54d6"
     },
     {
       "idcard": 116,
@@ -500,7 +401,7 @@
       "abilityType": "debuff",
       "cardinfo": "The power of the king will isolate you.",
       "Power": 2,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         2,
         3,
@@ -509,11 +410,7 @@
         9
       ],
       "cardRarity": "Legend",
-      "id": "ee9f",
-      "abilityLocation": [
-        2,
-        3
-      ]
+      "id": "ee9f"
     },
     {
       "idcard": 117,
@@ -522,18 +419,14 @@
       "abilityType": "debuff",
       "cardinfo": "Cat sees cucumber, goes into panic mode.",
       "Power": 1,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         19,
         20,
         22
       ],
       "cardRarity": "Standard",
-      "id": "4i8r",
-      "abilityLocation": [
-        19,
-        20
-      ]
+      "id": "4i8r"
     },
     {
       "idcard": 118,
@@ -542,7 +435,7 @@
       "abilityType": "non",
       "cardinfo": "What is going on here? Nobody knows.",
       "Power": 1,
-      "pawnsRequired": 1,
+      "pawnsRequired": "1",
       "pawnLocations": [
         1,
         5,
@@ -559,7 +452,7 @@
       "abilityType": "non",
       "cardinfo": "Just a little bit of chaos for fun.",
       "Power": 1,
-      "pawnsRequired": 1,
+      "pawnsRequired": "1",
       "pawnLocations": [
         3,
         6,
@@ -576,18 +469,14 @@
       "abilityType": "debuff",
       "cardinfo": "You wish, but you're definitely not.",
       "Power": 2,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         18,
         22,
         24
       ],
       "cardRarity": "Epic",
-      "id": "9p7v",
-      "abilityLocation": [
-        18,
-        22
-      ]
+      "id": "9p7v"
     },
     {
       "idcard": 121,
@@ -596,7 +485,7 @@
       "abilityType": "non",
       "cardinfo": "Keanu's just sad and tired of everything.",
       "Power": 1,
-      "pawnsRequired": 1,
+      "pawnsRequired": "1",
       "pawnLocations": [
         2,
         4,
@@ -612,7 +501,7 @@
       "abilityType": "debuff",
       "cardinfo": "It's like talking to a brick wall... no one listens.",
       "Power": 2,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         6,
         10,
@@ -620,11 +509,7 @@
         20
       ],
       "cardRarity": "Standard",
-      "id": "d5j0",
-      "abilityLocation": [
-        6,
-        10
-      ]
+      "id": "d5j0"
     },
     {
       "idcard": 123,
@@ -633,7 +518,7 @@
       "abilityType": "buff",
       "cardinfo": "When you ask, but they give you a sly smile.",
       "Power": 3,
-      "pawnsRequired": 3,
+      "pawnsRequired": "3",
       "pawnLocations": [
         7,
         9,
@@ -642,12 +527,7 @@
         18
       ],
       "cardRarity": "Legend",
-      "id": "t3f1",
-      "abilityLocation": [
-        7,
-        9,
-        11
-      ]
+      "id": "t3f1"
     },
     {
       "idcard": 124,
@@ -656,18 +536,14 @@
       "abilityType": "buff",
       "cardinfo": "Peak masculinity achieved. Prepare to be jealous.",
       "Power": 2,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         1,
         15,
         21
       ],
       "cardRarity": "Epic",
-      "id": "h6j0",
-      "abilityLocation": [
-        1,
-        15
-      ]
+      "id": "h6j0"
     },
     {
       "idcard": 125,
@@ -676,28 +552,23 @@
       "abilityType": "debuff",
       "cardinfo": "He’s about to throw hands... watch out.",
       "Power": 3,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         8,
         21,
         25
       ],
       "cardRarity": "Epic",
-      "id": "c5z8",
-      "abilityLocation": [
-        8,
-        21
-      ]
+      "id": "c5z8"
     },
     {
       "idcard": 126,
       "cardname": "Evil Kermit",
       "Ability": false,
       "abilityType": "non",
-      "abilityLocation": [],
       "cardinfo": "Embrace the dark side. It’s fun over here.",
       "Power": 1,
-      "pawnsRequired": 1,
+      "pawnsRequired": "1",
       "pawnLocations": [
         1,
         8,
@@ -713,7 +584,7 @@
       "abilityType": "buff",
       "cardinfo": "Sorry, I messed up. Again.",
       "Power": 3,
-      "pawnsRequired": 3,
+      "pawnsRequired": "3",
       "pawnLocations": [
         1,
         2,
@@ -723,12 +594,7 @@
         8
       ],
       "cardRarity": "Legend",
-      "id": "j1l8",
-      "abilityLocation": [
-        1,
-        2,
-        3
-      ]
+      "id": "j1l8"
     },
     {
       "idcard": 128,
@@ -737,7 +603,7 @@
       "abilityType": "non",
       "cardinfo": "Protect your brain... in style.",
       "Power": 2,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         6,
         9,
@@ -754,7 +620,7 @@
       "abilityType": "non",
       "cardinfo": "Make memes great again. YUGE memes.",
       "Power": 2,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         2,
         4,
@@ -772,7 +638,7 @@
       "abilityType": "non",
       "cardinfo": "Mewing with supreme confidence. Sigma vibes.",
       "Power": 1,
-      "pawnsRequired": 1,
+      "pawnsRequired": "1",
       "pawnLocations": [
         11,
         12,
@@ -789,19 +655,14 @@
       "abilityType": "debuff",
       "cardinfo": "Walter White, but in pixelated glory. Science!",
       "Power": 3,
-      "pawnsRequired": 3,
+      "pawnsRequired": "3",
       "pawnLocations": [
         7,
         9,
         14
       ],
       "cardRarity": "Legend",
-      "id": "f6s7",
-      "abilityLocation": [
-        7,
-        9,
-        14
-      ]
+      "id": "f6s7"
     },
     {
       "idcard": 132,
@@ -810,18 +671,14 @@
       "abilityType": "buff",
       "cardinfo": "When you try so hard to be All Might, but end up just... not.",
       "Power": 2,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         5,
         9,
         15
       ],
       "cardRarity": "Epic",
-      "id": "j9d4",
-      "abilityLocation": [
-        5,
-        9
-      ]
+      "id": "j9d4"
     },
     {
       "idcard": 133,
@@ -830,7 +687,7 @@
       "abilityType": "debuff",
       "cardinfo": "When cosplay takes a turn for the weird... and funny.",
       "Power": 2,
-      "pawnsRequired": 2,
+      "pawnsRequired": "2",
       "pawnLocations": [
         1,
         10,
@@ -838,11 +695,7 @@
         20
       ],
       "cardRarity": "Epic",
-      "id": "r7s2",
-      "abilityLocation": [
-        1,
-        10
-      ]
+      "id": "r7s2"
     }
   ],
   "deck": [
@@ -880,6 +733,124 @@
       ]
     },
     {
+      "id": "8435",
+      "deckid": 9780,
+      "cardid": [
+        101,
+        102
+      ]
+    },
+    {
+      "id": "5794",
+      "deckid": 7421,
+      "cardid": [
+        101,
+        102
+      ]
+    },
+    {
+      "id": "c460",
+      "deckid": 2205,
+      "cardid": [
+        101,
+        102
+      ]
+    },
+    {
+      "id": "b89f",
+      "deckid": 7301,
+      "cardid": [
+        103
+      ]
+    },
+    {
+      "id": "91d5",
+      "deckid": 1757,
+      "cardid": [
+        101,
+        102
+      ]
+    },
+    {
+      "id": "7fa7",
+      "deckid": 1171,
+      "cardid": [
+        101,
+        102
+      ]
+    },
+    {
+      "id": "51d2",
+      "deckid": 5110,
+      "cardid": [
+        101,
+        102,
+        103
+      ]
+    },
+    {
+      "id": "4a59",
+      "deckid": 7434,
+      "cardid": [
+        101,
+        102
+      ]
+    },
+    {
+      "id": "972f",
+      "deckid": 3813,
+      "cardid": [
+        101,
+        102,
+        103,
+        104
+      ]
+    },
+    {
+      "id": "b1a3",
+      "deckid": 1309,
+      "cardid": [
+        102,
+        103
+      ]
+    },
+    {
+      "id": "8b4f",
+      "deckid": 2638,
+      "cardid": [
+        101,
+        102,
+        103,
+        104
+      ]
+    },
+    {
+      "id": "4814",
+      "deckid": 5996,
+      "cardid": [
+        101,
+        102
+      ]
+    },
+    {
+      "id": "ad80",
+      "deckid": 4213,
+      "cardid": [
+        101,
+        103,
+        104,
+        106
+      ]
+    },
+    {
+      "id": "1553",
+      "deckid": 9874,
+      "cardid": [
+        101,
+        102
+      ]
+    },
+    {
       "id": "b7b9",
       "deckid": 2319,
       "cardid": [
@@ -907,6 +878,32 @@
         127,
         128
       ]
+    }
+  ],
+  "maps": [
+    {
+      "name": "Soviet Union",
+      "image": "/Maps/soviet_union.png"
+    },
+    {
+      "name": "Sky Tower",
+      "image": "/Maps/sky_tower.png"
+    },
+    {
+      "name": "Battle Ground",
+      "image": "/Maps/battle_ground.png"
+    },
+    {
+      "name": "Homie House",
+      "image": "/Maps/homie_house.png"
+    },
+    {
+      "name": "KMUTT",
+      "image": "/Maps/kmutt.png"
+    },
+    {
+      "name": "No Promises To Keep",
+      "image": "/Maps/No_Promises_To_Keep.png"
     }
   ]
 }
