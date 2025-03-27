@@ -33,11 +33,11 @@ const cardProps = defineProps({
     <div 
       class="absolute top-2 left-2 bg-yellow-500 text-black text-4xl flex items-center justify-center rounded"
     >
-      <div v-for="n in cardProps.pawnRequired" :key="n">
+      <div v-for="n in cardProps.pawnsRequired" :key="n">
         <!-- ♙ -->
       </div>
     </div>
-    <div class="absolute top-1.5 right-1.5 w-12 h-12 bg-gray-700 text-black text-2xl text-yellow-500 font-bold flex items-center justify-center rounded-full z-10">
+    <div class="absolute top-1.5 right-1.5 w-12 h-12 bg-gray-700 text-2xl text-yellow-500 font-bold flex items-center justify-center rounded-full z-10">
       {{ cardProps.score }}
     </div>
 
@@ -56,7 +56,7 @@ const cardProps = defineProps({
             <div
               class="w-3.5 h-3.5 bg-gray-600"
               :class="{ 
-                'bg-yellow-400': pawnLocations.includes(i),
+                'bg-yellow-400': cardProps.pawnLocations.includes(i),
                 'bg-white': i === 13
               }"
             ></div>
@@ -74,4 +74,3 @@ const cardProps = defineProps({
   </div>
 </template>
 
-<style scoped></style>

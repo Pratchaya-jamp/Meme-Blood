@@ -5,10 +5,11 @@ import TableGame from "./mainGameComponents/Table.vue";
 import Hand from "./mainGameComponents/Hand.vue";
 import HeadOrTail from "./mainGameComponents/HeadOrTail.vue";
 
-const currentTurn = ref(null); // Receive number 1 or 2 for player1 & player2
+const currentTurn = ref(1); // Receive number 1 or 2 for player1 & player2
 const round = ref(1);
 const selectedCard = ref(null);
 const data = ref(null);
+const isGameEnd = ref(false) // false by default
 
 const gameProps = defineProps({
   player1Deck: {
@@ -28,10 +29,11 @@ const gameProps = defineProps({
     required: true
   }
 })
+
 const board = ref([
-  ["score", {pawn1: 2}, "blank", "blank", "blank", "blank", {pawn2: 2}, "score"],
-  ["score", {pawn1: 2}, "blank", "blank", "blank", "blank", {pawn2: 2}, "score"],
-  ["score", {pawn1: 2}, "blank", "blank", "blank", "blank", {pawn2: 2}, "score"],
+  [{scoreP1: 0}, {pawn1: 2}, "blank", "blank", "blank", "blank", {pawn2: 2}, {scoreP2: 0}],
+  [{scoreP1: 0}, {pawn1: 2}, "blank", "blank", "blank", "blank", {pawn2: 2}, {scoreP2: 0}],
+  [{scoreP1: 0}, {pawn1: 2}, "blank", "blank", "blank", "blank", {pawn2: 2}, {scoreP2: 0}],
 ]);
 
 onMounted(async () => {
@@ -49,17 +51,16 @@ const playerHands = ref({
   2: [],  // Player 2's hand
 });
 
-
 let deckP1 = [];
 let deckP2 = [];
 
+// Add 1 random card to player's hand
 const updatePlayerHands = () => {
   if(round.value > 1) {
     getRandomCards(deckP1, currentTurn.value, 1)
   }
   console.log(`Update deckP1: `, deckP1)
   console.log(`Update deckP2: `, deckP2)
-
 }
 
 const getRandomCards = (deck, playerSide, quantityRandCards) => {
@@ -90,7 +91,9 @@ const getRandomCards = (deck, playerSide, quantityRandCards) => {
   }
 };
 
+// Random 3 cards at begining
 const initCardPlayerHands = (player1Deck, player2Deck) => {
+  isGameEnd.value = false;
   if (!player1Deck || !player2Deck) return;
 
   const getPlayerDeck = (deckId) => {
@@ -113,12 +116,13 @@ const initCardPlayerHands = (player1Deck, player2Deck) => {
   console.log('Player 2 Hand:', playerHands.value[2]);
 };
 
+// Player who start first (Receive from HeadOrTail.vue)
 const flipCoin = (playerTurn) => {
   currentTurn.value = playerTurn;
   initCardPlayerHands(gameProps.player1Deck, gameProps.player2Deck)
 }
 
-// Select a card from Hand (receive from Hand.vue)
+// Select a card from Hand (Receive from Hand.vue)
 const selectCard = (card) => {
   selectedCard.value = card;
 };
@@ -180,9 +184,12 @@ const placeCard = (rowIndex, colIndex) => {
     playerHands.value[currentTurn.value] = playerHands.value[currentTurn.value].filter(c => c.id !== selectedCard.value.id);
     // Clear selection after placing
     selectedCard.value = null; 
+
+    changeTurn();
   }
 };
 
+// Pawn, Buff and Debuff of card
 const cardAbilityOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
   // Validate inputs
   if (cardSlot < 1 || cardSlot > 25) {
@@ -241,24 +248,98 @@ const cardAbilityOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
   }
 };
 
-// Watch for board array changes then switch turns
-watch(board, () => {
+const scores = ref({ 1: 0, 2: 0 }); // Store Player 1 & 2 scores
+
+const canPlaceCard = (card) => {
+  return board.value.some(row => 
+      row.some(slot => 
+        typeof slot === "object" && slot[`pawn${currentTurn.value}`] >= card.pawnsRequired
+    )
+  );
+};
+
+const calculateScore = () => {
+  let scoreP1 = 0;
+  let scoreP2 = 0;
+
+  // Row-wise score calculation
+  board.value.forEach(row => {
+    let rowPowerP1 = 0;
+    let rowPowerP2 = 0;
+
+    row.forEach(slot => {
+      if (typeof slot === "object" && slot.player) {
+        if (slot.player === 1) {
+          rowPowerP1 += slot.Power || 0;
+        } else if (slot.player === 2) {
+          rowPowerP2 += slot.Power || 0;
+        }
+      }
+    });
+
+    // Update Score Display Objects
+    row.forEach(slot => {
+      if (typeof slot === "object" && slot.scoreP1 !== undefined) {
+        slot.scoreP1 = rowPowerP1;
+      }
+      if (typeof slot === "object" && slot.scoreP2 !== undefined) {
+        slot.scoreP2 = rowPowerP2;
+      }
+    });
+
+    // Update final score
+    if (rowPowerP1 > rowPowerP2) {
+      scoreP1 += rowPowerP1;
+    } else if (rowPowerP2 > rowPowerP1) {
+      scoreP2 += rowPowerP2;
+    }
+  });
+  
+  // Set to end game display final score
+  scores.value[1] = scoreP1;
+  scores.value[2] = scoreP2;
+
+  // Check validate when game should end
+  const hasPawn = board.value.some(row => 
+    row.some(slot => typeof slot === "object" && (slot.pawn1 || slot.pawn2))
+  );
+
+  const hasPlayableCards = playerHands.value[1].some(card => canPlaceCard(card)) ||
+                           playerHands.value[2].some(card => canPlaceCard(card));
+
+  const isHandEmpty = playerHands.value[1].length === 0 && playerHands.value[2].length === 0;
+
+  if (!hasPawn || !hasPlayableCards || isHandEmpty) {
+    isGameEnd.value = true;
+    console.log(`🎉 Game Over! Final Scores → Player 1: ${scoreP1}, Player 2: ${scoreP2}`);
+  }
+
+  console.log(`has pawn on board: ${hasPawn}`);
+  console.log(`player has card can play: ${hasPlayableCards}`);
+  console.log(`Hand is Empty: ${isHandEmpty}`);
+};
+
+const turnCounter = ref(0);
+
+// Change turn after placeCard
+const changeTurn = () => {
   currentTurn.value = currentTurn.value === 1 ? 2 : 1;
-  if (currentTurn.value === 1) {
+  turnCounter.value++; // Count each turn
+
+  if (turnCounter.value % 2 === 0) {
     round.value++; // New round starts
   }
 
   updatePlayerHands();
-
-  // TODO count score after not has any pawn on board OR NOT HAVE any card pawnRequired to place on board
-  // TODO calculate score
-}, { deep: true });
+  calculateScore();
+};
 
 </script>
 
 <template>
   <HeadOrTail @playerTurn="flipCoin" />
 
+  <!-- MAIN GAME -->
   <div class="flex flex-col items-center">
     <div class="text-2xl font-bold mt-4">
       <span>Round: {{ round }}</span>
@@ -270,7 +351,7 @@ watch(board, () => {
     <div class="flex gap-15 items-center justify-center">
       <!-- Left Player -->
       <PlayerCharacter 
-        :selectId="gameProps.playerCharacter1"  
+        :selectId="gameProps.playerCharacter1"
       >
       </PlayerCharacter>
 
@@ -284,12 +365,22 @@ watch(board, () => {
       </PlayerCharacter>
     </div>
 
-    <div class="flex gap-16 justify-center mt-5">
+    <div class="flex gap-16 mt-5">
       <Hand v-if="currentTurn === 1" :player="1" :currentTurn="currentTurn" :hand="playerHands[1]" @selectCard="selectCard" />
+      <Hand v-if="currentTurn === 2" :player="2" :currentTurn="currentTurn" :hand="playerHands[2]" @selectCard="selectCard" />
     </div>
-  <div class="flex gap-16 mt-5 justify-center">
-    <Hand v-if="currentTurn === 2" :player="2" :currentTurn="currentTurn" :hand="playerHands[2]" @selectCard="selectCard" />
   </div>
 
+  <!-- END GAME -->
+  <div
+    v-if="isGameEnd" 
+    class="fixed inset-0 flex flex-col justify-center items-center z-20 w-screen h-screen bg-gray-800/90 mt-6 text-2xl font-bold text-center"
+  >
+    <p class="text-blue-500">Player 1 Score: {{ scores[1] }}</p>
+    <p class="text-red-500">Player 2 Score: {{ scores[2] }}</p>
+
+    <p v-if="scores[1] > scores[2]" class="text-green-500 mt-4">🏆 Player 1 Wins!</p>
+    <p v-else-if="scores[2] > scores[1]" class="text-green-500 mt-4">🏆 Player 2 Wins!</p>
+    <p v-else class="text-gray-400 mt-4">🤝 It's a Tie!</p>
   </div>
 </template>

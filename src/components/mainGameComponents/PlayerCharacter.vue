@@ -30,16 +30,16 @@ const theme = computed(() => {
 <template>
   <div 
     v-if="character" 
-    :class="`relative w-50 h-60 ${theme.background} ${theme.border} border-4 rounded-lg flex flex-col items-center p-4
+    :class="`relative w-50 h-72 ${theme.background} ${theme.border} border-4 rounded-lg flex flex-col items-center p-4
      ${theme.text} transition-all duration-200 ${theme.shadow} shadow-lg`"
   >
-    <!-- Character Image -->
-    <div class="relative w-full h-40 flex justify-center items-center">
+    <!-- Character Image (Increased Size) -->
+    <div class="relative w-full h-52 flex justify-center items-center">
       <slot name="image">
         <img 
           :src="`/Characters/${character.idcharacter}.png`" 
           :alt="character.charatername" 
-          class="border-2 rounded-lg"
+          class="border-2 rounded-lg w-40 h-48 object-cover"
           :class="theme.border"
         />
       </slot>
