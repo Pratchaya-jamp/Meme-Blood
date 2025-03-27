@@ -159,6 +159,7 @@
       "cardname": "Grumpy Cat",
       "Ability": false,
       "abilityType": "non",
+      "abilityLocation": [],
       "cardinfo": "Nah, I'm Good.",
       "Power": 1,
       "pawnsRequired": 1,
@@ -186,7 +187,11 @@
         14
       ],
       "cardRarity": "Standard",
-      "id": "7896"
+      "id": "7896",
+      "abilityLocation": [
+        8,
+        18
+      ]
     },
     {
       "idcard": 103,
@@ -203,7 +208,11 @@
         19
       ],
       "cardRarity": "Standard",
-      "id": "08de"
+      "id": "08de",
+      "abilityLocation": [
+        8,
+        9
+      ]
     },
     {
       "idcard": 134,
@@ -220,7 +229,11 @@
         18
       ],
       "cardRarity": "Standard",
-      "id": "08de"
+      "id": "08de",
+      "abilityLocation": [
+        7,
+        8
+      ]
     },
     {
       "idcard": 104,
@@ -265,7 +278,11 @@
         8
       ],
       "cardRarity": "Standard",
-      "id": "b063"
+      "id": "b063",
+      "abilityLocation": [
+        14,
+        8
+      ]
     },
     {
       "idcard": 136,
@@ -280,7 +297,11 @@
         8
       ],
       "cardRarity": "Standard",
-      "id": "b063"
+      "id": "b063",
+      "abilityLocation": [
+        12,
+        8
+      ]
     },
     {
       "idcard": 106,
@@ -297,7 +318,11 @@
         19
       ],
       "cardRarity": "Standard",
-      "id": "e2d7"
+      "id": "e2d7",
+      "abilityLocation": [
+        7,
+        9
+      ]
     },
     {
       "idcard": 107,
@@ -328,7 +353,11 @@
         5
       ],
       "cardRarity": "Standard",
-      "id": "4f79"
+      "id": "4f79",
+      "abilityLocation": [
+        1,
+        3
+      ]
     },
     {
       "idcard": 109,
@@ -343,7 +372,11 @@
         23
       ],
       "cardRarity": "Standard",
-      "id": "257e"
+      "id": "257e",
+      "abilityLocation": [
+        3,
+        23
+      ]
     },
     {
       "idcard": 110,
@@ -376,7 +409,11 @@
         15
       ],
       "cardRarity": "Standard",
-      "id": "49c1"
+      "id": "49c1",
+      "abilityLocation": [
+        12,
+        14
+      ]
     },
     {
       "idcard": 112,
@@ -391,7 +428,11 @@
         24
       ],
       "cardRarity": "Standard",
-      "id": "a177"
+      "id": "a177",
+      "abilityLocation": [
+        22,
+        24
+      ]
     },
     {
       "idcard": 113,
@@ -425,7 +466,11 @@
         9
       ],
       "cardRarity": "Standard",
-      "id": "6e6c"
+      "id": "6e6c",
+      "abilityLocation": [
+        1,
+        5
+      ]
     },
     {
       "idcard": 115,
@@ -442,7 +487,11 @@
         10
       ],
       "cardRarity": "Epic",
-      "id": "54d6"
+      "id": "54d6",
+      "abilityLocation": [
+        6,
+        7
+      ]
     },
     {
       "idcard": 116,
@@ -460,7 +509,11 @@
         9
       ],
       "cardRarity": "Legend",
-      "id": "ee9f"
+      "id": "ee9f",
+      "abilityLocation": [
+        2,
+        3
+      ]
     },
     {
       "idcard": 117,
@@ -476,7 +529,11 @@
         22
       ],
       "cardRarity": "Standard",
-      "id": "4i8r"
+      "id": "4i8r",
+      "abilityLocation": [
+        19,
+        20
+      ]
     },
     {
       "idcard": 118,
@@ -526,7 +583,11 @@
         24
       ],
       "cardRarity": "Epic",
-      "id": "9p7v"
+      "id": "9p7v",
+      "abilityLocation": [
+        18,
+        22
+      ]
     },
     {
       "idcard": 121,
@@ -559,7 +620,11 @@
         20
       ],
       "cardRarity": "Standard",
-      "id": "d5j0"
+      "id": "d5j0",
+      "abilityLocation": [
+        6,
+        10
+      ]
     },
     {
       "idcard": 123,
@@ -577,7 +642,12 @@
         18
       ],
       "cardRarity": "Legend",
-      "id": "t3f1"
+      "id": "t3f1",
+      "abilityLocation": [
+        7,
+        9,
+        11
+      ]
     },
     {
       "idcard": 124,
@@ -593,7 +663,11 @@
         21
       ],
       "cardRarity": "Epic",
-      "id": "h6j0"
+      "id": "h6j0",
+      "abilityLocation": [
+        1,
+        15
+      ]
     },
     {
       "idcard": 125,
@@ -609,13 +683,18 @@
         25
       ],
       "cardRarity": "Epic",
-      "id": "c5z8"
+      "id": "c5z8",
+      "abilityLocation": [
+        8,
+        21
+      ]
     },
     {
       "idcard": 126,
       "cardname": "Evil Kermit",
       "Ability": false,
       "abilityType": "non",
+      "abilityLocation": [],
       "cardinfo": "Embrace the dark side. It’s fun over here.",
       "Power": 1,
       "pawnsRequired": 1,
@@ -644,7 +723,12 @@
         8
       ],
       "cardRarity": "Legend",
-      "id": "j1l8"
+      "id": "j1l8",
+      "abilityLocation": [
+        1,
+        2,
+        3
+      ]
     },
     {
       "idcard": 128,
@@ -712,7 +796,12 @@
         14
       ],
       "cardRarity": "Legend",
-      "id": "f6s7"
+      "id": "f6s7",
+      "abilityLocation": [
+        7,
+        9,
+        14
+      ]
     },
     {
       "idcard": 132,
@@ -728,7 +817,11 @@
         15
       ],
       "cardRarity": "Epic",
-      "id": "j9d4"
+      "id": "j9d4",
+      "abilityLocation": [
+        5,
+        9
+      ]
     },
     {
       "idcard": 133,
@@ -745,7 +838,11 @@
         20
       ],
       "cardRarity": "Epic",
-      "id": "r7s2"
+      "id": "r7s2",
+      "abilityLocation": [
+        1,
+        10
+      ]
     }
   ],
   "deck": [
