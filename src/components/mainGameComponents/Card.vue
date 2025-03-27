@@ -65,8 +65,6 @@ const cardProps = defineProps({
       </div>
     </div>
 
-
-
     <!-- Title -->
     <div class="absolute bottom-2 w-full text-center text-lg text-yellow-300 font-semibold">
       <!-- {{ cardProps.title }} -->

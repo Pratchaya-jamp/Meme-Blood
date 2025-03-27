@@ -10,6 +10,7 @@ const round = ref(1);
 const selectedCard = ref(null);
 const data = ref(null);
 const isGameEnd = ref(false) // false by default
+const skipsInARow = ref(0); // count how many player skip turn
 
 const gameProps = defineProps({
   player1Deck: {
@@ -56,42 +57,36 @@ let deckP2 = [];
 
 // Add 1 random card to player's hand
 const updatePlayerHands = () => {
-  if(round.value > 1) {
-    getRandomCards(deckP1, currentTurn.value, 1)
+  if (round.value > 1) {
+    getRandomCards(deckP1, currentTurn.value, 1); // Draw one card at the start of each turn
   }
-  console.log(`Update deckP1: `, deckP1)
-  console.log(`Update deckP2: `, deckP2)
-}
+  console.log(`Update deckP1: `, deckP1);
+  console.log(`Update deckP2: `, deckP2);
+};
 
 const getRandomCards = (deck, playerSide, quantityRandCards) => {
-  if(deck.length === 0) return;
-  
-  // If requesting more cards than card in the deck adjust quantity
-  const actualQuantity = Math.min(quantityRandCards, deck.length);
-  
+  if (deck.length === 0) return;
+
   const randomCards = [];
-  
-  while (randomCards.length < actualQuantity) {
+  const numberOfCardsToDraw = Math.min(quantityRandCards, deck.length); // Draw up to the deck size
+
+  while (randomCards.length < numberOfCardsToDraw) {
     const randNum = Math.floor(Math.random() * deck.length);
-    
-    // Check if index is not already selected
+
     if (!randomCards.includes(randNum)) {
       randomCards.push(randNum);
     }
   }
 
-  // Distribute random card(s) to player
   const selectedRandCards = randomCards.map(num => deck[num]);
   playerHands.value[playerSide].push(...selectedRandCards);
 
-  // Remove already distributed cards in deck
-  randomCards.sort((a, b) => b - a); // Sort highest to lowest to prevent index shifting while remove
+  randomCards.sort((a, b) => b - a);
   for (let index of randomCards) {
     deck.splice(index, 1);
   }
 };
 
-// Random 3 cards at begining
 const initCardPlayerHands = (player1Deck, player2Deck) => {
   isGameEnd.value = false;
   if (!player1Deck || !player2Deck) return;
@@ -101,17 +96,16 @@ const initCardPlayerHands = (player1Deck, player2Deck) => {
     if (!deckInfo) return [];
 
     return deckInfo.cardid
-      .map(cardId => data.value.card.find(c => c.idcard === cardId)) // Found cards in db.json from deck selected in each player
-      .filter(card => card !== undefined); // Remove undefined from not found cards in deck
+      .map(cardId => data.value.card.find(c => c.idcard === cardId))
+      .filter(card => card !== undefined);
   };
 
   deckP1 = getPlayerDeck(player1Deck);
   deckP2 = getPlayerDeck(player2Deck);
 
-  getRandomCards(deckP1, 1, 3);
-  getRandomCards(deckP2, 2, 3);
+  getRandomCards(deckP1, 1, 4); // Draw 4 cards for player 1
+  getRandomCards(deckP2, 2, 4); // Draw 4 cards for player 2
 
-  // Logging (optional, can be removed in production)
   console.log('Player 1 Hand:', playerHands.value[1]);
   console.log('Player 2 Hand:', playerHands.value[2]);
 };
@@ -119,8 +113,9 @@ const initCardPlayerHands = (player1Deck, player2Deck) => {
 // Player who start first (Receive from HeadOrTail.vue)
 const flipCoin = (playerTurn) => {
   currentTurn.value = playerTurn;
-  initCardPlayerHands(gameProps.player1Deck, gameProps.player2Deck)
-}
+  initCardPlayerHands(gameProps.player1Deck, gameProps.player2Deck);
+  skipsInARow.value = 0; // Reset skips at the beginning
+};
 
 // Select a card from Hand (Receive from Hand.vue)
 const selectCard = (card) => {
@@ -133,13 +128,14 @@ const placeCard = (rowIndex, colIndex) => {
   const validPawn = `pawn${currentTurn.value}`;
 
   // Check selectCard not null & pawnsRequired
-  if (!selectedCard.value || boardSlot[validPawn] < selectedCard.value.pawnsRequired ) {
+  if (!selectedCard.value || Number(boardSlot[validPawn]) < Number(selectedCard.value.pawnsRequired)) {
     return;
   }
 
   if (typeof boardSlot === "object" && validPawn in boardSlot) {
     // Replace card on pawn
     board.value[rowIndex][colIndex] = { ...selectedCard.value, player: currentTurn.value };
+    skipsInARow.value = 0;
 
     // Expand Pawn
     const slot = selectedCard.value.pawnLocations;
@@ -203,18 +199,16 @@ const cardAbilityOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
   const cardCols = 5;  // 5x5 card grid
 
   // Convert to 0-based indices
-  const cardRow = Math.floor((cardSlot - 1) / cardCols); // ลบ 1 เพราะอัลกอริทึมจับเป็น 0-24 ไม่ใช่ 1-25 หาร 5 เพราะต้องการรู้ row ที่ต้องการวาง card
-  const cardCol = (cardSlot - 1) % cardCols; // ลบ 1 เพราะอัลกอริทึมจับเป็น 0-24 ไม่ใช่ 1-25 หาร 5 เพราะต้องการรู้ colume ที่ต้องการวาง card
+  const cardRow = Math.floor((cardSlot - 1) / cardCols);
+  const cardCol = (cardSlot - 1) % cardCols;
 
-  // Compute offset from card center (slot 13 is center, index [2,2]) // ความคลาดเคลื่อนจาก slot 13 บน card
-  const rowOffset = cardRow - 2; // นับมาจาก 0-2 ดังนั้นตรงนี้คือ index ของ rowOffset
-  const colOffset = cardCol - 2; // นับมาจาก 0-2 ดังนั้นตรงนี้คือ index ของ colOffset
+  // Compute offset from card center (slot 13 is center, index [2,2])
+  const rowOffset = cardRow - 2;
+  const colOffset = cardCol - 2;
 
-  // Calculate final board position ตำแหน่งช่องใน board ที่จะทำการเพิ่ม pawn , buff, debuff
+  // Calculate final board position
   const finalRow = boardRow + rowOffset;
   const finalCol = boardCol + colOffset;
-
-  // console.log(`BoardRow: ${boardRow}, BoardCol: ${boardCol}, Card: ${cardSlot} | FRow: ${finalRow}, FColumn: ${finalCol}`)
 
   // Check boundaries (valid board: 3 rows, 8 columns)
   if (finalRow < 0 || finalRow >= 3 || finalCol < 0 || finalCol >= 8) {
@@ -228,21 +222,23 @@ const cardAbilityOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
 
   // Expand Pawn on board
   if (typeof boardSlot === "object" && validPawn in boardSlot && !ability) {
-    boardSlot[validPawn] += 1; // Increase pawn count
+    if ((boardSlot[validPawn] || 0) < 3) { // Check if pawn count is less than 3
+      boardSlot[validPawn] = (boardSlot[validPawn] || 0) + 1; // Increase pawn count
+    }
   } else if (boardSlot === "blank" && !ability && !boardSlot.enemyPawn) {
     board.value[finalRow][finalCol] = { [validPawn]: 1 }; // Replace a new one if empty
   }
 
   // Buff Card on board
   if (typeof boardSlot === "object" && !(validPawn in boardSlot) && boardSlot !== "blank" && ability === "buff") {
-    board.value[finalRow][finalCol].Power += 1; // Increase power or score in card
+    board.value[finalRow][finalCol].Power = (board.value[finalRow][finalCol].Power || 0) + 1; // Increase power or score in card
   }
 
   // Debuff Card on board
   if (typeof boardSlot === "object" && !(validPawn in boardSlot) && boardSlot !== "blank" && ability === "debuff") {
-    board.value[finalRow][finalCol].Power -= 1; // Decrease power or score in card
+    board.value[finalRow][finalCol].Power = (board.value[finalRow][finalCol].Power || 0) - 1; // Decrease power or score in card
 
-    if (board.value[finalRow][finalCol].Power < 0) {
+    if ((board.value[finalRow][finalCol].Power || 0) < 0) {
       board.value[finalRow][finalCol].Power = 0;
     }
   }
@@ -259,10 +255,9 @@ const canPlaceCard = (card) => {
 };
 
 const calculateScore = () => {
-  let scoreP1 = 0;
-  let scoreP2 = 0;
+  let totalScoreP1 = 0;
+  let totalScoreP2 = 0;
 
-  // Row-wise score calculation
   board.value.forEach(row => {
     let rowPowerP1 = 0;
     let rowPowerP2 = 0;
@@ -277,48 +272,37 @@ const calculateScore = () => {
       }
     });
 
-    // Update Score Display Objects
-    row.forEach(slot => {
-      if (typeof slot === "object" && slot.scoreP1 !== undefined) {
-        slot.scoreP1 = rowPowerP1;
-      }
-      if (typeof slot === "object" && slot.scoreP2 !== undefined) {
-        slot.scoreP2 = rowPowerP2;
-      }
-    });
+    // Update score in the specific score objects at the beginning and end of the row
+    if (typeof row[0] === "object" && row[0].scoreP1 !== undefined) {
+      row[0].scoreP1 = rowPowerP1;
+    }
+    if (typeof row[row.length - 1] === "object" && row[row.length - 1].scoreP2 !== undefined) {
+      row[row.length - 1].scoreP2 = rowPowerP2;
+    }
 
-    // Update final score
+    // Determine row winner and add to total score
     if (rowPowerP1 > rowPowerP2) {
-      scoreP1 += rowPowerP1;
+      totalScoreP1 += rowPowerP1;
     } else if (rowPowerP2 > rowPowerP1) {
-      scoreP2 += rowPowerP2;
+      totalScoreP2 += rowPowerP2;
     }
   });
-  
-  // Set to end game display final score
-  scores.value[1] = scoreP1;
-  scores.value[2] = scoreP2;
 
-  // Check validate when game should end
-  const hasPawn = board.value.some(row => 
-    row.some(slot => typeof slot === "object" && (slot.pawn1 || slot.pawn2))
-  );
+  // Set total scores
+  scores.value[1] = totalScoreP1;
+  scores.value[2] = totalScoreP2;
 
+  // Check game end conditions
   const hasPlayableCards = playerHands.value[1].some(card => canPlaceCard(card)) ||
-                           playerHands.value[2].some(card => canPlaceCard(card));
+                            playerHands.value[2].some(card => canPlaceCard(card));
 
-  const isHandEmpty = playerHands.value[1].length === 0 && playerHands.value[2].length === 0;
+  const skippedConsecutively = skipsInARow.value === 2;
 
-  if (!hasPawn || !hasPlayableCards || isHandEmpty) {
+  if (!hasPlayableCards || skippedConsecutively) {
     isGameEnd.value = true;
-    console.log(`🎉 Game Over! Final Scores → Player 1: ${scoreP1}, Player 2: ${scoreP2}`);
+    console.log(`🎉 Game Over! Final Scores → Player 1: ${totalScoreP1}, Player 2: ${totalScoreP2}`);
   }
-
-  console.log(`has pawn on board: ${hasPawn}`);
-  console.log(`player has card can play: ${hasPlayableCards}`);
-  console.log(`Hand is Empty: ${isHandEmpty}`);
 };
-
 const turnCounter = ref(0);
 
 // Change turn after placeCard
@@ -334,12 +318,32 @@ const changeTurn = () => {
   calculateScore();
 };
 
+const skipTurn = () => {
+  const previousTurn = currentTurn.value;
+  currentTurn.value = currentTurn.value === 1 ? 2 : 1;
+  turnCounter.value++;
+  skipsInARow.value++; // Increment skips
+
+  if (turnCounter.value % 2 === 0) {
+    round.value++;
+  }
+
+  if (skipsInARow.value === 2) {
+    isGameEnd.value = true;
+    calculateScore(); // Calculate score when game ends due to skips
+    return; // Prevent further actions if game ended
+  }
+
+  updatePlayerHands();
+  calculateScore();
+  selectedCard.value = null; // Clear any selected card when skipping
+};
+
 </script>
 
 <template>
   <HeadOrTail @playerTurn="flipCoin" />
 
-  <!-- MAIN GAME -->
   <div class="flex flex-col items-center">
     <div class="text-2xl font-bold mt-4">
       <span>Round: {{ round }}</span>
@@ -349,17 +353,14 @@ const changeTurn = () => {
     </div>
 
     <div class="flex gap-15 items-center justify-center">
-      <!-- Left Player -->
-      <PlayerCharacter 
+      <PlayerCharacter
         :selectId="gameProps.playerCharacter1"
       >
       </PlayerCharacter>
 
-      <!-- Table -->
       <TableGame :currentTurn="currentTurn" :board="board" @placeCard="placeCard" />
 
-      <!-- Right Player -->
-      <PlayerCharacter 
+      <PlayerCharacter
         :selectId="gameProps.playerCharacter2"
       >
       </PlayerCharacter>
@@ -368,12 +369,17 @@ const changeTurn = () => {
     <div class="flex gap-16 mt-5">
       <Hand v-if="currentTurn === 1" :player="1" :currentTurn="currentTurn" :hand="playerHands[1]" @selectCard="selectCard" />
       <Hand v-if="currentTurn === 2" :player="2" :currentTurn="currentTurn" :hand="playerHands[2]" @selectCard="selectCard" />
+      <button
+        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-4"
+        @click="skipTurn"
+      >
+      Skip Turn
+      </button>
     </div>
   </div>
 
-  <!-- END GAME -->
   <div
-    v-if="isGameEnd" 
+    v-if="isGameEnd"
     class="fixed inset-0 flex flex-col justify-center items-center z-20 w-screen h-screen bg-gray-800/90 mt-6 text-2xl font-bold text-center"
   >
     <p class="text-blue-500">Player 1 Score: {{ scores[1] }}</p>

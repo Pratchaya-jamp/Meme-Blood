@@ -51,6 +51,8 @@
 | --------- |044               | add deck system include add edit remove deck and show card in deck                              |
 | --------- |035               | Add expand pawn on board system, Add random buff/debuff system on board, Add Round System, Fetch card's data from backend to Hand           |
 | --------- |028               | Update player layout position, Add sample buff/debuff, Add pawn locations card in db.json, Fetch player's data from backend       |
+| WEEK 5    |044               | add Lobby menu, show character picture in game and menu and create working score system in main game and make pawn cannot add more than 3 |
+| ------    |044(2)            | real time culcuate score in row make end game condition |
 
 ##### This table was create for certify what you have done in each week within short Description by remove the line that i was marked
 ##### For example:

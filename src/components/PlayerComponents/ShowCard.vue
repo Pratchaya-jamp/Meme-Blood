@@ -1,10 +1,46 @@
 
 <script setup>
+import { ref, watch, onUnmounted } from 'vue'
 const props = defineProps({
   card: {
     type: Object,
     required: true
   }
+})
+const emit = defineEmits(["close"])
+
+const audio = ref(null)
+
+const playSound = () => {
+  if (props.card.cardRarity === "Legend") {
+    const audioPath = `/sounds/cardsounds/${props.card.idcard}.mp3`
+    audio.value = new Audio(audioPath)
+    audio.value.play()
+  }
+};
+
+const stopSound = () => {
+  if (audio.value) {
+    audio.value.pause()
+    audio.value.currentTime = 0
+  }
+}
+
+const closeCard = () => {
+  stopSound()
+  emit("close")
+}
+
+// ตรวจสอบเมื่อเปิดการ์ดใหม่
+watch(() => props.card, (newCard) => {
+  stopSound()
+  if (newCard.cardRarity === "Legend") {
+    playSound()
+  }
+}, { immediate: true })
+
+onUnmounted(() => {
+  stopSound()
 })
 </script>
 
@@ -21,7 +57,7 @@ const props = defineProps({
         <p>Pawns Required: {{ card.pawnsRequired }}</p>
         <p>Rarity: {{ card.cardRarity }}</p>
     </div>
-    <button @click="$emit('close')" class="mt-4 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-gray-500">
+    <button @click="closeCard" class="mt-4 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-gray-500">
       Close
     </button>
   </div>
