@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+import Card from "./mainGameComponents/Card.vue";
 
 const props = defineProps({
   Gachaitems: {
@@ -21,30 +22,59 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["spinGacha"]);
+const getCard = ref(null);
+const locked = ref(false);
 
 const spinGacha = () => {
-  const randNum = Math.random() * 100;
-  let selectedCard;
+  if(!locked.value) {
+    locked.value = true
+    const randNum = Math.random() * 100;
 
-  if (randNum <= props.GoldCardRate) {
-    const goldCards = props.Gachaitems.filter((card) => card.cardRarity === "Legend");
-    selectedCard = goldCards[Math.floor(Math.random() * goldCards.length)];
-  } else if (randNum <= props.EpicCardRate) {
-    const epicCards = props.Gachaitems.filter((card) => card.cardRarity === "Epic");
-    selectedCard = epicCards[Math.floor(Math.random() * epicCards.length)];
-  } else {
-    const standardCards = props.Gachaitems.filter((card) => card.cardRarity === "Standard");
-    selectedCard = standardCards[Math.floor(Math.random() * standardCards.length)];
-  }
+    if (randNum <= props.GoldCardRate) {
+      const goldCards = props.Gachaitems.filter((card) => card.cardRarity === "Legend");
+      getCard.value = goldCards[Math.floor(Math.random() * goldCards.length)];
+    } else if (randNum <= props.EpicCardRate) {
+      const epicCards = props.Gachaitems.filter((card) => card.cardRarity === "Epic");
+      getCard.value = epicCards[Math.floor(Math.random() * epicCards.length)];
+    } else {
+      const standardCards = props.Gachaitems.filter((card) => card.cardRarity === "Standard");
+      getCard.value = standardCards[Math.floor(Math.random() * standardCards.length)];
+    }
 
-  if (selectedCard) {
-    emit("spinGacha", selectedCard);
+    if (getCard.value) {
+      emit("spinGacha", getCard.value);
+    }
+
+    setTimeout(() => {
+      locked.value = false
+    }, 3000);
   }
 };
+
 </script>
 
 <template>
-  <button @click="spinGacha">Spin Gacha</button>
+  <div class="fixed inset-0 z-50 flex flex-col items-center justify-center gap-10 min-h-screen backdrop-blur-md">
+    <img 
+      v-if="!locked"
+      class="w-1/3" 
+      src="/src/assets/maxwell-cat.gif" 
+      alt="maxwell-cat"
+    >
+    <Card
+        v-if="locked"
+        :title="getCard.cardname"
+        :imageUrl="`/cards/${getCard.idcard}.png`"
+        :score="getCard.Power"
+        :pawnsRequired="getCard.pawnsRequired"
+        :pawnLocations="getCard.pawnLocations"
+      />
+    <button 
+      @click="spinGacha"
+      class="cursor-pointer bg-gradient-to-r from-yellow-600 to-yellow-400 font-bold text-black text-lg px-6 py-3 border-2 border-gray-800
+      rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all duration-200"
+    >
+      Spin Gacha
+    </button>
+  </div>
 </template>
-
-<style scoped></style>
