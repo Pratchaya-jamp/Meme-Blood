@@ -432,6 +432,7 @@ const closeCardDetails = () => {
         :decks="uniqueDecks"
         :characters="availableCharacters"
         :allCharacters="inventoryProp.characters"
+        :currentInventory="inventoryProp.currentUser.uid"
         v-if="lobbyPageStatus" />
 </template>
 

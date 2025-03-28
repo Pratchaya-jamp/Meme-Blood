@@ -55,7 +55,8 @@
         129,
         130,
         131,
-        132
+        132,
+        105
       ],
       "deckid": [
         1022,
@@ -883,27 +884,33 @@
   "maps": [
     {
       "name": "Soviet Union",
-      "image": "/Maps/soviet_union.png"
+      "image": "/Maps/soviet_union.png",
+      "id": "8630"
     },
     {
       "name": "Sky Tower",
-      "image": "/Maps/sky_tower.png"
+      "image": "/Maps/sky_tower.png",
+      "id": "1488"
     },
     {
       "name": "Battle Ground",
-      "image": "/Maps/battle_ground.png"
+      "image": "/Maps/battle_ground.png",
+      "id": "5c01"
     },
     {
       "name": "Homie House",
-      "image": "/Maps/homie_house.png"
+      "image": "/Maps/homie_house.png",
+      "id": "c6c3"
     },
     {
       "name": "KMUTT",
-      "image": "/Maps/kmutt.png"
+      "image": "/Maps/kmutt.png",
+      "id": "ef7b"
     },
     {
       "name": "No Promises To Keep",
-      "image": "/Maps/No_Promises_To_Keep.png"
+      "image": "/Maps/No_Promises_To_Keep.png",
+      "id": "16bf"
     }
   ]
 }

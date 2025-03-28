@@ -4,6 +4,9 @@ import PlayerCharacter from "./mainGameComponents/PlayerCharacter.vue";
 import TableGame from "./mainGameComponents/Table.vue";
 import Hand from "./mainGameComponents/Hand.vue";
 import HeadOrTail from "./mainGameComponents/HeadOrTail.vue";
+import Gacha from "./Gacha.vue";
+import { getItems, editItem } from "@/lib/fetchUtils";
+import PlayerInventory from "./PlayerComponents/PlayerInventory.vue";
 
 const currentTurn = ref(1); // Receive number 1 or 2 for player1 & player2
 const round = ref(1);
@@ -11,6 +14,8 @@ const selectedCard = ref(null);
 const data = ref(null);
 const isGameEnd = ref(false) // false by default
 const skipsInARow = ref(0); // count how many player skip turn
+const showGacha = ref(false); // Add showGacha state
+
 
 const gameProps = defineProps({
   player1Deck: {
@@ -32,7 +37,11 @@ const gameProps = defineProps({
   selectedMap: {
     type: String,
     required: true
-  }
+  },
+  currentUser: {
+    type: Number,
+    required: true,
+  },
 })
 
 const board = ref([
@@ -332,6 +341,7 @@ const calculateScore = () => {
 
   if (!hasPlayableCards || skippedConsecutively) {
     isGameEnd.value = true;
+    showGacha.value = true; // Show Gacha when game ends
     console.log(`🎉 Game Over! Final Scores → Player 1: ${totalScoreP1}, Player 2: ${totalScoreP2}`);
   }
 };
@@ -371,7 +381,31 @@ const skipTurn = () => {
   calculateScore();
   selectedCard.value = null; // Clear any selected card when skipping
 };
+const spinGacha = async (card) => {
+  if (!gameProps.currentUser) {
+    console.error("currentUser is undefined.");
+    return;
+  }
+  try {
+    const inventories = await getItems(`${import.meta.env.VITE_APP_URL}/inventory`);
+    const userInventory = inventories.find(inv => inv.uid === gameProps.currentUser);
 
+    if (userInventory) {
+      // ตรวจสอบว่า cardid มีอยู่ใน inventory แล้วหรือไม่
+      if (!userInventory.cardid.includes(card.idcard)) {
+        userInventory.cardid.push(card.idcard);
+        await editItem(`${import.meta.env.VITE_APP_URL}/inventory`, userInventory.id, userInventory);
+        console.log(`Added card ${card.cardname} to inventory`);
+      } else {
+        console.log(`Card ${card.cardname} already exists in inventory.`);
+      }
+    } else {
+      console.error("User inventory not found.");
+    }
+  } catch (error) {
+    console.error("Error updating inventory:", error);
+  }
+};
 </script>
 
 <template>
@@ -422,14 +456,17 @@ const skipTurn = () => {
 
   <!-- END GAME -->
   <div
-    v-if="isGameEnd" 
+  v-if="isGameEnd"
     class="fixed inset-0 flex flex-col justify-center items-center z-50 w-screen h-screen bg-gray-800/90 mt-6 text-2xl font-bold text-center"
   >
-    <p class="text-blue-500">Player 1 Score: {{ scores[1] }}</p>
-    <p class="text-red-500">Player 2 Score: {{ scores[2] }}</p>
-
-    <p v-if="scores[1] > scores[2]" class="text-green-500 mt-4">🏆 Player 1 Wins!</p>
-    <p v-else-if="scores[2] > scores[1]" class="text-green-500 mt-4">🏆 Player 2 Wins!</p>
-    <p v-else class="text-gray-400 mt-4">🤝 It's a Tie!</p>
+  <Gacha
+      v-if="showGacha"
+      :Gachaitems="data?.card || []"
+      :GoldCardRate="1"
+      :EpicCardRate="20"
+      @spinGacha="spinGacha"
+      :currentUser="gameProps.currentUser" 
+    />
   </div>
+
 </template>
