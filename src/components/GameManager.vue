@@ -341,7 +341,10 @@ const calculateScore = () => {
 
   if (!hasPlayableCards || skippedConsecutively) {
     isGameEnd.value = true;
-    showGacha.value = true; // Show Gacha when game ends
+    setTimeout(() => {
+      isGameEnd.value = false;
+      showGacha.value = true; // Show Gacha when game ends
+    }, 3000);
     
     let winnerCharacter = null
     if (scores.value[1] > scores.value[2]) {
@@ -383,16 +386,11 @@ const skipTurn = () => {
     round.value++;
   }
 
-  if (skipsInARow.value === 2) {
-    isGameEnd.value = true;
-    calculateScore(); // Calculate score when game ends due to skips
-    return; // Prevent further actions if game ended
-  }
-
   updatePlayerHands();
   calculateScore();
   selectedCard.value = null; // Clear any selected card when skipping
 };
+
 const spinGacha = async (card) => {
   if (!gameProps.currentUser) {
     console.error("currentUser is undefined.");
@@ -473,24 +471,31 @@ const playCharacterWinSound = (characterId) => {
         class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-4"
         @click="skipTurn"
       >
-      Skip Turn
+        Skip Turn
       </button>
     </div>
   </div>
 
   <!-- END GAME -->
   <div
-  v-if="isGameEnd"
-    class="fixed inset-0 flex flex-col justify-center items-center z-50 w-screen h-screen bg-gray-800/90 mt-6 text-2xl font-bold text-center"
+    v-if="isGameEnd"
+      class="fixed inset-0 flex flex-col justify-center items-center z-50 w-screen h-screen bg-gray-800/90 mt-6 text-2xl font-bold text-center"
   >
-  <Gacha
-      v-if="showGacha"
-      :Gachaitems="data?.card || []"
-      :GoldCardRate="1"
-      :EpicCardRate="20"
-      @spinGacha="spinGacha"
-      :currentUser="gameProps.currentUser" 
-    />
+    <p class="text-blue-500">Player 1 Score: {{ scores[1] }}</p>
+    <p class="text-red-500">Player 2 Score: {{ scores[2] }}</p>
+
+    <p v-if="scores[1] > scores[2]" class="text-green-500 mt-4">🏆 Player 1 Wins!</p>
+    <p v-else-if="scores[2] > scores[1]" class="text-green-500 mt-4">🏆 Player 2 Wins!</p>
+    <p v-else class="text-gray-400 mt-4">🤝 It's a Tie!</p>
   </div>
+
+  <Gacha
+    v-if="showGacha"
+    :Gachaitems="data?.card || []"
+    :GoldCardRate="1"
+    :EpicCardRate="20"
+    @spinGacha="spinGacha"
+    :currentUser="gameProps.currentUser"
+  />
 
 </template>
