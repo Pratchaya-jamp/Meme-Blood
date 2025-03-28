@@ -56,14 +56,14 @@
         130,
         131,
         132,
-        105
+        105,
+        133
       ],
       "deckid": [
         1022,
         7548,
         2691,
         5652,
-        3813,
         2319
       ],
       "characterid": [
@@ -164,9 +164,7 @@
       "Power": 1,
       "pawnsRequired": "1",
       "pawnLocations": [
-        7,
-        8,
-        9
+        8,14,18,12
       ],
       "cardRarity": "Standard",
       "id": "53c9"
@@ -180,8 +178,7 @@
       "Power": 1,
       "pawnsRequired": "2",
       "pawnLocations": [
-        8,
-        18
+        14,12
       ],
       "cardRarity": "Standard",
       "id": "7896"
@@ -193,12 +190,9 @@
       "abilityType": "debuff",
       "cardinfo": "Skibidi Toilet Dob dob dob yes yes",
       "Power": 1,
-      "pawnsRequired": "2",
+      "pawnsRequired": "1",
       "pawnLocations": [
-        8,
-        12,
-        14,
-        18
+        8,3,18,23
       ],
       "cardRarity": "Standard",
       "id": "08de"
@@ -212,8 +206,7 @@
       "Power": 2,
       "pawnsRequired": "2",
       "pawnLocations": [
-        8,
-        3
+        8,9,18,19,7,17
       ],
       "cardRarity": "Standard",
       "id": "7d7b"
@@ -227,8 +220,7 @@
       "Power": 1,
       "pawnsRequired": "2",
       "pawnLocations": [
-        12,
-        24
+        12,8,14
       ],
       "cardRarity": "Standard",
       "id": "b063"
@@ -242,10 +234,7 @@
       "Power": 2,
       "pawnsRequired": "2",
       "pawnLocations": [
-        7,
-        9,
-        17,
-        19
+        14,18,12
       ],
       "cardRarity": "Standard",
       "id": "e2d7"
@@ -256,11 +245,10 @@
       "Ability": false,
       "abilityType": "non",
       "cardinfo": "Much wow, very meme.",
-      "Power": 1,
+      "Power": 2,
       "pawnsRequired": "1",
       "pawnLocations": [
-        11,
-        15
+        12,8,14
       ],
       "cardRarity": "Standard",
       "id": "a2ed"
@@ -724,7 +712,17 @@
         102,
         101,
         106,
-        107
+        107,
+        127,
+        129,
+        128,
+        130,
+        131,
+        133,
+        132,
+        126,
+        125,
+        124
       ],
       "id": "fec6"
     },
@@ -815,16 +813,6 @@
       ]
     },
     {
-      "id": "972f",
-      "deckid": 3813,
-      "cardid": [
-        101,
-        102,
-        103,
-        104
-      ]
-    },
-    {
       "id": "b1a3",
       "deckid": 1309,
       "cardid": [
@@ -882,7 +870,10 @@
         129,
         128,
         127,
-        126
+        126,
+        133,
+        116,
+        117
       ]
     },
     {
