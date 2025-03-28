@@ -262,9 +262,7 @@
       "Power": 1,
       "pawnsRequired": "2",
       "pawnLocations": [
-        1,
-        3,
-        5
+        9,14,12,7
       ],
       "cardRarity": "Standard",
       "id": "4f79"
@@ -278,8 +276,7 @@
       "Power": 2,
       "pawnsRequired": "2",
       "pawnLocations": [
-        3,
-        23
+        9,19,17,7
       ],
       "cardRarity": "Standard",
       "id": "257e"
@@ -291,12 +288,9 @@
       "abilityType": "non",
       "cardinfo": "Never gonna give you up...",
       "Power": 3,
-      "pawnsRequired": "3",
+      "pawnsRequired": "2",
       "pawnLocations": [
-        2,
-        3,
-        4,
-        8
+        9,3,7,17,23,19
       ],
       "cardRarity": "Legend",
       "id": "aaca"
@@ -310,9 +304,7 @@
       "Power": 1,
       "pawnsRequired": "2",
       "pawnLocations": [
-        12,
-        14,
-        15
+        18,19,17,8
       ],
       "cardRarity": "Standard",
       "id": "49c1"
@@ -326,8 +318,7 @@
       "Power": 2,
       "pawnsRequired": "2",
       "pawnLocations": [
-        22,
-        24
+        23,24,22,2,3,4
       ],
       "cardRarity": "Standard",
       "id": "a177"
@@ -341,10 +332,7 @@
       "Power": 2,
       "pawnsRequired": "2",
       "pawnLocations": [
-        1,
-        6,
-        11,
-        2
+        14,15,11,12
       ],
       "cardRarity": "Epic",
       "id": "882b"
@@ -358,10 +346,7 @@
       "Power": 1,
       "pawnsRequired": "2",
       "pawnLocations": [
-        1,
-        5,
-        7,
-        9
+        8,14,12
       ],
       "cardRarity": "Standard",
       "id": "6e6c"
