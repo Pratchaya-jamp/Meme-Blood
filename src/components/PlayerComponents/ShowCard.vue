@@ -15,6 +15,7 @@ const playSound = () => {
   if (props.card.cardRarity === "Legend") {
     const audioPath = `/sounds/cardsounds/${props.card.idcard}.mp3`
     audio.value = new Audio(audioPath)
+    audio.value.volume = 0.10
     audio.value.play()
   }
 };
