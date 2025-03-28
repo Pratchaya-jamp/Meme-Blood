@@ -15,6 +15,10 @@ const props = defineProps({
     allCharacters: {
         type: Array,
         required: true
+    },
+    currentInventory: {
+        type: Number,
+        required: true
     }
 })
 const selectedDeckPlayer1 = ref(null)
@@ -163,6 +167,7 @@ const goToLobby = () =>{
         :player2Deck="selectedDeckPlayer2"
         :playerCharacter1="selectedCharPlayer1"
         :playerCharacter2="selectedCharPlayer2"
+        :currentUser="props.currentInventory"
         :selectedMap="selectedMap"/>
 </template>
 

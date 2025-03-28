@@ -55,14 +55,15 @@
         129,
         130,
         131,
-        132
+        132,
+        105,
+        133
       ],
       "deckid": [
         1022,
         7548,
         2691,
         5652,
-        3813,
         2319
       ],
       "characterid": [
@@ -163,9 +164,7 @@
       "Power": 1,
       "pawnsRequired": "1",
       "pawnLocations": [
-        7,
-        8,
-        9
+        8,14,18,12
       ],
       "cardRarity": "Standard",
       "id": "53c9"
@@ -179,8 +178,7 @@
       "Power": 1,
       "pawnsRequired": "2",
       "pawnLocations": [
-        8,
-        18
+        14,12
       ],
       "cardRarity": "Standard",
       "id": "7896"
@@ -192,12 +190,9 @@
       "abilityType": "debuff",
       "cardinfo": "Skibidi Toilet Dob dob dob yes yes",
       "Power": 1,
-      "pawnsRequired": "2",
+      "pawnsRequired": "1",
       "pawnLocations": [
-        8,
-        12,
-        14,
-        18
+        8,3,18,23
       ],
       "cardRarity": "Standard",
       "id": "08de"
@@ -211,8 +206,7 @@
       "Power": 2,
       "pawnsRequired": "2",
       "pawnLocations": [
-        8,
-        3
+        8,9,18,19,7,17
       ],
       "cardRarity": "Standard",
       "id": "7d7b"
@@ -226,8 +220,7 @@
       "Power": 1,
       "pawnsRequired": "2",
       "pawnLocations": [
-        12,
-        24
+        12,8,14
       ],
       "cardRarity": "Standard",
       "id": "b063"
@@ -241,10 +234,7 @@
       "Power": 2,
       "pawnsRequired": "2",
       "pawnLocations": [
-        7,
-        9,
-        17,
-        19
+        14,18,12
       ],
       "cardRarity": "Standard",
       "id": "e2d7"
@@ -255,11 +245,10 @@
       "Ability": false,
       "abilityType": "non",
       "cardinfo": "Much wow, very meme.",
-      "Power": 1,
+      "Power": 2,
       "pawnsRequired": "1",
       "pawnLocations": [
-        11,
-        15
+        12,8,14
       ],
       "cardRarity": "Standard",
       "id": "a2ed"
@@ -273,9 +262,7 @@
       "Power": 1,
       "pawnsRequired": "2",
       "pawnLocations": [
-        1,
-        3,
-        5
+        9,14,12,7
       ],
       "cardRarity": "Standard",
       "id": "4f79"
@@ -289,8 +276,7 @@
       "Power": 2,
       "pawnsRequired": "2",
       "pawnLocations": [
-        3,
-        23
+        9,19,17,7
       ],
       "cardRarity": "Standard",
       "id": "257e"
@@ -302,14 +288,11 @@
       "abilityType": "non",
       "cardinfo": "Never gonna give you up...",
       "Power": 3,
-      "pawnsRequired": "3",
+      "pawnsRequired": "2",
       "pawnLocations": [
-        2,
-        3,
-        4,
-        8
+        9,3,7,17,23,19
       ],
-      "cardRarity": "Epic",
+      "cardRarity": "Legend",
       "id": "aaca"
     },
     {
@@ -321,9 +304,7 @@
       "Power": 1,
       "pawnsRequired": "2",
       "pawnLocations": [
-        12,
-        14,
-        15
+        18,19,17,8
       ],
       "cardRarity": "Standard",
       "id": "49c1"
@@ -337,8 +318,7 @@
       "Power": 2,
       "pawnsRequired": "2",
       "pawnLocations": [
-        22,
-        24
+        23,24,22,2,3,4
       ],
       "cardRarity": "Standard",
       "id": "a177"
@@ -352,10 +332,7 @@
       "Power": 2,
       "pawnsRequired": "2",
       "pawnLocations": [
-        1,
-        6,
-        11,
-        2
+        14,15,11,12
       ],
       "cardRarity": "Epic",
       "id": "882b"
@@ -369,10 +346,7 @@
       "Power": 1,
       "pawnsRequired": "2",
       "pawnLocations": [
-        1,
-        5,
-        7,
-        9
+        8,14,12
       ],
       "cardRarity": "Standard",
       "id": "6e6c"
@@ -696,6 +670,23 @@
       ],
       "cardRarity": "Epic",
       "id": "r7s2"
+    },
+    {
+      "idcard": 134,
+      "cardname": "Sleepy-A",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "A sleepy guy who got a sweetest dream.",
+      "Power": 3,
+      "pawnsRequired": "2",
+      "pawnLocations": [
+        1,
+        5,
+        10,
+        11
+      ],
+      "cardRarity": "Legend",
+      "id": "j9f2"
     }
   ],
   "deck": [
@@ -706,7 +697,17 @@
         102,
         101,
         106,
-        107
+        107,
+        127,
+        129,
+        128,
+        130,
+        131,
+        133,
+        132,
+        126,
+        125,
+        124
       ],
       "id": "fec6"
     },
@@ -797,16 +798,6 @@
       ]
     },
     {
-      "id": "972f",
-      "deckid": 3813,
-      "cardid": [
-        101,
-        102,
-        103,
-        104
-      ]
-    },
-    {
       "id": "b1a3",
       "deckid": 1309,
       "cardid": [
@@ -864,7 +855,10 @@
         129,
         128,
         127,
-        126
+        126,
+        133,
+        116,
+        117
       ]
     },
     {
@@ -883,27 +877,33 @@
   "maps": [
     {
       "name": "Soviet Union",
-      "image": "/Maps/soviet_union.png"
+      "image": "/Maps/soviet_union.png",
+      "id": "8630"
     },
     {
       "name": "Sky Tower",
-      "image": "/Maps/sky_tower.png"
+      "image": "/Maps/sky_tower.png",
+      "id": "1488"
     },
     {
       "name": "Battle Ground",
-      "image": "/Maps/battle_ground.png"
+      "image": "/Maps/battle_ground.png",
+      "id": "5c01"
     },
     {
       "name": "Homie House",
-      "image": "/Maps/homie_house.png"
+      "image": "/Maps/homie_house.png",
+      "id": "c6c3"
     },
     {
       "name": "KMUTT",
-      "image": "/Maps/kmutt.png"
+      "image": "/Maps/kmutt.png",
+      "id": "ef7b"
     },
     {
       "name": "No Promises To Keep",
-      "image": "/Maps/No_Promises_To_Keep.png"
+      "image": "/Maps/No_Promises_To_Keep.png",
+      "id": "16bf"
     }
   ]
 }
