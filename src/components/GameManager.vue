@@ -283,6 +283,27 @@ const calculateScore = () => {
       }
     });
 
+    // Apply buff and debuff effects
+    row.forEach(slot => {
+      if (typeof slot === "object" && slot.player && slot.Ability) {
+        if (slot.abilityType === "buff") {
+          if (slot.player === 1) {
+            rowPowerP1 += slot.Power;
+          } else if (slot.player === 2) {
+            rowPowerP2 += slot.Power;
+          }
+        } else if (slot.abilityType === "debuff") {
+          if (slot.player === 1) {
+            rowPowerP2 -= slot.Power;
+            if (rowPowerP2 < 0) rowPowerP2 = 0;
+          } else if (slot.player === 2) {
+            rowPowerP1 -= slot.Power;
+            if (rowPowerP1 < 0) rowPowerP1 = 0;
+          }
+        }
+      }
+    });
+
     // Update score in the specific score objects at the beginning and end of the row
     if (typeof row[0] === "object" && row[0].scoreP1 !== undefined) {
       row[0].scoreP1 = rowPowerP1;
