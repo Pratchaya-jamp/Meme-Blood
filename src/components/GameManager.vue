@@ -342,7 +342,19 @@ const calculateScore = () => {
   if (!hasPlayableCards || skippedConsecutively) {
     isGameEnd.value = true;
     showGacha.value = true; // Show Gacha when game ends
-    console.log(`🎉 Game Over! Final Scores → Player 1: ${totalScoreP1}, Player 2: ${totalScoreP2}`);
+    
+    let winnerCharacter = null
+    if (scores.value[1] > scores.value[2]) {
+      winnerCharacter = gameProps.playerCharacter1
+    } else if (scores.value[2] > scores.value[1]) {
+      winnerCharacter = gameProps.playerCharacter2
+    }
+  
+    if (winnerCharacter) {
+      playCharacterWinSound(winnerCharacter)
+    }
+  
+    console.log(`🎉 Game Over! Final Scores → Player 1: ${scores.value[1]}, Player 2: ${scores.value[2]}`)
   }
 };
 
@@ -405,6 +417,18 @@ const spinGacha = async (card) => {
   } catch (error) {
     console.error("Error updating inventory:", error);
   }
+};
+
+const playCharacterWinSound = (characterId) => {
+  if (!characterId) {
+    console.error("Character ID not found!")
+    return;
+  }
+
+  const soundPath = `/sounds/charactersounds/${characterId}.mp3`
+  const audio = new Audio(soundPath)
+  audio.volume = 0.10
+  audio.play()
 };
 </script>
 
