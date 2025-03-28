@@ -26,14 +26,14 @@ const getCellClass = (col) => {
 
   if ("scoreP1" in col || "scoreP2" in col) return "bg-yellow-300";
 
-  if ("pawn1" in col && props.currentTurn === 1) return "border-4 border-blue-500";
-  if ("pawn2" in col && props.currentTurn === 2) return "border-4 border-red-500";
+  if ("pawn1" in col && props.currentTurn === 1) return "border-3 border-blue-500";
+  if ("pawn2" in col && props.currentTurn === 2) return "border-3 border-red-500";
 
   if (typeof col === "object" && col.Ability) {
     if (col.abilityType === "buff") {
-      return "border-4 border-green-500"
+      return "border-3 border-green-500"
     } else if (col.abilityType === "debuff") {
-      return "border-4 border-purple-500"
+      return "border-3 border-purple-500"
     }
   }
 };
@@ -41,14 +41,14 @@ const getCellClass = (col) => {
 
 <template>
   <div class="flex justify-center items-center my-5">
-    <div class="border-4 border-gray-700">
+    <div class="border-4 border-gray-700 bg-gray-900 shadow-xl p-1">
       <table class="border-collapse">
         <tbody>
           <tr v-for="(row, rowIndex) in props.board" :key="rowIndex">
             <td
               v-for="(col, colIndex) in row"
               :key="colIndex"
-              class="text-center border text-2xl w-32 h-44"
+              class="text-center border border-black text-2xl w-32 h-44"
               :class="getCellClass(col)"
               @click="placeCard(rowIndex, colIndex)"
             >
@@ -62,10 +62,10 @@ const getCellClass = (col) => {
               <span v-else-if="col === 'blank'"></span>
 
               <span v-if="typeof col === 'object' && 'pawn1' in col">
-                <span v-for="(v, k) in col.pawn1" :key="k">♙</span>
+                <span v-for="(v, k) in col.pawn1" :key="k" class="text-blue-400 text-lg">♙</span>
               </span>
               <span v-if="typeof col === 'object' && 'pawn2' in col">
-                <span v-for="(v, k) in col.pawn2" :key="k">♙</span>
+                <span v-for="(v, k) in col.pawn2" :key="k" class="text-red-400 text-lg">♙</span>
               </span>
 
               <Card

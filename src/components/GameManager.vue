@@ -111,7 +111,7 @@ const initCardPlayerHands = (player1Deck, player2Deck) => {
   if (!player1Deck || !player2Deck) return;
 
   const getPlayerDeck = (deckId) => {
-    const deckInfo = data.value.deck.find(d => d.deckid === deckId);
+    const deckInfo = data.value?.deck.find(d => d.deckid === deckId);
     if (!deckInfo) return [];
 
     return deckInfo.cardid
@@ -295,12 +295,14 @@ const calculateScore = () => {
     // Apply buff and debuff effects
     row.forEach(slot => {
       if (typeof slot === "object" && slot.player && slot.Ability) {
+
         if (slot.abilityType === "buff") {
           if (slot.player === 1) {
             rowPowerP1 += slot.Power;
           } else if (slot.player === 2) {
             rowPowerP2 += slot.Power;
           }
+
         } else if (slot.abilityType === "debuff") {
           if (slot.player === 1) {
             rowPowerP2 -= slot.Power;
@@ -334,14 +336,21 @@ const calculateScore = () => {
   scores.value[2] = totalScoreP2;
 
   // Check game end conditions
+  const hasPawn = board.value.some(row => 
+    row.some(slot => typeof slot === "object" && (slot.pawn1 || slot.pawn2))
+  );
+
   const hasPlayableCards = playerHands.value[1].some(card => canPlaceCard(card)) ||
                             playerHands.value[2].some(card => canPlaceCard(card));
 
-  const skippedConsecutively = skipsInARow.value === 2;
+  const skippedConsecutively = skipsInARow.value > 4;
 
-  if (!hasPlayableCards || skippedConsecutively) {
+  if ((!hasPlayableCards && !skippedConsecutively) || skippedConsecutively || !hasPawn) {
     isGameEnd.value = true;
-    showGacha.value = true; // Show Gacha when game ends
+    setTimeout(() => {
+      isGameEnd.value = false;
+      showGacha.value = true; // Show Gacha when game ends
+    }, 4000);
     
     let winnerCharacter = null
     if (scores.value[1] > scores.value[2]) {
@@ -374,25 +383,12 @@ const changeTurn = () => {
 };
 
 const skipTurn = () => {
-  const previousTurn = currentTurn.value;
-  currentTurn.value = currentTurn.value === 1 ? 2 : 1;
-  turnCounter.value++;
   skipsInARow.value++; // Increment skips
 
-  if (turnCounter.value % 2 === 0) {
-    round.value++;
-  }
-
-  if (skipsInARow.value === 2) {
-    isGameEnd.value = true;
-    calculateScore(); // Calculate score when game ends due to skips
-    return; // Prevent further actions if game ended
-  }
-
-  updatePlayerHands();
-  calculateScore();
+  changeTurn();
   selectedCard.value = null; // Clear any selected card when skipping
 };
+
 const spinGacha = async (card) => {
   if (!gameProps.currentUser) {
     console.error("currentUser is undefined.");
@@ -466,31 +462,38 @@ const playCharacterWinSound = (characterId) => {
       </PlayerCharacter>
     </div>
 
-    <div class="flex gap-16 mt-5">
+    <div class="flex items-center mt-5">
       <Hand v-if="currentTurn === 1" :player="1" :currentTurn="currentTurn" :hand="playerHands[1]" @selectCard="selectCard" />
       <Hand v-if="currentTurn === 2" :player="2" :currentTurn="currentTurn" :hand="playerHands[2]" @selectCard="selectCard" />
       <button
-        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-4"
+        class="bg-gray-900 hover:bg-gray-800 text-white font-bold p-4 rounded-full border-4 border-gray-700"
         @click="skipTurn"
       >
-      Skip Turn
+        Skip Turn
       </button>
     </div>
   </div>
 
   <!-- END GAME -->
   <div
-  v-if="isGameEnd"
-    class="fixed inset-0 flex flex-col justify-center items-center z-50 w-screen h-screen bg-gray-800/90 mt-6 text-2xl font-bold text-center"
+    v-if="isGameEnd"
+      class="fixed inset-0 flex flex-col justify-center items-center z-50 w-screen h-screen bg-gray-800/90 mt-6 text-2xl font-bold text-center"
   >
-  <Gacha
-      v-if="showGacha"
-      :Gachaitems="data?.card || []"
-      :GoldCardRate="1"
-      :EpicCardRate="20"
-      @spinGacha="spinGacha"
-      :currentUser="gameProps.currentUser" 
-    />
+    <p class="text-blue-500">Player 1 Score: {{ scores[1] }}</p>
+    <p class="text-red-500">Player 2 Score: {{ scores[2] }}</p>
+
+    <p v-if="scores[1] > scores[2]" class="text-green-500 mt-4">🏆 Player 1 Wins!</p>
+    <p v-else-if="scores[2] > scores[1]" class="text-green-500 mt-4">🏆 Player 2 Wins!</p>
+    <p v-else class="text-gray-400 mt-4">🤝 It's a Tie!</p>
   </div>
+
+  <Gacha
+    v-if="showGacha"
+    :Gachaitems="data?.card || []"
+    :GoldCardRate="1"
+    :EpicCardRate="20"
+    @spinGacha="spinGacha"
+    :currentUser="gameProps.currentUser"
+  />
 
 </template>

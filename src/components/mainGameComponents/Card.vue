@@ -25,7 +25,7 @@ const cardProps = defineProps({
 
 <template>
   <div 
-    class="relative w-60 h-90 bg-gray-800 border-4 border-gray-600 rounded-lg shadow-lg transition-transform duration-150"
+    class="relative w-60 h-90 bg-gray-800 border-4 border-gray-600 shadow-lg transition-transform duration-150"
     :class="cardProps.size"
   > <!-- height & weight = 2:3 -->
   
