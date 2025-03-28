@@ -697,6 +697,23 @@
       ],
       "cardRarity": "Epic",
       "id": "r7s2"
+    },
+    {
+      "idcard": 134,
+      "cardname": "Sleepy-A",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "A sleepy guy who got a sweetest dream.",
+      "Power": 3,
+      "pawnsRequired": "2",
+      "pawnLocations": [
+        1,
+        5,
+        10,
+        11
+      ],
+      "cardRarity": "Legend",
+      "id": "j9f2"
     }
   ],
   "deck": [
