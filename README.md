@@ -6,6 +6,7 @@
 - [x] R&G System (Head or Tail)
 - [x] Card Mechanicsm System
 - [x] Player Character (Player's profile)
+- [x] Maps Background
 2. **Songkiatchai Wongthaidee** 66130500035
 - [x] Main Game Logic (Calculate Score)
 - [x] Card System
@@ -54,6 +55,7 @@
 | WEEK 5    |044               | add Lobby menu, show character picture in game and menu and create working score system in main game and make pawn cannot add more than 3 |
 | ------    |044(2)            | real time culcuate score in row make end game condition |
 | ------    |058               | Setting-Up Game BGM, hover button sound, Legendary Card sound |
+| ------    |028               | Flip coin to start player 1 or 2, Prevent multiple click flip coin button, Template and Prevent multiple spin gacha, Add maps background |
 
 ##### This table was create for certify what you have done in each week within short Description by remove the line that i was marked
 ##### For example:
