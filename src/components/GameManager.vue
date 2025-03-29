@@ -111,7 +111,7 @@ const initCardPlayerHands = (player1Deck, player2Deck) => {
   if (!player1Deck || !player2Deck) return;
 
   const getPlayerDeck = (deckId) => {
-    const deckInfo = data.value.deck.find(d => d.deckid === deckId);
+    const deckInfo = data.value?.deck.find(d => d.deckid === deckId);
     if (!deckInfo) return [];
 
     return deckInfo.cardid
@@ -135,6 +135,7 @@ const flipCoin = (playerTurn) => {
   currentTurn.value = playerTurn;
   initCardPlayerHands(gameProps.player1Deck, gameProps.player2Deck);
   skipsInARow.value = 0; // Reset skips at the beginning
+  playMapTheme();
 };
 
 // Select a card from Hand (Receive from Hand.vue)
@@ -295,12 +296,14 @@ const calculateScore = () => {
     // Apply buff and debuff effects
     row.forEach(slot => {
       if (typeof slot === "object" && slot.player && slot.Ability) {
+
         if (slot.abilityType === "buff") {
           if (slot.player === 1) {
             rowPowerP1 += slot.Power;
           } else if (slot.player === 2) {
             rowPowerP2 += slot.Power;
           }
+
         } else if (slot.abilityType === "debuff") {
           if (slot.player === 1) {
             rowPowerP2 -= slot.Power;
@@ -334,17 +337,22 @@ const calculateScore = () => {
   scores.value[2] = totalScoreP2;
 
   // Check game end conditions
+  const hasPawn = board.value.some(row => 
+    row.some(slot => typeof slot === "object" && (slot.pawn1 || slot.pawn2))
+  );
+
   const hasPlayableCards = playerHands.value[1].some(card => canPlaceCard(card)) ||
                             playerHands.value[2].some(card => canPlaceCard(card));
 
-  const skippedConsecutively = skipsInARow.value === 2;
+  const skippedConsecutively = skipsInARow.value > 4;
 
-  if (!hasPlayableCards || skippedConsecutively) {
+  if ((!hasPlayableCards && !skippedConsecutively) || skippedConsecutively || !hasPawn) {
     isGameEnd.value = true;
+    stopMapTheme()
     setTimeout(() => {
       isGameEnd.value = false;
       showGacha.value = true; // Show Gacha when game ends
-    }, 3000);
+    }, 4000);
     
     let winnerCharacter = null
     if (scores.value[1] > scores.value[2]) {
@@ -377,17 +385,9 @@ const changeTurn = () => {
 };
 
 const skipTurn = () => {
-  const previousTurn = currentTurn.value;
-  currentTurn.value = currentTurn.value === 1 ? 2 : 1;
-  turnCounter.value++;
   skipsInARow.value++; // Increment skips
 
-  if (turnCounter.value % 2 === 0) {
-    round.value++;
-  }
-
-  updatePlayerHands();
-  calculateScore();
+  changeTurn();
   selectedCard.value = null; // Clear any selected card when skipping
 };
 
@@ -428,6 +428,46 @@ const playCharacterWinSound = (characterId) => {
   audio.volume = 0.10
   audio.play()
 };
+
+const mapThemeAudio = ref(null)
+
+const playMapTheme = () => {
+  if (!gameProps.selectedMap) {
+    console.error("No map selected!")
+    return
+  }
+
+  let mapName = gameProps.selectedMap.split('/').at(-1)
+  if (mapName.includes('.')) {
+    mapName = mapName.split('.')[0]
+  }
+
+  const themePath = `/sounds/mapthemes/${mapName}.mp3`
+  console.log("🎵 Theme Path:", themePath)
+
+  if (mapThemeAudio.value) {
+    mapThemeAudio.value.pause()
+    mapThemeAudio.value = null
+  }
+
+  mapThemeAudio.value = new Audio(themePath)
+  mapThemeAudio.value.loop = true;
+  mapThemeAudio.value.volume = 0.03;
+  mapThemeAudio.value.play().catch(error => {
+    console.error("🔇 Audio Play Error:", error)
+  })
+}
+
+const stopMapTheme = () => {
+  if (mapThemeAudio.value) {
+    console.log("Stopping map theme...")
+    mapThemeAudio.value.pause();
+    mapThemeAudio.value.currentTime = 0
+    mapThemeAudio.value = null
+  } else {
+    console.log("No audio to stop")
+  }
+};
 </script>
 
 <template>
@@ -464,11 +504,11 @@ const playCharacterWinSound = (characterId) => {
       </PlayerCharacter>
     </div>
 
-    <div class="flex gap-16 mt-5">
+    <div class="flex items-center mt-5">
       <Hand v-if="currentTurn === 1" :player="1" :currentTurn="currentTurn" :hand="playerHands[1]" @selectCard="selectCard" />
       <Hand v-if="currentTurn === 2" :player="2" :currentTurn="currentTurn" :hand="playerHands[2]" @selectCard="selectCard" />
       <button
-        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-4"
+        class="bg-gray-900 hover:bg-gray-800 text-white font-bold p-4 rounded-full border-4 border-gray-700"
         @click="skipTurn"
       >
         Skip Turn

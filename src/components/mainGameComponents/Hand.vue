@@ -29,15 +29,15 @@ const selectCard = (card) => {
 </script>
 
 <template>
-  <div class="flex gap-4 overflow-x-scroll px-4 pt-2">
+  <div class="scale-75 flex p-3 gap-3 bg-gray-900 border-t border-gray-700 overflow-x-auto scrollbar-hide">
     <div
-      v-for="(card, index) in handProps.hand"
+      v-for="(card, index) in hand"
       :key="index"
       @click="selectCard(card)"
-      class="cursor-pointer"
+      class="cursor-pointer transition-transform transform hover:scale-90"
       :class="{
-        'border-4 border-blue-500': handProps.player === 1 && handProps.currentTurn === 1,
-        'border-4 border-red-500': handProps.player === 2 && handProps.currentTurn === 2,
+        'border-4 border-blue-500 shadow-lg': player === 1 && currentTurn === 1,
+        'border-4 border-red-500 shadow-lg': player === 2 && currentTurn === 2,
       }"
     >
       <Card
@@ -46,7 +46,6 @@ const selectCard = (card) => {
         :score="card.Power"
         :pawnsRequired="card.pawnsRequired"
         :pawnLocations="card.pawnLocations"
-        class="scale-80 -mx-6 -mt-18 origin-bottom hover:scale-82"
       />
     </div>
   </div>
