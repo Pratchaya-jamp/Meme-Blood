@@ -538,7 +538,7 @@ const closeGacha = () => {
       >
       </PlayerCharacter>
     </div>
-    <div class="flex items-center transition-all duration-300 hover:-mt-35">
+    <div class="flex items-center transition-all duration-300 -mt-10 hover:-mt-35">
       <Hand v-if="currentTurn === 1" :player="1" :currentTurn="currentTurn" :hand="playerHands[1]" @selectCard="selectCard" />
       <Hand v-if="currentTurn === 2" :player="2" :currentTurn="currentTurn" :hand="playerHands[2]" @selectCard="selectCard" />
       <div class="flex flex-col items-center">
