@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from "vue";
 import Card from "./mainGameComponents/Card.vue";
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const props = defineProps({
   Gachaitems: {
@@ -26,8 +29,8 @@ const getCard = ref(null);
 const locked = ref(false);
 
 const spinGacha = () => {
-  if(!locked.value) {
-    locked.value = true
+  if (!locked.value) {
+    locked.value = true;
     const randNum = Math.random() * 100;
 
     if (randNum <= props.GoldCardRate) {
@@ -46,12 +49,13 @@ const spinGacha = () => {
     }
 
     setTimeout(() => {
-      locked.value = false
-    }, 3000);
+      locked.value = false;
+      router.push({ name: 'Inventory' }); // Now router should work properly
+    }, 2500);
   }
 };
-
 </script>
+
 
 <template>
   <div class="fixed inset-0 z-50 flex flex-col items-center justify-center gap-10 min-h-screen backdrop-blur-md">
