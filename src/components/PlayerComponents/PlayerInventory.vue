@@ -3,6 +3,7 @@ import { editItem,addItem,deleteItemById } from '@/lib/fetchUtils';
 import { computed, ref,watch, watchEffect } from 'vue'
 import GameLobby from '../UI/GameLobby.vue';
 import ShowCard from './ShowCard.vue';
+import Card from '../mainGameComponents/Card.vue';
 const inventoryProp = defineProps({
     inventory:{
         type:Array,
@@ -406,11 +407,18 @@ const closeCardDetails = () => {
                 <div class="flex flex-wrap gap-4">
                     <div v-for="card in getCardsInInventory" :key="card.idcard"
                         @click="selectInventoryCardFunc(card)"
-                        :class="[ 'cursor-pointer relative w-36 h-48 bg-gray-800 border-4 border-gray-600 rounded-lg hover:scale-105 transition-transform',
+                        :class="[ 'cursor-pointer relative w-36 h-54 bg-gray-800 border-4 border-gray-600 rounded-lg hover:scale-105 transition-transform',
                                     selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'shadow-lg border-purple-500' : '',
                                     addCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-green-700 border-green-500' : '',
                                     removeCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-red-700 border-red-500' : '' ]">
-                        <img :src="`/cards/${card.idcard}.png`" class="w-full h-full object-cover rounded-lg">
+                        <Card
+                            class="scale-59 right-8/21 bottom-9/25 object-cover rounded-lg"
+                            :title="card.cardname"
+                            :imageUrl="`/cards/${card.idcard}.png`"
+                            :score="card.Power"
+                            :pawnsRequired="card.pawnsRequired"
+                            :pawnLocations="card.pawnLocations"
+                        />
                     </div>
                 </div>
                 <button @click="editingDeck"

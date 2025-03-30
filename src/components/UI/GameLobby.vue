@@ -60,6 +60,8 @@ const findCharacterName = (chId) => {
 }
 
 const setMainGamePage = () =>{
+    if(!selectedCharPlayer1.value || !selectedCharPlayer2.value || !selectedDeckPlayer1.value || !selectedDeckPlayer2.value || !selectedMap.value) return;
+
     mainGamePagestatus.value = true
 }
 const showSettings = () => {
