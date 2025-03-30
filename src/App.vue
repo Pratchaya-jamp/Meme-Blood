@@ -10,8 +10,11 @@ import Gacha from './components/Gacha.vue';
     <!-- <GameManager /> -->
      <!-- <PlayerManager/> --> 
     <!-- <HeadOrTail/> -->
-    <mainMenu/>
+    <!-- <mainMenu/> -->
     <!-- <Gacha /> -->
+    <div>
+      <router-view />
+    </div>
 </template>
 
 <style scoped>
