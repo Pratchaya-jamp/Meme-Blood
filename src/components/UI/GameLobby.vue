@@ -16,8 +16,20 @@ const props = defineProps({
         type: Array,
         required: true
     },
-    currentInventory: {
-        type: Number,
+    currentUser: {
+        type: Object,
+        required: true
+    },
+    allDecks:{
+        type:Array,
+        required: true
+    },
+    allCards:{
+        type:Array,
+        required: true
+    },
+    userInv:{
+        type:Array,
         required: true
     }
 })
@@ -188,7 +200,11 @@ const playHoverButton = () => {
         :player2Deck="selectedDeckPlayer2"
         :playerCharacter1="selectedCharPlayer1"
         :playerCharacter2="selectedCharPlayer2"
-        :currentUser="props.currentInventory"
+        :currentUser="props.currentUser"
+        :allDecks="props.allDecks"
+        :allCards="props.allCards"
+        :userInv="props.userInv"
+        :allCharacters="props.allCharacters"
         :selectedMap="selectedMap"/>
 </template>
 

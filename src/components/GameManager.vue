@@ -15,6 +15,8 @@ const data = ref(null);
 const isGameEnd = ref(false) // false by default
 const skipsInARow = ref(0); // count how many player skip turn
 const showGacha = ref(false); // Add showGacha state
+const showPlayerInventory = ref(false)
+
 
 const gameProps = defineProps({
   player1Deck: {
@@ -38,9 +40,25 @@ const gameProps = defineProps({
     required: true
   },
   currentUser: {
-    type: Number,
+    type: Object,
     required: true,
   },
+  allDecks:{
+    type:Array,
+    required: true
+  },
+  allCards:{
+    type:Array,
+    required: true
+  },
+  userInv:{
+    type:Array,
+    required: true
+  },
+  allCharacters: {
+    type: Array,
+    required: true
+  }
 })
 
 const board = ref([
@@ -385,19 +403,24 @@ const skipTurn = () => {
 };
 
 const spinGacha = async (card) => {
-  if (!gameProps.currentUser) {
-    console.error("currentUser is undefined.");
+  if (!gameProps.currentUser.uid) {
+    console.error("currentUser is undefined or Gacha already spun.");
     return;
   }
   try {
     const inventories = await getItems(`${import.meta.env.VITE_APP_URL}/inventory`);
-    const userInventory = inventories.find(inv => inv.uid === gameProps.currentUser);
+    const userInventory = inventories.find(
+      (inv) => inv.uid === gameProps.currentUser.uid
+    );
 
     if (userInventory) {
-      // ตรวจสอบว่า cardid มีอยู่ใน inventory แล้วหรือไม่
       if (!userInventory.cardid.includes(card.idcard)) {
         userInventory.cardid.push(card.idcard);
-        await editItem(`${import.meta.env.VITE_APP_URL}/inventory`, userInventory.id, userInventory);
+        await editItem(
+          `${import.meta.env.VITE_APP_URL}/inventory`,
+          userInventory.id,
+          userInventory
+        );
         console.log(`Added card ${card.cardname} to inventory`);
       } else {
         console.log(`Card ${card.cardname} already exists in inventory.`);
@@ -478,42 +501,36 @@ const stopMapTheme = () => {
     console.log("No audio to stop")
   }
 };
-
-const hoverBtnSound = new Audio('/sounds/se/hover.mp3');
-hoverBtnSound.volume = 0.1
-
-const playHoverButton = () => {
-    hoverBtnSound.currentTime = 0
-    hoverBtnSound.play().catch(error => console.log("Sound play error:", error))
-}
+const closeGacha = () => {
+  showGacha.value = false;
+  showPlayerInventory.value = true;
+};
 </script>
 
 <template>
-  <HeadOrTail @playerTurn="flipCoin" />
-  <img 
-    :src="selectedMap" 
-    alt="background" 
-    class="fixed w-screen h-screen"
-  >
+  <template v-if="!showPlayerInventory">
+    <HeadOrTail @playerTurn="flipCoin" />
+    <img
+      :src="selectedMap"
+      alt="background"
+      class="fixed w-screen h-screen"
+    />
 
-  <!-- MAIN GAME -->
-  <div class="flex flex-col items-center -mt-10 z-10 overflow-hidden">
-    <div class="text-2xl font-bold mt-4">
-      <span>Round: {{ round }}</span>
-      <span class="ml-4" :class="currentTurn === 1 ? 'text-blue-500' : 'text-red-500'">
-        Player {{ currentTurn }}'s Turn
-      </span>
-    </div>
+    <div class="flex flex-col items-center -mt-10 z-10 overflow-hidden">
+      <div class="text-2xl font-bold mt-4">
+        <span>Round: {{ round }}</span>
+        <span class="ml-4" :class="currentTurn === 1 ? 'text-blue-500' : 'text-red-500'">
+          Player {{ currentTurn }}'s Turn
+        </span>
+      </div>
 
-    <div class="flex gap-15 items-center justify-center">
-      <!-- Left Player -->
-      <PlayerCharacter 
-        :selectId="gameProps.playerCharacter1"
-      >
-      </PlayerCharacter>
+      <div class="flex gap-15 items-center justify-center">
+        <PlayerCharacter
+          :selectId="gameProps.playerCharacter1"
+        >
+        </PlayerCharacter>
 
-      <!-- Table -->
-      <TableGame :currentTurn="currentTurn" :board="board" @placeCard="placeCard" />
+        <TableGame :currentTurn="currentTurn" :board="board" @placeCard="placeCard" />
 
       <!-- Right Player -->
       <PlayerCharacter 
@@ -527,7 +544,6 @@ const playHoverButton = () => {
       <div class="flex flex-col items-center">
         <button
           class="bg-red-900 hover:bg-red-800 text-white font-bold px-4 py-8 rounded-3xl border-4 border-black"
-          @mouseenter="playHoverButton"
           @click="skipTurn"
         >
           {{ skipsInARow < 4 ? 'Skip Turn' : 'Surrender' }}
@@ -546,60 +562,65 @@ const playHoverButton = () => {
   <div
     v-if="isGameEnd"
       class="fixed inset-0 flex flex-col gap-5 justify-center items-center z-50 w-screen h-screen bg-gray-800/90 text-2xl font-bold text-center"
-  >
-    <!-- Player 1 Win-->
-    <p v-if="scores[1] > scores[2]" class="text-green-500 text-4xl mt-5">🏆 Player 1 Wins!</p>
-    <PlayerCharacter
+    >
+      <p v-if="scores[1] > scores[2]" class="text-green-500 text-4xl mt-5">🏆 Player 1 Wins!</p>
+      <PlayerCharacter
         v-if="scores[1] > scores[2]"
         :selectId="gameProps.playerCharacter1"
       >
-    </PlayerCharacter>
+      </PlayerCharacter>
 
-
-    <!-- Player 2 Win -->
-    <p v-if="scores[2] > scores[1]" class="text-green-500 text-4xl mt-5">🏆 Player 2 Wins!</p>
-    <PlayerCharacter 
+      <p v-if="scores[2] > scores[1]" class="text-green-500 text-4xl mt-5">🏆 Player 2 Wins!</p>
+      <PlayerCharacter
         v-if="scores[2] > scores[1]"
         :selectId="gameProps.playerCharacter2"
       >
-    </PlayerCharacter>
+      </PlayerCharacter>
 
-    <!-- Win both -->
-    <p v-if="scores[2] === scores[1]" class="text-gray-400 text-4xl my-5">It's a Tie!</p>
-    <div 
-      v-if="scores[2] === scores[1]"
-      class="flex justify-center items-center gap-5 mb-5"
-    >
-      <!-- Player 1 -->
-      <PlayerCharacter
+      <p v-if="scores[2] === scores[1]" class="text-gray-400 text-4xl my-5">It's a Tie!</p>
+      <div
+        v-if="scores[2] === scores[1]"
+        class="flex justify-center items-center gap-5 mb-5"
+      >
+        <PlayerCharacter
           :selectId="gameProps.playerCharacter1"
         >
-      </PlayerCharacter>
+        </PlayerCharacter>
 
-      <span class="text-gray-400 text-9xl">🤝</span>
+        <span class="text-gray-400 text-9xl">🤝</span>
 
-      <!-- Player 2 -->
-      <PlayerCharacter 
+        <PlayerCharacter
           :selectId="gameProps.playerCharacter2"
         >
-      </PlayerCharacter>
+        </PlayerCharacter>
+      </div>
+
+      <div>
+        <p class="text-blue-500">Player 1 Score: {{ scores[1] }}</p>
+        <p class="text-red-500">Player 2 Score: {{ scores[2] }}</p>
+      </div>
     </div>
 
-    <!-- Show score both -->
-    <div>
-      <p class="text-blue-500">Player 1 Score: {{ scores[1] }}</p>
-      <p class="text-red-500">Player 2 Score: {{ scores[2] }}</p>
-    </div>
-
-  </div>
-
-  <Gacha
-    v-if="showGacha"
-    :Gachaitems="data?.card || []"
-    :GoldCardRate="1"
-    :EpicCardRate="20"
-    @spinGacha="spinGacha"
+    <Gacha
+      v-if="showGacha"
+      :Gachaitems="data?.card || []"
+      :GoldCardRate="1"
+      :EpicCardRate="20"
+      :inventory="gameProps.userInv"
+      :cards="gameProps.allCards"
+      :current-user="gameProps.currentUser"
+      :decks="gameProps.allDecks"
+      :characters="gameProps.allCharacters"
+      @spinGacha="spinGacha"
+      @closeGacha="closeGacha"
+    />
+  </template>
+  <PlayerInventory
+    v-if="showPlayerInventory"
+    :inventory="gameProps.userInv"
+    :cards="gameProps.allCards"
+    :decks="gameProps.allDecks"
+    :characters="gameProps.allCharacters"
     :currentUser="gameProps.currentUser"
   />
-
 </template>
