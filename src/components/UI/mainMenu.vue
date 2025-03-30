@@ -55,7 +55,7 @@ const updateSeVolume = (value) => {
 
 <template>
     <div @click="unlockAudio" v-if="currentPage === 'MainMenu'" 
-        class="flex flex-col items-center justify-center min-h-screen bg-cover bg-center"
+        class="flex flex-col items-center justify-center min-w-screen min-h-screen bg-cover bg-center"
         :style="{ backgroundImage: `url(${mainMenuBg})` }">
         <h1 class="text-4xl font-bold mb-8 text-center text-white">
          война(Voyna) Of Meme
