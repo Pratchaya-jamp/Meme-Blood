@@ -135,6 +135,7 @@ const flipCoin = (playerTurn) => {
   currentTurn.value = playerTurn;
   initCardPlayerHands(gameProps.player1Deck, gameProps.player2Deck);
   skipsInARow.value = 0; // Reset skips at the beginning
+  playMapTheme();
 };
 
 // Select a card from Hand (Receive from Hand.vue)
@@ -347,6 +348,7 @@ const calculateScore = () => {
 
   if ((!hasPlayableCards && !skippedConsecutively) || skippedConsecutively || !hasPawn) {
     isGameEnd.value = true;
+    stopMapTheme()
     setTimeout(() => {
       isGameEnd.value = false;
       showGacha.value = true; // Show Gacha when game ends
@@ -425,6 +427,46 @@ const playCharacterWinSound = (characterId) => {
   const audio = new Audio(soundPath)
   audio.volume = 0.10
   audio.play()
+};
+
+const mapThemeAudio = ref(null)
+
+const playMapTheme = () => {
+  if (!gameProps.selectedMap) {
+    console.error("No map selected!")
+    return
+  }
+
+  let mapName = gameProps.selectedMap.split('/').at(-1)
+  if (mapName.includes('.')) {
+    mapName = mapName.split('.')[0]
+  }
+
+  const themePath = `/sounds/mapthemes/${mapName}.mp3`
+  console.log("🎵 Theme Path:", themePath)
+
+  if (mapThemeAudio.value) {
+    mapThemeAudio.value.pause()
+    mapThemeAudio.value = null
+  }
+
+  mapThemeAudio.value = new Audio(themePath)
+  mapThemeAudio.value.loop = true;
+  mapThemeAudio.value.volume = 0.03;
+  mapThemeAudio.value.play().catch(error => {
+    console.error("🔇 Audio Play Error:", error)
+  })
+}
+
+const stopMapTheme = () => {
+  if (mapThemeAudio.value) {
+    console.log("Stopping map theme...")
+    mapThemeAudio.value.pause();
+    mapThemeAudio.value.currentTime = 0
+    mapThemeAudio.value = null
+  } else {
+    console.log("No audio to stop")
+  }
 };
 </script>
 
