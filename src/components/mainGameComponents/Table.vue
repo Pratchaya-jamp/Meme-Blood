@@ -37,6 +37,15 @@ const getCellClass = (col) => {
     }
   }
 };
+
+const placeCardSound = '/sounds/se/placecard.mp3';
+
+const playPlaceCard = () => {
+    const placesound = new Audio(placeCardSound)
+    placesound.volume = 0.3
+    placesound.currentTime = 0
+    placesound.play().catch(error => console.log("Sound play error:", error))
+}
 </script>
 
 <template>
@@ -50,6 +59,7 @@ const getCellClass = (col) => {
               :key="colIndex"
               class="text-center border border-black text-2xl w-32 h-44"
               :class="getCellClass(col)"
+              @mouseup="playPlaceCard"
               @click="placeCard(rowIndex, colIndex)"
             >
               <span v-if="typeof col === 'object' && 'scoreP1' in col" class="text-blue-500 font-bold">

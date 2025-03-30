@@ -15,6 +15,7 @@ const data = ref(null);
 const isGameEnd = ref(false) // false by default
 const skipsInARow = ref(0); // count how many player skip turn
 const showGacha = ref(false); // Add showGacha state
+const showPlayerInventory = ref(false)
 
 
 const gameProps = defineProps({
@@ -39,15 +40,31 @@ const gameProps = defineProps({
     required: true
   },
   currentUser: {
-    type: Number,
+    type: Object,
     required: true,
   },
+  allDecks:{
+    type:Array,
+    required: true
+  },
+  allCards:{
+    type:Array,
+    required: true
+  },
+  userInv:{
+    type:Array,
+    required: true
+  },
+  allCharacters: {
+    type: Array,
+    required: true
+  }
 })
 
 const board = ref([
-  [{scoreP1: 0}, {pawn1: 2}, "blank", "blank", "blank", "blank", {pawn2: 2}, {scoreP2: 0}],
-  [{scoreP1: 0}, {pawn1: 2}, "blank", "blank", "blank", "blank", {pawn2: 2}, {scoreP2: 0}],
-  [{scoreP1: 0}, {pawn1: 2}, "blank", "blank", "blank", "blank", {pawn2: 2}, {scoreP2: 0}],
+  [{scoreP1: 0}, {pawn1: 1}, "blank", "blank", "blank", "blank", {pawn2: 1}, {scoreP2: 0}],
+  [{scoreP1: 0}, {pawn1: 1}, "blank", "blank", "blank", "blank", {pawn2: 1}, {scoreP2: 0}],
+  [{scoreP1: 0}, {pawn1: 1}, "blank", "blank", "blank", "blank", {pawn2: 1}, {scoreP2: 0}],
 ]);
 
 onMounted(async () => {
@@ -267,14 +284,6 @@ const cardAbilityOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
 
 const scores = ref({ 1: 0, 2: 0 }); // Store Player 1 & 2 scores
 
-const canPlaceCard = (card) => {
-  return board.value.some(row => 
-      row.some(slot => 
-        typeof slot === "object" && slot[`pawn${currentTurn.value}`] >= card.pawnsRequired
-    )
-  );
-};
-
 const calculateScore = () => {
   let totalScoreP1 = 0;
   let totalScoreP2 = 0;
@@ -341,28 +350,30 @@ const calculateScore = () => {
     row.some(slot => typeof slot === "object" && (slot.pawn1 || slot.pawn2))
   );
 
-  const hasPlayableCards = playerHands.value[1].some(card => canPlaceCard(card)) ||
-                            playerHands.value[2].some(card => canPlaceCard(card));
+  const overSkipped = skipsInARow.value > 4;
 
-  const skippedConsecutively = skipsInARow.value > 4;
-
-  if ((!hasPlayableCards && !skippedConsecutively) || skippedConsecutively || !hasPawn) {
+  if (overSkipped || !hasPawn) {
     isGameEnd.value = true;
     stopMapTheme()
     setTimeout(() => {
       isGameEnd.value = false;
       showGacha.value = true; // Show Gacha when game ends
-    }, 4000);
+    }, 5000);
     
     let winnerCharacter = null
+    let isDraw = false
     if (scores.value[1] > scores.value[2]) {
       winnerCharacter = gameProps.playerCharacter1
     } else if (scores.value[2] > scores.value[1]) {
       winnerCharacter = gameProps.playerCharacter2
+    } else {
+      isDraw = true
     }
   
     if (winnerCharacter) {
-      playCharacterWinSound(winnerCharacter)
+      winnerSound = playCharacterWinSound(winnerCharacter)
+    } else if (isDraw) {
+      playDrawSound()
     }
   
     console.log(`🎉 Game Over! Final Scores → Player 1: ${scores.value[1]}, Player 2: ${scores.value[2]}`)
@@ -392,19 +403,24 @@ const skipTurn = () => {
 };
 
 const spinGacha = async (card) => {
-  if (!gameProps.currentUser) {
-    console.error("currentUser is undefined.");
+  if (!gameProps.currentUser.uid) {
+    console.error("currentUser is undefined or Gacha already spun.");
     return;
   }
   try {
     const inventories = await getItems(`${import.meta.env.VITE_APP_URL}/inventory`);
-    const userInventory = inventories.find(inv => inv.uid === gameProps.currentUser);
+    const userInventory = inventories.find(
+      (inv) => inv.uid === gameProps.currentUser.uid
+    );
 
     if (userInventory) {
-      // ตรวจสอบว่า cardid มีอยู่ใน inventory แล้วหรือไม่
       if (!userInventory.cardid.includes(card.idcard)) {
         userInventory.cardid.push(card.idcard);
-        await editItem(`${import.meta.env.VITE_APP_URL}/inventory`, userInventory.id, userInventory);
+        await editItem(
+          `${import.meta.env.VITE_APP_URL}/inventory`,
+          userInventory.id,
+          userInventory
+        );
         console.log(`Added card ${card.cardname} to inventory`);
       } else {
         console.log(`Card ${card.cardname} already exists in inventory.`);
@@ -427,7 +443,24 @@ const playCharacterWinSound = (characterId) => {
   const audio = new Audio(soundPath)
   audio.volume = 0.10
   audio.play()
+
+  return audio
 };
+
+const stopWinnerSound = () => {
+  if (winnerSound) {
+    winnerSound.pause()
+    winnerSound.currentTime = 0
+    winnerSound = null 
+  }
+}
+
+const playDrawSound = () => {
+  const soundPath = "/sounds/charactersounds/draw.mp3"
+  const audio = new Audio(soundPath);
+  audio.volume = 0.10;
+  audio.play();
+}
 
 const mapThemeAudio = ref(null)
 
@@ -468,34 +501,36 @@ const stopMapTheme = () => {
     console.log("No audio to stop")
   }
 };
+const closeGacha = () => {
+  showGacha.value = false;
+  showPlayerInventory.value = true;
+};
 </script>
 
 <template>
-  <HeadOrTail @playerTurn="flipCoin" />
-  <img 
-    :src="selectedMap" 
-    alt="background" 
-    class="fixed w-screen h-screen"
-  >
+  <template v-if="!showPlayerInventory">
+    <HeadOrTail @playerTurn="flipCoin" />
+    <img
+      :src="selectedMap"
+      alt="background"
+      class="fixed w-screen h-screen"
+    />
 
-  <!-- MAIN GAME -->
-  <div class="flex flex-col items-center z-10">
-    <div class="text-2xl font-bold mt-4">
-      <span>Round: {{ round }}</span>
-      <span class="ml-4" :class="currentTurn === 1 ? 'text-blue-500' : 'text-red-500'">
-        Player {{ currentTurn }}'s Turn
-      </span>
-    </div>
+    <div class="flex flex-col items-center -mt-10 z-10 overflow-hidden">
+      <div class="text-2xl font-bold mt-4">
+        <span>Round: {{ round }}</span>
+        <span class="ml-4" :class="currentTurn === 1 ? 'text-blue-500' : 'text-red-500'">
+          Player {{ currentTurn }}'s Turn
+        </span>
+      </div>
 
-    <div class="flex gap-15 items-center justify-center">
-      <!-- Left Player -->
-      <PlayerCharacter 
-        :selectId="gameProps.playerCharacter1"
-      >
-      </PlayerCharacter>
+      <div class="flex gap-15 items-center justify-center">
+        <PlayerCharacter
+          :selectId="gameProps.playerCharacter1"
+        >
+        </PlayerCharacter>
 
-      <!-- Table -->
-      <TableGame :currentTurn="currentTurn" :board="board" @placeCard="placeCard" />
+        <TableGame :currentTurn="currentTurn" :board="board" @placeCard="placeCard" />
 
       <!-- Right Player -->
       <PlayerCharacter 
@@ -503,39 +538,89 @@ const stopMapTheme = () => {
       >
       </PlayerCharacter>
     </div>
-
-    <div class="flex items-center mt-5">
+    <div class="flex items-center transition-all duration-300 hover:-mt-35">
       <Hand v-if="currentTurn === 1" :player="1" :currentTurn="currentTurn" :hand="playerHands[1]" @selectCard="selectCard" />
       <Hand v-if="currentTurn === 2" :player="2" :currentTurn="currentTurn" :hand="playerHands[2]" @selectCard="selectCard" />
-      <button
-        class="bg-gray-900 hover:bg-gray-800 text-white font-bold p-4 rounded-full border-4 border-gray-700"
-        @click="skipTurn"
-      >
-        Skip Turn
-      </button>
+      <div class="flex flex-col items-center">
+        <button
+          class="bg-red-900 hover:bg-red-800 text-white font-bold px-4 py-8 rounded-3xl border-4 border-black"
+          @click="skipTurn"
+        >
+          {{ skipsInARow < 4 ? 'Skip Turn' : 'Surrender' }}
+        </button>
+        <p
+          v-if="skipsInARow < 4" 
+          class="font-bold text-red-400"
+        >
+        Remain: {{ 4 - skipsInARow }}
+        </p>
+      </div>
     </div>
   </div>
 
   <!-- END GAME -->
   <div
     v-if="isGameEnd"
-      class="fixed inset-0 flex flex-col justify-center items-center z-50 w-screen h-screen bg-gray-800/90 mt-6 text-2xl font-bold text-center"
-  >
-    <p class="text-blue-500">Player 1 Score: {{ scores[1] }}</p>
-    <p class="text-red-500">Player 2 Score: {{ scores[2] }}</p>
+      class="fixed inset-0 flex flex-col gap-5 justify-center items-center z-50 w-screen h-screen bg-gray-800/90 text-2xl font-bold text-center"
+    >
+      <p v-if="scores[1] > scores[2]" class="text-green-500 text-4xl mt-5">🏆 Player 1 Wins!</p>
+      <PlayerCharacter
+        v-if="scores[1] > scores[2]"
+        :selectId="gameProps.playerCharacter1"
+      >
+      </PlayerCharacter>
 
-    <p v-if="scores[1] > scores[2]" class="text-green-500 mt-4">🏆 Player 1 Wins!</p>
-    <p v-else-if="scores[2] > scores[1]" class="text-green-500 mt-4">🏆 Player 2 Wins!</p>
-    <p v-else class="text-gray-400 mt-4">🤝 It's a Tie!</p>
-  </div>
+      <p v-if="scores[2] > scores[1]" class="text-green-500 text-4xl mt-5">🏆 Player 2 Wins!</p>
+      <PlayerCharacter
+        v-if="scores[2] > scores[1]"
+        :selectId="gameProps.playerCharacter2"
+      >
+      </PlayerCharacter>
 
-  <Gacha
-    v-if="showGacha"
-    :Gachaitems="data?.card || []"
-    :GoldCardRate="1"
-    :EpicCardRate="20"
-    @spinGacha="spinGacha"
+      <p v-if="scores[2] === scores[1]" class="text-gray-400 text-4xl my-5">It's a Tie!</p>
+      <div
+        v-if="scores[2] === scores[1]"
+        class="flex justify-center items-center gap-5 mb-5"
+      >
+        <PlayerCharacter
+          :selectId="gameProps.playerCharacter1"
+        >
+        </PlayerCharacter>
+
+        <span class="text-gray-400 text-9xl">🤝</span>
+
+        <PlayerCharacter
+          :selectId="gameProps.playerCharacter2"
+        >
+        </PlayerCharacter>
+      </div>
+
+      <div>
+        <p class="text-blue-500">Player 1 Score: {{ scores[1] }}</p>
+        <p class="text-red-500">Player 2 Score: {{ scores[2] }}</p>
+      </div>
+    </div>
+
+    <Gacha
+      v-if="showGacha"
+      :Gachaitems="data?.card || []"
+      :GoldCardRate="1"
+      :EpicCardRate="20"
+      :inventory="gameProps.userInv"
+      :cards="gameProps.allCards"
+      :current-user="gameProps.currentUser"
+      :decks="gameProps.allDecks"
+      :characters="gameProps.allCharacters"
+      @spinGacha="spinGacha"
+      @closeGacha="closeGacha"
+    />
+  </template>
+  <PlayerInventory
+    v-if="showPlayerInventory"
+    :inventory="gameProps.userInv"
+    :cards="gameProps.allCards"
+    :decks="gameProps.allDecks"
+    :characters="gameProps.allCharacters"
     :currentUser="gameProps.currentUser"
   />
-
 </template>

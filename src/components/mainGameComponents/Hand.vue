@@ -26,6 +26,15 @@ const selectCard = (card) => {
     emits("selectCard", card);
   }
 };
+
+const hoverCardSound = '/sounds/se/cardhover.mp3';
+
+const playHoverCard = () => {
+    const cardsound = new Audio(hoverCardSound)
+    cardsound.volume = 0.3
+    cardsound.currentTime = 0
+    cardsound.play().catch(error => console.log("Sound play error:", error))
+}
 </script>
 
 <template>
@@ -33,6 +42,7 @@ const selectCard = (card) => {
     <div
       v-for="(card, index) in hand"
       :key="index"
+      @mouseenter="playHoverCard"
       @click="selectCard(card)"
       class="cursor-pointer transition-transform transform hover:scale-90"
       :class="{

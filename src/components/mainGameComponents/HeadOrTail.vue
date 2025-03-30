@@ -25,6 +25,14 @@ const flipCoin = () => {
     console.log("คุณกดเร็วเกินไป");
   }
 }
+
+const hoverBtnSound = new Audio('/sounds/se/hover.mp3');
+hoverBtnSound.volume = 0.1
+
+const playHoverButton = () => {
+    hoverBtnSound.currentTime = 0
+    hoverBtnSound.play().catch(error => console.log("Sound play error:", error))
+}
 </script>
 
 <template>
@@ -48,6 +56,7 @@ const flipCoin = () => {
       <!-- Coin Flip Button -->
       <button 
         v-if="!resultCoin"
+        @mouseenter="playHoverButton"
         @click="flipCoin"
         class="bg-gradient-to-r from-yellow-600 to-yellow-400 font-bold text-black text-lg px-6 py-3 rounded-xl shadow-lg
                hover:scale-105 active:scale-95 transition-all duration-200"

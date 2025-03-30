@@ -3,24 +3,25 @@
         Group Member
 -------------------------------
 1. **Natkamon Chotipiboonsub** 66130500028
-- [ ] R&G System (Head or Tail)
-- [ ] Card Mechanicsm System
-- [ ] Player Character (Player's profile)
+- [x] R&G System (Head or Tail)
+- [x] Card Mechanicsm System
+- [x] Player Character (Player's profile)
+- [x] Maps Background
 2. **Songkiatchai Wongthaidee** 66130500035
-- [ ] Main Game Logic (Calculate Score)
-- [ ] Card System
+- [x] Main Game Logic (Calculate Score)
+- [x] Card System
 - [x] Table System
 - [x] Round System
 3. **Thiti Prasopsub** 66130500044
 - [x] Inventory (Deck System)
 - [x] PlayerManager
-- [ ] Card Available
-- [ ] Setting
-- [ ] Gacha System (Optional)
+- [x] Card Available
+- [x] Setting
+- [x] Gacha System (Optional)
 4. **Pratchaya Champates** 66130500058
 - [x] Player Inventory
 - [x] PlayerManager
-- [ ] Card Available
+- [x] Card Available
 - [x] Card Design & Visual Motion (Optional)
 
 **Update CheckBox by remove blank space & add "X" in the box to certify what feature has finished.**
@@ -53,6 +54,9 @@
 | --------- |028               | Update player layout position, Add sample buff/debuff, Add pawn locations card in db.json, Fetch player's data from backend       |
 | WEEK 5    |044               | add Lobby menu, show character picture in game and menu and create working score system in main game and make pawn cannot add more than 3 |
 | ------    |044(2)            | real time culcuate score in row make end game condition |
+| ------    |058               | Setting-Up Game BGM, hover button sound, Legendary Card sound |
+| ------    |028               | Flip coin to start player 1 or 2, Prevent multiple click flip coin button, Template and Prevent multiple spin gacha, Add maps background |
+| ------    |035               | Manage Layout In PlayerInventory, Card and GameManager, Add randam card system, Add 3 card to each player at Begining, Add 1 random card after skip turn Or change turn, Validate Play Button in GameLobby |
 
 ##### This table was create for certify what you have done in each week within short Description by remove the line that i was marked
 ##### For example:

@@ -3,6 +3,7 @@ import { editItem,addItem,deleteItemById } from '@/lib/fetchUtils';
 import { computed, ref,watch, watchEffect } from 'vue'
 import GameLobby from '../UI/GameLobby.vue';
 import ShowCard from './ShowCard.vue';
+import Card from '../mainGameComponents/Card.vue';
 const inventoryProp = defineProps({
     inventory:{
         type:Array,
@@ -341,6 +342,23 @@ const closeCardDetails = () => {
   showCardDetails.value = false
   selectedCard.value = null
 }
+
+const hoverBtnSound = new Audio('/sounds/se/hover.mp3');
+hoverBtnSound.volume = 0.1
+
+const playHoverButton = () => {
+    hoverBtnSound.currentTime = 0
+    hoverBtnSound.play().catch(error => console.log("Sound play error:", error))
+}
+
+const hoverCardSound = '/sounds/se/cardhover.mp3';
+
+const playHoverCard = () => {
+    const cardsound = new Audio(hoverCardSound)
+    cardsound.volume = 0.5
+    cardsound.currentTime = 0
+    cardsound.play().catch(error => console.log("Sound play error:", error))
+}
 </script>
 
 <template>
@@ -368,11 +386,18 @@ const closeCardDetails = () => {
                     <div class="flex flex-wrap gap-4">
                         <div v-for="card in getCardsInDeck" :key="card.idcard"
                             @click="selectInventoryCardFunc(card)"
-                            :class="[ 'cursor-pointer relative w-36 h-48 bg-gray-800 border-4 border-gray-600 rounded-lg hover:scale-105 transition-transform',
+                            :class="[ 'cursor-pointer relative w-36 h-54 bg-gray-800 border-4 border-gray-600 rounded-lg hover:scale-105 transition-transform',
                                         selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'shadow-lg border-purple-500' : '',
                                         addCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-green-700 border-green-500' : '',
                                         removeCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-red-700 border-red-500' : '']">
-                            <img :src="`/cards/${card.idcard}.png`" class="w-full h-full object-cover rounded-lg">
+                            <Card
+                            class="scale-59 right-8/21 bottom-9/25 object-cover rounded-lg"
+                            :title="card.cardname"
+                            :imageUrl="`/cards/${card.idcard}.png`"
+                            :score="card.Power"
+                            :pawnsRequired="card.pawnsRequired"
+                            :pawnLocations="card.pawnLocations"
+                        />
                         </div>
                     </div>
                     <button
@@ -384,15 +409,15 @@ const closeCardDetails = () => {
                 </div>
 
                 <div class="flex gap-4 mb-4">
-                    <button @click="setAddCard"
+                    <button @mouseenter="playHoverButton" @click="setAddCard"
                         class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-green-500">
                         {{ addCard ? 'Adding Card...' : 'Add Card to Deck' }}
                     </button>
-                    <button @click="setRemoveCard"
+                    <button @mouseenter="playHoverButton" @click="setRemoveCard"
                         class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
                         {{ removeCard ? 'Removing Card...' : 'Remove Card from Deck' }}
                     </button>
-                    <button @click="setNormalState"
+                    <button @mouseenter="playHoverButton" @click="setNormalState"
                         class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500">
                         Cancel
                     </button>
@@ -405,22 +430,30 @@ const closeCardDetails = () => {
                 <p v-else-if="addCard" class="text-green-400 text-sm mb-2">Select cards to add to the selected deck.</p>
                 <div class="flex flex-wrap gap-4">
                     <div v-for="card in getCardsInInventory" :key="card.idcard"
+                        @mouseenter="playHoverCard"
                         @click="selectInventoryCardFunc(card)"
-                        :class="[ 'cursor-pointer relative w-36 h-48 bg-gray-800 border-4 border-gray-600 rounded-lg hover:scale-105 transition-transform',
+                        :class="[ 'cursor-pointer relative w-36 h-54 bg-gray-800 border-4 border-gray-600 rounded-lg hover:scale-105 transition-transform',
                                     selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'shadow-lg border-purple-500' : '',
                                     addCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-green-700 border-green-500' : '',
                                     removeCard && selectedInventoryCards.some(selectedCard => selectedCard.idcard === card.idcard) ? 'bg-red-700 border-red-500' : '' ]">
-                        <img :src="`/cards/${card.idcard}.png`" class="w-full h-full object-cover rounded-lg">
+                        <Card
+                            class="scale-59 right-8/21 bottom-9/25 object-cover rounded-lg"
+                            :title="card.cardname"
+                            :imageUrl="`/cards/${card.idcard}.png`"
+                            :score="card.Power"
+                            :pawnsRequired="card.pawnsRequired"
+                            :pawnLocations="card.pawnLocations"
+                        />
                     </div>
                 </div>
-                <button @click="editingDeck"
+                <button @mouseenter="playHoverButton" @click="editingDeck"
                     class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mt-4 focus:outline-none focus:ring-2 focus:ring-purple-500">
                     {{ selectedDeck === 'AddDeck' ? 'Create Deck' : 'Save Changes' }}
                 </button>
             </section>
 
             <footer class="bg-gray-700 py-4 px-6 border-t border-gray-600 text-right">
-                <button @click="setLobbyPage"
+                <button @mouseenter="playHoverButton" @click="setLobbyPage"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                     Go to Lobby
                 </button>
@@ -432,7 +465,10 @@ const closeCardDetails = () => {
         :decks="uniqueDecks"
         :characters="availableCharacters"
         :allCharacters="inventoryProp.characters"
-        :currentInventory="inventoryProp.currentUser.uid"
+        :userInv="inventoryProp.inventory"
+        :allCards="inventoryProp.cards"
+        :allDecks="inventoryProp.decks"
+        :currentUser="inventoryProp.currentUser"
         v-if="lobbyPageStatus" />
 </template>
 
