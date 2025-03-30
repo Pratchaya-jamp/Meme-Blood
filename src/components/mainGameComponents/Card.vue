@@ -31,10 +31,10 @@ const cardProps = defineProps({
   
     <!-- Card Top Icons -->
     <div 
-      class="absolute top-2 left-2 bg-yellow-500 text-black text-4xl flex items-center justify-center rounded"
+      class="absolute top-2 left-2 bg-yellow-500 text-black text-4xl flex items-center justify-center rounded z-15"
     >
-      <div v-for="n in cardProps.pawnsRequired" :key="n">
-        <!-- ♙ -->
+      <div v-for="n in parseInt(cardProps.pawnsRequired)" :key="n">
+        ♙
       </div>
     </div>
     <div class="absolute top-1.5 right-1.5 w-12 h-12 bg-gray-700 text-2xl text-yellow-500 font-bold flex items-center justify-center rounded-full z-10">
@@ -46,7 +46,7 @@ const cardProps = defineProps({
       <img 
         :src="cardProps.imageUrl" 
         alt="Card Image" 
-        class="absolute inset-0 w-full h-full z-0"
+        class="absolute inset-0 w-full h-full z-0 rounded-lg"
       />
 
       <!-- Grid (Foreground, Centered at Bottom) -->
