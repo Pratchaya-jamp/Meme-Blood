@@ -56,6 +56,7 @@
 | ------    |044(2)            | real time culcuate score in row make end game condition |
 | ------    |058               | Setting-Up Game BGM, hover button sound, Legendary Card sound |
 | ------    |028               | Flip coin to start player 1 or 2, Prevent multiple click flip coin button, Template and Prevent multiple spin gacha, Add maps background |
+| ------    |035               | Manage Layout In PlayerInventory, Card and GameManager, Add randam card system, Add 3 card to each player at Begining, Add 1 random card after skip turn Or change turn, Validate Play Button in GameLobby |
 
 ##### This table was create for certify what you have done in each week within short Description by remove the line that i was marked
 ##### For example:
