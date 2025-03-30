@@ -1,9 +1,10 @@
+import PlayerInventory from '@/components/PlayerComponents/PlayerInventory.vue'
+import PlayerManager from '@/components/PlayerManager.vue'
+import GameLobby from '@/components/UI/GameLobby.vue'
+import MainMenu from '@/components/UI/mainMenu.vue'
+import PageNotFound from '@/views/PageNotFound.vue'
 import { createWebHistory, createRouter } from 'vue-router'
-import GameLobbyView from "@/views/GameLobbyView.vue";
-import InventoryView from "@/views/InventoryView.vue";
-import Login from "@/views/Login.vue";
-import MainMenuView from "@/views/MainMenuView.vue";
-import PageNotFound from "@/views/PageNotFound.vue";
+
 const history = createWebHistory()
 const routes = [
     {
@@ -13,28 +14,28 @@ const routes = [
     {
       path: '/main-menu',
       name: 'MainMenu',
-      component: MainMenuView
+      component: MainMenu
     },
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: PlayerManager
     },
     {
       path: '/inventory',
       name: 'Inventory',
-      component: InventoryView
+      component: PlayerInventory
     },
     {
       path: '/gamelobby',
       name: 'GameLobby',
-      component: GameLobbyView
+      component: GameLobby
     },
     {
     path: '/:notMatch(.*)',
     name: 'PageNotFound',
     component: PageNotFound
-  }
+    }
   ]
   const router = createRouter({
     routes,

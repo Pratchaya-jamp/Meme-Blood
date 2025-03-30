@@ -50,7 +50,7 @@ const spinGacha = () => {
 
     setTimeout(() => {
       locked.value = false;
-      router.push({ name: 'Inventory' }); // Now router should work properly
+      router.push({ name: 'Login' }); // Now router should work properly
     }, 2500);
   }
 };
