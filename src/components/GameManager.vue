@@ -343,14 +343,19 @@ const calculateScore = () => {
     }, 5000);
     
     let winnerCharacter = null
+    let isDraw = false
     if (scores.value[1] > scores.value[2]) {
       winnerCharacter = gameProps.playerCharacter1
     } else if (scores.value[2] > scores.value[1]) {
       winnerCharacter = gameProps.playerCharacter2
+    } else {
+      isDraw = true
     }
   
     if (winnerCharacter) {
-      playCharacterWinSound(winnerCharacter)
+      winnerSound = playCharacterWinSound(winnerCharacter)
+    } else if (isDraw) {
+      playDrawSound()
     }
   
     console.log(`🎉 Game Over! Final Scores → Player 1: ${scores.value[1]}, Player 2: ${scores.value[2]}`)
@@ -415,7 +420,24 @@ const playCharacterWinSound = (characterId) => {
   const audio = new Audio(soundPath)
   audio.volume = 0.10
   audio.play()
+
+  return audio
 };
+
+const stopWinnerSound = () => {
+  if (winnerSound) {
+    winnerSound.pause()
+    winnerSound.currentTime = 0
+    winnerSound = null 
+  }
+}
+
+const playDrawSound = () => {
+  const soundPath = "/sounds/charactersounds/draw.mp3"
+  const audio = new Audio(soundPath);
+  audio.volume = 0.10;
+  audio.play();
+}
 
 const mapThemeAudio = ref(null)
 
@@ -456,6 +478,14 @@ const stopMapTheme = () => {
     console.log("No audio to stop")
   }
 };
+
+const hoverBtnSound = new Audio('/sounds/se/hover.mp3');
+hoverBtnSound.volume = 0.1
+
+const playHoverButton = () => {
+    hoverBtnSound.currentTime = 0
+    hoverBtnSound.play().catch(error => console.log("Sound play error:", error))
+}
 </script>
 
 <template>
@@ -497,6 +527,7 @@ const stopMapTheme = () => {
       <div class="flex flex-col items-center">
         <button
           class="bg-red-900 hover:bg-red-800 text-white font-bold px-4 py-8 rounded-3xl border-4 border-black"
+          @mouseenter="playHoverButton"
           @click="skipTurn"
         >
           {{ skipsInARow < 4 ? 'Skip Turn' : 'Surrender' }}

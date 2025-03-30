@@ -71,6 +71,23 @@ const showSettings = () => {
 const goToLobby = () =>{
     currentPage.value='GameLobby'
 }
+
+const hoverMapSound = '/sounds/se/cardhover.mp3';
+
+const playHoverMap = () => {
+    const mapsound = new Audio(hoverMapSound)
+    mapsound.volume = 0.5
+    mapsound.currentTime = 0
+    mapsound.play().catch(error => console.log("Sound play error:", error))
+}
+
+const hoverBtnSound = new Audio('/sounds/se/hover.mp3');
+hoverBtnSound.volume = 0.1
+
+const playHoverButton = () => {
+    hoverBtnSound.currentTime = 0
+    hoverBtnSound.play().catch(error => console.log("Sound play error:", error))
+}
 </script>
 
 <template>
@@ -105,6 +122,7 @@ const goToLobby = () =>{
             <!-- Map Grid Preview -->
             <div class="grid grid-cols-3 my-5 gap-3 max-w-[300px]">
                 <div v-for="map in availableMaps" :key="map.name"
+                    @mouseenter="playHoverMap"
                     @click="selectedMap = map.image"
                     class="cursor-pointer transform hover:scale-110 transition border-2 rounded-lg"
                     :class="{'border-yellow-500 shadow-lg': selectedMap === map.image, 'border-gray-600': selectedMap !== map.image}">
@@ -121,7 +139,7 @@ const goToLobby = () =>{
 
         <!-- Play Button -->
         <div class="w-1/3 flex flex-col items-center justify-end mb-20">
-            <button @click="setMainGamePage"
+            <button @mouseenter="playHoverButton" @click="setMainGamePage"
                 class="bg-green-500 hover:bg-green-700 text-white font-bold py-4 px-12 rounded-xl text-xl shadow-2xl tracking-widest transition transform hover:scale-110">
                 Play
             </button>
@@ -149,6 +167,7 @@ const goToLobby = () =>{
 
         <!-- Settings Button -->
         <button 
+            @mouseenter="playHoverButton"
             @click="showSettings"
             class="absolute bottom-8 right-8 px-6 py-3 bg-gray-700 text-white text-lg rounded-lg shadow-lg hover:bg-gray-500 transition"
         >
@@ -158,7 +177,7 @@ const goToLobby = () =>{
 
     <!-- Settings -->
     <setting v-if="currentPage === 'Settings'"/>
-    <button @click="goToLobby" v-if="currentPage !== 'GameLobby'"
+    <button @mouseenter="playHoverButton" @click="goToLobby" v-if="currentPage !== 'GameLobby'"
         class="mt-6 px-6 py-3 text-lg rounded-lg bg-blue-500 text-white hover:bg-blue-700 transition">
         Back to Lobby
     </button>
