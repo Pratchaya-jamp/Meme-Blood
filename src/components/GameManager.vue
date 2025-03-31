@@ -126,26 +126,33 @@ const getRandomCards = (deck, playerSide, quantityRandCards) => {
 const initCardPlayerHands = (player1Deck, player2Deck) => {
   isGameEnd.value = false;
   if (!player1Deck || !player2Deck) return;
-
   const getPlayerDeck = (deckId) => {
-    const deckInfo = data.value?.deck.find(d => d.deckid === deckId);
+    const deckInfo = data.value?.deck.find((d) => d.deckid === deckId);
     if (!deckInfo) return [];
-
     return deckInfo.cardid
-      .map(cardId => data.value.card.find(c => c.idcard === cardId)) // Found cards in db.json from deck selected in each player
-      .filter(card => card !== undefined); // Remove undefined from not found cards in deck
+      .map((cardId) => data.value.card.find((c) => c.idcard === cardId))
+      .filter((card) => card !== undefined);
   };
-
   deckP1 = getPlayerDeck(player1Deck);
   deckP2 = getPlayerDeck(player2Deck);
-
   getRandomCards(deckP1, 1, 3);
   getRandomCards(deckP2, 2, 3);
-
-  // Logging (optional, can be removed in production)
   console.log('Player 1 Hand:', playerHands.value[1]);
   console.log('Player 2 Hand:', playerHands.value[2]);
+
+  // Check for character 999 and set starting pawns
+  if (gameProps.playerCharacter1 === 999) {
+    board.value.forEach((row) => {
+      if (typeof row[1] === "object") row[1].pawn1 = 3;
+    });
+  }
+  if (gameProps.playerCharacter2 === 999) {
+    board.value.forEach((row) => {
+      if (typeof row[6] === "object") row[6].pawn2 = 3;
+    });
+  }
 };
+
 
 // Player who start first (Receive from HeadOrTail.vue)
 const flipCoin = (playerTurn) => {

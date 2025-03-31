@@ -57,7 +57,8 @@
         131,
         132,
         105,
-        133
+        133,
+        135
       ],
       "deckid": [
         7548,
@@ -753,9 +754,15 @@
       "Power": 1,
       "pawnsRequired": "1",
       "pawnLocations": [
-        17,19,7,9,18,8
+        17,
+        19,
+        7,
+        9,
+        18,
+        8
       ],
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "e4db"
     },
     {
       "idcard": 135,
@@ -766,9 +773,15 @@
       "Power": 1,
       "pawnsRequired": "1",
       "pawnLocations": [
-        17,19,7,9,18,8
+        17,
+        19,
+        7,
+        9,
+        18,
+        8
       ],
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "6288"
     },
     {
       "idcard": 136,
@@ -779,9 +792,13 @@
       "Power": 1,
       "pawnsRequired": "1",
       "pawnLocations": [
-        17,19,16,20
+        17,
+        19,
+        16,
+        20
       ],
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "fac7"
     },
     {
       "idcard": 137,
@@ -792,9 +809,13 @@
       "Power": 1,
       "pawnsRequired": "1",
       "pawnLocations": [
-        6,7,9,10
+        6,
+        7,
+        9,
+        10
       ],
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "aa73"
     },
     {
       "idcard": 138,
@@ -805,9 +826,13 @@
       "Power": 1,
       "pawnsRequired": "1",
       "pawnLocations": [
-        7,17,9,19
+        7,
+        17,
+        9,
+        19
       ],
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "25a7"
     },
     {
       "idcard": 139,
@@ -818,9 +843,13 @@
       "Power": 1,
       "pawnsRequired": "1",
       "pawnLocations": [
-        8,12,14,18
+        8,
+        12,
+        14,
+        18
       ],
-      "cardRarity": "Standard"
+      "cardRarity": "Standard",
+      "id": "be75"
     }
   ],
   "deck": [
