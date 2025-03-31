@@ -77,10 +77,5 @@ const updateSeVolume = (value) => {
     </div>
 
     <PlayerManager v-if="currentPage === 'showlogin'"/>
-    <setting v-if="currentPage === 'Settings'" @updateSeVolume="updateSeVolume"/>
-  
-    <button @click="goToMainMenu" v-if="currentPage !== 'MainMenu' && currentPage !== 'showlogin'" @mouseenter="playHoverSound"
-        class="mt-6 px-6 py-3 text-lg rounded-lg bg-blue-500 text-white hover:bg-blue-700 transition">
-        Back to Main Menu
-    </button>
+    <setting v-if="currentPage === 'Settings'" @goToMainMenu="goToMainMenu" :seVolume="seVolume" @updateSeVolume="updateSeVolume" />
 </template>

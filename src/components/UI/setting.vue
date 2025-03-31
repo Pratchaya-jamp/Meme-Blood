@@ -8,7 +8,7 @@ const seVolume = ref(100)
 const bgmRatio = ref(1)
 const seRatio = ref(1)
 
-const emit = defineEmits(['updateSeVolume'])
+const emit = defineEmits(['updateSeVolume', 'goToMainMenu'])
 
 watch(masterVolume, (newVal, oldVal) => {
     if (oldVal > 0) {
@@ -64,5 +64,10 @@ watch([bgmVolume, seVolume], ([newBgm, newSe]) => {
             class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-red-500">
         <p class="text-center mt-1">{{ seVolume }}%</p>
     </div>
+
+    <button @click="emit('goToMainMenu')"
+            class="mt-6 px-6 py-3 text-lg rounded-lg bg-blue-500 text-white hover:bg-blue-700 transition">
+        Back to Main Menu
+    </button>
   </div>
 </template>
