@@ -397,6 +397,7 @@ const playHoverCard = () => {
                             :score="card.Power"
                             :pawnsRequired="card.pawnsRequired"
                             :pawnLocations="card.pawnLocations"
+                            :Ability="card.abilityType"
                         />
                         </div>
                     </div>
@@ -443,6 +444,7 @@ const playHoverCard = () => {
                             :score="card.Power"
                             :pawnsRequired="card.pawnsRequired"
                             :pawnLocations="card.pawnLocations"
+                            :Ability="card.abilityType"
                         />
                     </div>
                 </div>
