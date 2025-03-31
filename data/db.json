@@ -58,7 +58,8 @@
         132,
         105,
         133,
-        135
+        135,
+        136
       ],
       "deckid": [
         7548,
@@ -80,7 +81,11 @@
       "idinventory": 2,
       "uid": 2222,
       "cardid": [
-        103
+        103,
+        121,
+        135,
+        124,
+        104
       ],
       "deckid": [
         2011,
@@ -744,25 +749,6 @@
       ],
       "cardRarity": "Legend",
       "id": "j9f2"
-    },
-    {
-      "idcard": 135,
-      "cardname": "handsome Cat",
-      "Ability": false,
-      "abilityType": "non",
-      "cardinfo": "These cat want to give you flower",
-      "Power": 1,
-      "pawnsRequired": "1",
-      "pawnLocations": [
-        17,
-        19,
-        7,
-        9,
-        18,
-        8
-      ],
-      "cardRarity": "Standard",
-      "id": "e4db"
     },
     {
       "idcard": 135,

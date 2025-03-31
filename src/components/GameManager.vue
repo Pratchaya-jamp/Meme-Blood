@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import PlayerCharacter from "./mainGameComponents/PlayerCharacter.vue";
 import TableGame from "./mainGameComponents/Table.vue";
 import Hand from "./mainGameComponents/Hand.vue";
@@ -48,10 +48,6 @@ const gameProps = defineProps({
     required: true
   },
   allCards:{
-    type:Array,
-    required: true
-  },
-  userInv:{
     type:Array,
     required: true
   },
@@ -511,7 +507,36 @@ const stopMapTheme = () => {
 const closeGacha = () => {
   showGacha.value = false;
   showPlayerInventory.value = true;
+}
+
+let inventories = ref([])
+const isInventoryLoaded = ref(false)
+const loadInventoryData = async () => {
+  if (isInventoryLoaded.value) return; // ตรวจสอบว่า inventory ถูกโหลดแล้วหรือยัง
+  try {
+    const data = await getItems(`${import.meta.env.VITE_APP_URL}/inventory`);
+    if (Array.isArray(data)) {
+      inventories.value = data;
+      console.log('Game data loaded successfully');
+      isInventoryLoaded.value = true; // เป็น true เมื่อโหลด inventory เสร็จ
+    } else {
+      inventories.value = [];
+    }
+  } catch (error) {
+    console.log('Error loading game data: ', error);
+    inventories.value = [];
+  }
 };
+
+const findUserInventory = computed(() => {
+  if (!gameProps.currentUser) return [];
+  if (gameProps.currentUser) {
+    loadInventoryData(); // เรียก loadInventoryData เพื่อดึงข้อมูล
+    return inventories.value.filter(inv => inv.uid === gameProps.currentUser.uid);
+  }
+  return [];
+});
+
 </script>
 
 <template>
@@ -613,18 +638,13 @@ const closeGacha = () => {
       :Gachaitems="data?.card || []"
       :GoldCardRate="1"
       :EpicCardRate="20"
-      :inventory="gameProps.userInv"
-      :cards="gameProps.allCards"
-      :current-user="gameProps.currentUser"
-      :decks="gameProps.allDecks"
-      :characters="gameProps.allCharacters"
       @spinGacha="spinGacha"
       @closeGacha="closeGacha"
     />
   </template>
   <PlayerInventory
     v-if="showPlayerInventory"
-    :inventory="gameProps.userInv"
+    :inventory="findUserInventory"
     :cards="gameProps.allCards"
     :decks="gameProps.allDecks"
     :characters="gameProps.allCharacters"

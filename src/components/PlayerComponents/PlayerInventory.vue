@@ -467,7 +467,6 @@ const playHoverCard = () => {
         :decks="uniqueDecks"
         :characters="availableCharacters"
         :allCharacters="inventoryProp.characters"
-        :userInv="inventoryProp.inventory"
         :allCards="inventoryProp.cards"
         :allDecks="inventoryProp.decks"
         :currentUser="inventoryProp.currentUser"
