@@ -436,6 +436,14 @@ const spinGacha = async (card) => {
   }
 };
 
+const hoverBtnSound = new Audio('/sounds/se/hover.mp3');
+hoverBtnSound.volume = 0.1
+
+const playHoverButton = () => {
+    hoverBtnSound.currentTime = 0
+    hoverBtnSound.play().catch(error => console.log("Sound play error:", error))
+}
+
 const playCharacterWinSound = (characterId) => {
   if (!characterId) {
     console.error("Character ID not found!")
@@ -451,10 +459,13 @@ const playCharacterWinSound = (characterId) => {
 };
 
 const stopWinnerSound = () => {
-  if (winnerSound) {
-    winnerSound.pause()
-    winnerSound.currentTime = 0
-    winnerSound = null 
+  if (winnerSound.value) {
+    console.log("Stopping map theme...")
+    winnerSound.value.pause();
+    winnerSound.value.currentTime = 0
+    winnerSound.value = null
+  } else {
+    console.log("No audio to stop")
   }
 }
 
@@ -576,6 +587,7 @@ const findUserInventory = computed(() => {
       <div class="flex flex-col items-center">
         <button
           class="bg-red-900 hover:bg-red-800 text-white font-bold px-4 py-8 rounded-3xl border-4 border-black"
+          @mouseenter="playHoverButton"
           @click="skipTurn"
         >
           {{ skipsInARow < 4 ? 'Skip Turn' : 'Surrender' }}
