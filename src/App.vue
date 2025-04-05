@@ -11,11 +11,11 @@ import { RouterView } from 'vue-router';
     <!-- <GameManager /> -->
      <!-- <PlayerManager/> --> 
     <!-- <HeadOrTail/> -->
-    <mainMenu/>
+    <!-- <mainMenu/> -->
     <!-- <Gacha /> -->
-    <!--<div>
+    <div>
       <router-view />
-    </div>-->
+    </div>
 </template>
 
 <style scoped>
