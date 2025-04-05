@@ -75,6 +75,14 @@ const closeObtainedCard = () => {
   showObtainedCard.value = false;
   emit("closeGacha");
 };
+
+const hoverBtnSound = new Audio('/sounds/se/hover.mp3');
+hoverBtnSound.volume = 0.1
+
+const playHoverButton = () => {
+    hoverBtnSound.currentTime = 0
+    hoverBtnSound.play().catch(error => console.log("Sound play error:", error))
+}
 </script>
 
 <template>
@@ -97,6 +105,7 @@ const closeObtainedCard = () => {
     />
     <button
       v-if="!gachaResultShown && !showObtainedCard"
+      @mouseenter="playHoverButton"
       @click="spinGacha"
       class="cursor-pointer bg-gradient-to-r from-yellow-600 to-yellow-400 font-bold text-black text-lg px-6 py-3 border-2 border-gray-800 rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all duration-200"
     >
@@ -104,6 +113,7 @@ const closeObtainedCard = () => {
     </button>
     <button
       v-if="showObtainedCard"
+      @mouseenter="playHoverButton"
       @click="closeObtainedCard"
       class="cursor-pointer bg-gradient-to-r from-green-600 to-green-400 font-bold text-white text-lg px-6 py-3 border-2 border-gray-800 rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all duration-200"
     >

@@ -27,10 +27,6 @@ const props = defineProps({
     allCards:{
         type:Array,
         required: true
-    },
-    userInv:{
-        type:Array,
-        required: true
     }
 })
 const selectedDeckPlayer1 = ref(null)
@@ -190,7 +186,7 @@ const playHoverButton = () => {
     <!-- Settings -->
     <setting v-if="currentPage === 'Settings'"/>
     <button @mouseenter="playHoverButton" @click="goToLobby" v-if="currentPage !== 'GameLobby'"
-        class="mt-6 px-6 py-3 text-lg rounded-lg bg-blue-500 text-white hover:bg-blue-700 transition">
+        class="px-6 py-3 text-lg rounded-lg bg-blue-500 text-white hover:bg-blue-700 transition">
         Back to Lobby
     </button>
 
@@ -203,7 +199,6 @@ const playHoverButton = () => {
         :currentUser="props.currentUser"
         :allDecks="props.allDecks"
         :allCards="props.allCards"
-        :userInv="props.userInv"
         :allCharacters="props.allCharacters"
         :selectedMap="selectedMap"/>
 </template>

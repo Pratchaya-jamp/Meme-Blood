@@ -397,6 +397,7 @@ const playHoverCard = () => {
                             :score="card.Power"
                             :pawnsRequired="card.pawnsRequired"
                             :pawnLocations="card.pawnLocations"
+                            :Ability="card.abilityType"
                         />
                         </div>
                     </div>
@@ -443,6 +444,7 @@ const playHoverCard = () => {
                             :score="card.Power"
                             :pawnsRequired="card.pawnsRequired"
                             :pawnLocations="card.pawnLocations"
+                            :Ability="card.abilityType"
                         />
                     </div>
                 </div>
@@ -465,7 +467,6 @@ const playHoverCard = () => {
         :decks="uniqueDecks"
         :characters="availableCharacters"
         :allCharacters="inventoryProp.characters"
-        :userInv="inventoryProp.inventory"
         :allCards="inventoryProp.cards"
         :allDecks="inventoryProp.decks"
         :currentUser="inventoryProp.currentUser"

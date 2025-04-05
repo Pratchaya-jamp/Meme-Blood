@@ -102,10 +102,13 @@ const CreateUser = async () => {
 
 }
 
+const switchMainmenu = () =>{
+    createPageStatus.value = false
+}
 
 </script>
 <template>
-    <div class="bg-gray-900 min-h-screen flex items-center justify-center">
+    <div class="bg-gray-900 min-w-screen min-h-screen flex items-center justify-center">
         <div v-if="createPageStatus" class="bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
             <h2 class="text-2xl font-semibold text-white text-center mb-6">Create Account</h2>
             <div v-if="createUserError"
@@ -148,6 +151,10 @@ const CreateUser = async () => {
 
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
                     Create Account
+                </button>
+
+                <button type="button" @click="switchMainmenu()" class="mt-2 text-sm text-blue-400 hover:text-blue-300 focus:outline-none block w-full text-center">
+                    Back To Menu
                 </button>
             </form>
         </div>

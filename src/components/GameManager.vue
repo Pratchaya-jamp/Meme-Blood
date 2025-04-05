@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import PlayerCharacter from "./mainGameComponents/PlayerCharacter.vue";
 import TableGame from "./mainGameComponents/Table.vue";
 import Hand from "./mainGameComponents/Hand.vue";
@@ -48,10 +48,6 @@ const gameProps = defineProps({
     required: true
   },
   allCards:{
-    type:Array,
-    required: true
-  },
-  userInv:{
     type:Array,
     required: true
   },
@@ -126,26 +122,33 @@ const getRandomCards = (deck, playerSide, quantityRandCards) => {
 const initCardPlayerHands = (player1Deck, player2Deck) => {
   isGameEnd.value = false;
   if (!player1Deck || !player2Deck) return;
-
   const getPlayerDeck = (deckId) => {
-    const deckInfo = data.value?.deck.find(d => d.deckid === deckId);
+    const deckInfo = data.value?.deck.find((d) => d.deckid === deckId);
     if (!deckInfo) return [];
-
     return deckInfo.cardid
-      .map(cardId => data.value.card.find(c => c.idcard === cardId)) // Found cards in db.json from deck selected in each player
-      .filter(card => card !== undefined); // Remove undefined from not found cards in deck
+      .map((cardId) => data.value.card.find((c) => c.idcard === cardId))
+      .filter((card) => card !== undefined);
   };
-
   deckP1 = getPlayerDeck(player1Deck);
   deckP2 = getPlayerDeck(player2Deck);
-
   getRandomCards(deckP1, 1, 3);
   getRandomCards(deckP2, 2, 3);
-
-  // Logging (optional, can be removed in production)
   console.log('Player 1 Hand:', playerHands.value[1]);
   console.log('Player 2 Hand:', playerHands.value[2]);
+
+  // Check for character 999 and set starting pawns
+  if (gameProps.playerCharacter1 === 999) {
+    board.value.forEach((row) => {
+      if (typeof row[1] === "object") row[1].pawn1 = 3;
+    });
+  }
+  if (gameProps.playerCharacter2 === 999) {
+    board.value.forEach((row) => {
+      if (typeof row[6] === "object") row[6].pawn2 = 3;
+    });
+  }
 };
+
 
 // Player who start first (Receive from HeadOrTail.vue)
 const flipCoin = (playerTurn) => {
@@ -433,6 +436,14 @@ const spinGacha = async (card) => {
   }
 };
 
+const hoverBtnSound = new Audio('/sounds/se/hover.mp3');
+hoverBtnSound.volume = 0.1
+
+const playHoverButton = () => {
+    hoverBtnSound.currentTime = 0
+    hoverBtnSound.play().catch(error => console.log("Sound play error:", error))
+}
+
 const playCharacterWinSound = (characterId) => {
   if (!characterId) {
     console.error("Character ID not found!")
@@ -448,10 +459,13 @@ const playCharacterWinSound = (characterId) => {
 };
 
 const stopWinnerSound = () => {
-  if (winnerSound) {
-    winnerSound.pause()
-    winnerSound.currentTime = 0
-    winnerSound = null 
+  if (winnerSound.value) {
+    console.log("Stopping map theme...")
+    winnerSound.value.pause();
+    winnerSound.value.currentTime = 0
+    winnerSound.value = null
+  } else {
+    console.log("No audio to stop")
   }
 }
 
@@ -504,7 +518,36 @@ const stopMapTheme = () => {
 const closeGacha = () => {
   showGacha.value = false;
   showPlayerInventory.value = true;
+}
+
+let inventories = ref([])
+const isInventoryLoaded = ref(false)
+const loadInventoryData = async () => {
+  if (isInventoryLoaded.value) return; // ตรวจสอบว่า inventory ถูกโหลดแล้วหรือยัง
+  try {
+    const data = await getItems(`${import.meta.env.VITE_APP_URL}/inventory`);
+    if (Array.isArray(data)) {
+      inventories.value = data;
+      console.log('Game data loaded successfully');
+      isInventoryLoaded.value = true; // เป็น true เมื่อโหลด inventory เสร็จ
+    } else {
+      inventories.value = [];
+    }
+  } catch (error) {
+    console.log('Error loading game data: ', error);
+    inventories.value = [];
+  }
 };
+
+const findUserInventory = computed(() => {
+  if (!gameProps.currentUser) return [];
+  if (gameProps.currentUser) {
+    loadInventoryData(); // เรียก loadInventoryData เพื่อดึงข้อมูล
+    return inventories.value.filter(inv => inv.uid === gameProps.currentUser.uid);
+  }
+  return [];
+});
+
 </script>
 
 <template>
@@ -538,12 +581,13 @@ const closeGacha = () => {
       >
       </PlayerCharacter>
     </div>
-    <div class="flex items-center transition-all duration-300 hover:-mt-35">
+    <div class="flex items-center transition-all duration-300 -mt-10 hover:-mt-35">
       <Hand v-if="currentTurn === 1" :player="1" :currentTurn="currentTurn" :hand="playerHands[1]" @selectCard="selectCard" />
       <Hand v-if="currentTurn === 2" :player="2" :currentTurn="currentTurn" :hand="playerHands[2]" @selectCard="selectCard" />
       <div class="flex flex-col items-center">
         <button
           class="bg-red-900 hover:bg-red-800 text-white font-bold px-4 py-8 rounded-3xl border-4 border-black"
+          @mouseenter="playHoverButton"
           @click="skipTurn"
         >
           {{ skipsInARow < 4 ? 'Skip Turn' : 'Surrender' }}
@@ -606,18 +650,13 @@ const closeGacha = () => {
       :Gachaitems="data?.card || []"
       :GoldCardRate="1"
       :EpicCardRate="20"
-      :inventory="gameProps.userInv"
-      :cards="gameProps.allCards"
-      :current-user="gameProps.currentUser"
-      :decks="gameProps.allDecks"
-      :characters="gameProps.allCharacters"
       @spinGacha="spinGacha"
       @closeGacha="closeGacha"
     />
   </template>
   <PlayerInventory
     v-if="showPlayerInventory"
-    :inventory="gameProps.userInv"
+    :inventory="findUserInventory"
     :cards="gameProps.allCards"
     :decks="gameProps.allDecks"
     :characters="gameProps.allCharacters"

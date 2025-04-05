@@ -57,7 +57,9 @@
         131,
         132,
         105,
-        133
+        133,
+        135,
+        136
       ],
       "deckid": [
         7548,
@@ -69,6 +71,8 @@
       "characterid": [
         111,
         112,
+        113,
+        114,
         999
       ]
     },
@@ -77,7 +81,11 @@
       "idinventory": 2,
       "uid": 2222,
       "cardid": [
-        103
+        103,
+        121,
+        135,
+        124,
+        104
       ],
       "deckid": [
         2011,
@@ -741,6 +749,93 @@
       ],
       "cardRarity": "Legend",
       "id": "j9f2"
+    },
+    {
+      "idcard": 135,
+      "cardname": "handsome Cat",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "These cat want to give you flower",
+      "Power": 1,
+      "pawnsRequired": "1",
+      "pawnLocations": [
+        17,
+        19,
+        7,
+        9,
+        18,
+        8
+      ],
+      "cardRarity": "Standard",
+      "id": "6288"
+    },
+    {
+      "idcard": 136,
+      "cardname": "Chill Guys",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "Just Chilling",
+      "Power": 1,
+      "pawnsRequired": "1",
+      "pawnLocations": [
+        17,
+        19,
+        16,
+        20
+      ],
+      "cardRarity": "Standard",
+      "id": "fac7"
+    },
+    {
+      "idcard": 137,
+      "cardname": "Toothless the dragon",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "idk",
+      "Power": 1,
+      "pawnsRequired": "1",
+      "pawnLocations": [
+        6,
+        7,
+        9,
+        10
+      ],
+      "cardRarity": "Standard",
+      "id": "aa73"
+    },
+    {
+      "idcard": 138,
+      "cardname": "Dark zuckerberg",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "CEO of facebook from another universe",
+      "Power": 1,
+      "pawnsRequired": "1",
+      "pawnLocations": [
+        7,
+        17,
+        9,
+        19
+      ],
+      "cardRarity": "Standard",
+      "id": "25a7"
+    },
+    {
+      "idcard": 139,
+      "cardname": "Majima Goro",
+      "Ability": false,
+      "abilityType": "non",
+      "cardinfo": "???",
+      "Power": 1,
+      "pawnsRequired": "1",
+      "pawnLocations": [
+        8,
+        12,
+        14,
+        18
+      ],
+      "cardRarity": "Standard",
+      "id": "be75"
     }
   ],
   "deck": [
@@ -764,45 +859,6 @@
       "cardid": [
         102,
         103
-      ]
-    },
-    {
-      "id": "8435",
-      "deckid": 9780,
-      "cardid": [
-        101,
-        102
-      ]
-    },
-    {
-      "id": "5794",
-      "deckid": 7421,
-      "cardid": [
-        101,
-        102
-      ]
-    },
-    {
-      "id": "c460",
-      "deckid": 2205,
-      "cardid": [
-        101,
-        102
-      ]
-    },
-    {
-      "id": "b89f",
-      "deckid": 7301,
-      "cardid": [
-        103
-      ]
-    },
-    {
-      "id": "91d5",
-      "deckid": 1757,
-      "cardid": [
-        101,
-        102
       ]
     },
     {
@@ -836,42 +892,6 @@
       "cardid": [
         102,
         103
-      ]
-    },
-    {
-      "id": "8b4f",
-      "deckid": 2638,
-      "cardid": [
-        101,
-        102,
-        103,
-        104
-      ]
-    },
-    {
-      "id": "4814",
-      "deckid": 5996,
-      "cardid": [
-        101,
-        102
-      ]
-    },
-    {
-      "id": "ad80",
-      "deckid": 4213,
-      "cardid": [
-        101,
-        103,
-        104,
-        106
-      ]
-    },
-    {
-      "id": "1553",
-      "deckid": 9874,
-      "cardid": [
-        101,
-        102
       ]
     },
     {
