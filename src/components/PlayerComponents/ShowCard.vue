@@ -50,7 +50,6 @@ onUnmounted(() => {
     <h3 class="text-xl font-semibold text-white mb-2">{{ card.cardname }}</h3>
     <img :src="`/cards/${card.idcard}.png`" class="w-full h-auto object-cover rounded-md mb-4">
     <div class="text-gray-300 text-sm mb-1">
-        <p>ID: {{ card.idcard }}</p>
         <p>Ability: {{ card.Ability ? 'Yes' : 'No' }}</p>
         <p v-if="card.Ability">Ability Type: {{ card.abilityType }}</p>
         <p>Info: {{ card.cardinfo }}</p>

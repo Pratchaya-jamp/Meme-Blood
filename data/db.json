@@ -17,6 +17,12 @@
       "uid": 2948,
       "username": "test9",
       "password": "123"
+    },
+    {
+      "id": "dd85",
+      "uid": 4961,
+      "username": "test3",
+      "password": "test3"
     }
   ],
   "inventory": [
@@ -109,6 +115,27 @@
       "idinventory": 2986,
       "uid": 2946,
       "cardid": [],
+      "deckid": [],
+      "characterid": [
+        111
+      ]
+    },
+    {
+      "id": "7381",
+      "idinventory": 7159,
+      "uid": 4961,
+      "cardid": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110
+      ],
       "deckid": [],
       "characterid": [
         111
