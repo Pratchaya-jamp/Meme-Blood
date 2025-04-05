@@ -95,7 +95,7 @@ const SwitchToCreateUser = () =>{
 
 const SwitchToLogin = () => {
   loginPageStatus.value = true;
- }
+}
 
 </script>
 
@@ -131,15 +131,22 @@ const SwitchToLogin = () => {
                 <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
                   Login
                 </button>
+                
               </form>
               <div class="mt-4 text-center">
                 <button type="button" @click="SwitchToCreateUser()" class="text-sm text-blue-400 hover:text-blue-300 focus:outline-none">
                   Need an account? Create one
                 </button>
               </div>
-              <button type="button" @click="switchMainmenu()" class="mt-2 text-sm text-blue-400 hover:text-blue-300 focus:outline-none block w-full text-center">
+              <!-- <button type="button" @click="switchMainmenu()" class="mt-2 text-sm text-blue-400 hover:text-blue-300 focus:outline-none block w-full text-center">
                 Back To Menu
-              </button>
+              </button> -->
+              <router-link 
+                :to="{name: 'MainMenu'}"
+                class="mt-2 text-sm text-blue-400 hover:text-blue-300 focus:outline-none block w-full text-center"
+                >
+                Back To Menu
+              </router-link>
             </div>
 
         </div>
@@ -169,3 +176,4 @@ const SwitchToLogin = () => {
 </template>
 
 <style scoped></style>
+

@@ -60,11 +60,17 @@ const updateSeVolume = (value) => {
         <h1 class="text-4xl font-bold mb-8 text-center text-white">
          война(Voyna) Of Meme
         </h1>
-        <div class="flex flex-col gap-5">
-            <button @click="showLogin" @mouseenter="playHoverSound"
+        <div class="flex flex-col gap-5 text-center">
+            <!-- <button @click="showLogin" @mouseenter="playHoverSound"
                 class="px-8 py-4 text-xl rounded-lg cursor-pointer bg-gray-700 text-white hover:bg-gray-500 transition duration-300">
                 Play
-            </button>
+            </button> -->
+            <router-link 
+                :to="{name: 'Login'}"
+                class="px-8 py-4 text-xl rounded-lg cursor-pointer bg-gray-700 text-white hover:bg-gray-500 transition duration-300"
+            >
+                Play
+            </router-link>
             <button @click="showSettings" @mouseenter="playHoverSound"
                 class="px-8 py-4 text-xl rounded-lg cursor-pointer bg-gray-700 text-white hover:bg-gray-500 transition duration-300">
                 Settings
@@ -75,7 +81,6 @@ const updateSeVolume = (value) => {
             </button>
         </div>
     </div>
-
-    <PlayerManager v-if="currentPage === 'showlogin'"/>
+    <!-- <PlayerManager v-if="currentPage === 'showlogin'"/> -->
     <setting v-if="currentPage === 'Settings'" @goToMainMenu="goToMainMenu" :seVolume="seVolume" @updateSeVolume="updateSeVolume" />
 </template>
