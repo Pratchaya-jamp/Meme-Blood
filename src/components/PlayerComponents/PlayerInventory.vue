@@ -192,7 +192,7 @@ const addingDeck = async () =>{
                         console.log(`Deck ID ${newDeckId} added to inventory.`)
                     } catch (error){
                         alert('Failed to update inventory with the new deck ID.');
-                        console.error("Error updating inventory:", error); // Log the error for debugging
+                        console.log("Error updating inventory:", error); // Log the error for debugging
                     }
                 }
             }
@@ -201,7 +201,7 @@ const addingDeck = async () =>{
             selectedInventoryCards.value = []
         }
     }catch(error){
-        console.error('Failed to add new deck:', error); // Log the error for debugging
+        console.log('Failed to add new deck:', error); // Log the error for debugging
     }
 }
 const setAddCard = () =>{
@@ -304,7 +304,7 @@ const removeSelectedDeck = async () =>{
         }
 
     } catch (error) {
-        console.error('Error removing deck:', error);
+        console.log('Error removing deck:', error);
     }
 };
 

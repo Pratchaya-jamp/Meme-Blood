@@ -68,7 +68,7 @@ const loadInventoryData = async() => {
         loginPageStatus.value = false
         console.log('Game data loaded successfully')
     } catch (error) {
-        console.error('Error loading game data: ', error)
+        console.log('Error loading game data: ', error)
     }
 }
 

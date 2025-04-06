@@ -82,7 +82,7 @@ const CreateUser = async () => {
             const inventoryToAdd = {
                 idinventory: idinv,
                 uid: uid,
-                cardid:[],
+                cardid:[101,102,103,104,105,106,107,108,109,111],
                 deckid:[],
                 characterid: [111]
             }

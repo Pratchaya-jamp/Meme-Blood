@@ -2,23 +2,23 @@
 -------------------------------
         Group Member
 -------------------------------
-1. **Natkamon Chotipiboonsub** 66130500028
+1. **Natkamon Chotipiboonsub** 66130500028 | 27%
 - [x] R&G System (Head or Tail)
 - [x] Card Mechanicsm System
 - [x] Player Character (Player's profile)
 - [x] Maps Background
-2. **Songkiatchai Wongthaidee** 66130500035
+2. **Songkiatchai Wongthaidee** 66130500035 | 26%
 - [x] Main Game Logic (Calculate Score)
 - [x] Card System
 - [x] Table System
 - [x] Round System
-3. **Thiti Prasopsub** 66130500044
+3. **Thiti Prasopsub** 66130500044 | 27%
 - [x] Inventory (Deck System)
 - [x] PlayerManager
 - [x] Card Available
 - [x] Setting
 - [x] Gacha System (Optional)
-4. **Pratchaya Champates** 66130500058
+4. **Pratchaya Champates** 66130500058 | 20%
 - [x] Player Inventory
 - [x] PlayerManager
 - [x] Card Available
