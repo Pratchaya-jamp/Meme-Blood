@@ -12,8 +12,6 @@ const currentUser = ref(null)
 const loginUsername = ref('')
 const loginPassword = ref('')
 const loginError = ref('')
-const mainMenuStatus = ref(false)
-const createUserStatus = ref(false)
 
 onMounted(async () => {
     try{
@@ -25,10 +23,6 @@ onMounted(async () => {
     }
 
 })
-const switchMainmenu = () =>{
-    mainMenuStatus.value=true
-    loginPageStatus.value=false
-}
 
 const loginUser = async() => {
     //login script
@@ -87,16 +81,6 @@ const handleDeckAdded = async () =>{
     }
 }
 
-//CreateUser
-const SwitchToCreateUser = () =>{
-    loginPageStatus.value = false
-    createUserStatus.value = true
-}
-
-const SwitchToLogin = () => {
-  loginPageStatus.value = true;
-}
-
 </script>
 
 <template>
@@ -106,7 +90,7 @@ const SwitchToLogin = () => {
 
         <div v-if="!currentUser" class="auth-container w-full max-w-md">
 
-            <div v-if="loginPageStatus" class="login-section bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
+            <div class="login-section bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
                 <h1 class="text-4xl font-bold mb-8 text-center">
                         война(Voyna) Of Meme
                 </h1>
@@ -134,19 +118,13 @@ const SwitchToLogin = () => {
                 
               </form>
               <div class="mt-4 text-center">
-                <!-- <button type="button" @click="SwitchToCreateUser()" class="text-sm text-blue-400 hover:text-blue-300 focus:outline-none">
-                  Need an account? Create one
-                </button> -->
                 <router-link 
                     :to="{name: 'AddUser'}"
-                    type="button" @click="SwitchToCreateUser()" class="text-sm text-blue-400 hover:text-blue-300 focus:outline-none"
+                    type="button" class="text-sm text-blue-400 hover:text-blue-300 focus:outline-none"
                     >
                     Need an account? Create one
                 </router-link>
               </div>
-              <!-- <button type="button" @click="switchMainmenu()" class="mt-2 text-sm text-blue-400 hover:text-blue-300 focus:outline-none block w-full text-center">
-                Back To Menu
-              </button> -->
               <router-link 
                 :to="{name: 'MainMenu'}"
                 class="mt-2 text-sm text-blue-400 hover:text-blue-300 focus:outline-none block w-full text-center"
@@ -175,9 +153,6 @@ const SwitchToLogin = () => {
              @deckAdded="handleDeckAdded"
              class="flex-1 overflow-y-auto"/>
      </div>
-
-     <mainMenu v-if="mainMenuStatus"/>
-     <AddPlayerUser v-if="createUserStatus"/>
 
 </template>
 
