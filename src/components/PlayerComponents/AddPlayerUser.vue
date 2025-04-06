@@ -1,16 +1,14 @@
 <script setup>
 import { addItem, getItems } from "@/lib/fetchUtils";
 import { ref , onMounted } from "vue";
-import playerManger from '../PlayerManager.vue'
-import Card from "../mainGameComponents/Card.vue";
+import { useRouter } from 'vue-router'
 
-
+const router = useRouter();
 const newUser = ref({ uid: null ,username: '', password: ''})
 const User = ref()
 const userInventory = ref()
 const createUserError = ref('')
 const createUserSuccess = ref('')
-const createPageStatus = ref(true)
 
 onMounted(async () => {
     try{
@@ -92,8 +90,7 @@ const CreateUser = async () => {
             userInventory.value.push(addedIvn)
             createUserSuccess.value = 'User created successfully'
             newUser.value = { uid: null ,username: '', password: ''}
-            createPageStatus.value = false
-
+            router.push({ name: 'Login' })
         } catch {
             createUserError.value = 'Failed to create user'
         }
@@ -102,14 +99,10 @@ const CreateUser = async () => {
 
 }
 
-const switchMainmenu = () =>{
-    createPageStatus.value = false
-}
-
 </script>
 <template>
     <div class="bg-gray-900 min-w-screen min-h-screen flex items-center justify-center">
-        <div v-if="createPageStatus" class="bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
+        <div class="bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
             <h2 class="text-2xl font-semibold text-white text-center mb-6">Create Account</h2>
             <div v-if="createUserError"
                 class="bg-red-100 border border-red-400
@@ -153,12 +146,17 @@ const switchMainmenu = () =>{
                     Create Account
                 </button>
 
-                <button type="button" @click="switchMainmenu()" class="mt-2 text-sm text-blue-400 hover:text-blue-300 focus:outline-none block w-full text-center">
+                <!-- <button type="button" @click="switchMainmenu()" class="mt-2 text-sm text-blue-400 hover:text-blue-300 focus:outline-none block w-full text-center">
                     Back To Menu
-                </button>
+                </button> -->
+                <router-link 
+                    :to="{name: 'MainMenu'}"
+                    class="mt-2 text-sm text-blue-400 hover:text-blue-300 focus:outline-none block w-full text-center"
+                    >
+                    Back To Menu
+              </router-link>
             </form>
         </div>
-        <playerManger v-if="!createPageStatus"/>
     </div>
 </template>
 

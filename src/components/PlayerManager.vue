@@ -134,9 +134,15 @@ const SwitchToLogin = () => {
                 
               </form>
               <div class="mt-4 text-center">
-                <button type="button" @click="SwitchToCreateUser()" class="text-sm text-blue-400 hover:text-blue-300 focus:outline-none">
+                <!-- <button type="button" @click="SwitchToCreateUser()" class="text-sm text-blue-400 hover:text-blue-300 focus:outline-none">
                   Need an account? Create one
-                </button>
+                </button> -->
+                <router-link 
+                    :to="{name: 'AddUser'}"
+                    type="button" @click="SwitchToCreateUser()" class="text-sm text-blue-400 hover:text-blue-300 focus:outline-none"
+                    >
+                    Need an account? Create one
+                </router-link>
               </div>
               <!-- <button type="button" @click="switchMainmenu()" class="mt-2 text-sm text-blue-400 hover:text-blue-300 focus:outline-none block w-full text-center">
                 Back To Menu
