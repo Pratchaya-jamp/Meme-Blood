@@ -111,75 +111,74 @@ const updateMasterVolume = (value) => {
 <template>
     <div 
         v-if="!mainGamePagestatus && currentPage === 'GameLobby'"
-        class="flex h-screen bg-gradient-to-b from-black to-gray-900 text-white relative"
+        class="flex flex-col lg:flex-row h-full w-full bg-gradient-to-b from-black to-gray-900 text-white relative overflow-auto"
     >
-
         <!-- Player 1 -->
-        <div class="w-1/3 flex flex-col items-center justify-center p-8 border-r border-gray-700">
-            <h2 class="text-2xl font-bold text-blue-400 mb-4 tracking-widest">Player 1</h2>
+        <div class="w-full lg:w-1/3 flex flex-col items-center justify-center p-4 lg:p-8 lg:border-r border-gray-700 order-2 lg:order-1">
+            <h2 class="text-xl md:text-2xl font-bold text-blue-400 mb-4 tracking-widest">Player 1</h2>
             <select v-model="selectedDeckPlayer1"
-                class="w-3/4 bg-gray-800 text-white py-3 px-4 border border-blue-500 rounded-lg shadow-lg transition mb-4">
+                class="w-full max-w-xs bg-gray-800 text-white py-2 md:py-3 px-3 md:px-4 border border-blue-500 rounded-lg shadow-lg transition mb-4">
                 <option>Select Your Deck</option>
                 <option v-for="deck in decks" :key="deck" :value="deck">{{ deck }}</option>
             </select>
             <select v-model="selectedCharPlayer1"
-                class="w-3/4 bg-gray-800 text-white py-3 px-4 border border-blue-500 rounded-lg shadow-lg transition mb-4">
+                class="w-full max-w-xs bg-gray-800 text-white py-2 md:py-3 px-3 md:px-4 border border-blue-500 rounded-lg shadow-lg transition mb-4">
                 <option>Select Your Character</option>
                 <option v-for="character in characters" :key="character" :value="character">{{ character.charatername }}</option>
             </select>
-            <div v-if="selectedCharPlayer1">
+            <div v-if="selectedCharPlayer1" class="flex flex-col items-center">
                 <img :src="`/Characters/${selectedCharPlayer1.idcharacter}.png`" alt="Player 1 Character" 
-                class="max-w-48 max-h-48 rounded-lg shadow-md border-2 border-blue-500">
-                <p class="mt-2 text-lg text-gray-300">{{ findCharacterName(selectedCharPlayer1.idcharacter) }}</p>
+                class="max-w-32 md:max-w-40 lg:max-w-48 h-auto rounded-lg shadow-md border-2 border-blue-500">
+                <p class="mt-2 text-base md:text-lg text-gray-300">{{ findCharacterName(selectedCharPlayer1.idcharacter) }}</p>
             </div>
         </div>
 
         <!-- Map Selection -->
-        <div class="absolute top-10 left-1/2 -translate-x-1/2 flex flex-col items-center w-[400px]">
-            <h2 class="text-2xl font-bold text-yellow-400 tracking-widest">Choose a Map</h2>
+        <div class="lg:absolute lg:top-10 lg:left-1/2 lg:-translate-x-1/2 flex flex-col items-center p-4 order-3 lg:order-2">
+            <h2 class="text-xl md:text-2xl font-bold text-yellow-400 tracking-widest mb-2">Choose a Map</h2>
             <!-- Map Grid Preview -->
-            <div class="grid grid-cols-3 my-5 gap-3 max-w-[300px]">
+            <div class="grid grid-cols-3 my-3 md:my-5 gap-2 md:gap-3 max-w-[250px] md:max-w-[300px]">
                 <div v-for="map in availableMaps" :key="map.name"
                     @mouseenter="playHoverMap"
                     @click="selectedMap = map.image"
                     class="cursor-pointer transform hover:scale-110 transition border-2 rounded-lg"
                     :class="{'border-yellow-500 shadow-lg': selectedMap === map.image, 'border-gray-600': selectedMap !== map.image}">
                 <img :src="map.image" :alt="map.name"
-                    class="w-24 h-24 rounded-md object-cover">
+                    class="w-16 h-16 md:w-24 md:h-24 rounded-md object-cover">
                 </div>
             </div>
             <!-- Selected Map Display -->
-            <div v-if="selectedMap">
+            <div v-if="selectedMap" class="mt-2 md:mt-4">
                 <img :src="selectedMap" :alt="selectedMap"
-                class="max-w-100 max-h-50 rounded-lg shadow-md border-4 border-yellow-500">
+                class="max-w-48 md:max-w-64 lg:max-w-80 h-auto rounded-lg shadow-md border-4 border-yellow-500">
             </div>
         </div>
 
         <!-- Play Button -->
-        <div class="w-1/3 flex flex-col items-center justify-end mb-20">
+        <div class="w-full lg:w-1/3 flex flex-col items-center justify-center lg:justify-end p-4 lg:mb-10 order-4 lg:order-3 mt-6 lg:mt-0">
             <button @mouseenter="playHoverButton" @click="setMainGamePage"
-                class="bg-green-500 hover:bg-green-700 text-white font-bold py-4 px-12 rounded-xl text-xl shadow-2xl tracking-widest transition transform hover:scale-110">
+                class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 md:py-4 px-8 md:px-12 rounded-xl text-lg md:text-xl shadow-2xl tracking-widest transition transform hover:scale-110">
                 Play
             </button>
         </div>
 
         <!-- Player 2 -->
-        <div class="w-1/3 flex flex-col items-center justify-center p-8 border-l border-gray-700">
-            <h2 class="text-2xl font-bold text-red-400 mb-4 tracking-widest">Player 2</h2>
+        <div class="w-full lg:w-1/3 flex flex-col items-center justify-center p-4 lg:p-8 lg:border-l border-gray-700 order-2 lg:order-3">
+            <h2 class="text-xl md:text-2xl font-bold text-red-400 mb-4 tracking-widest">Player 2</h2>
             <select v-model="selectedDeckPlayer2"
-                class="w-3/4 bg-gray-800 text-white py-3 px-4 border border-red-500 rounded-lg shadow-lg transition mb-4">
+                class="w-full max-w-xs bg-gray-800 text-white py-2 md:py-3 px-3 md:px-4 border border-red-500 rounded-lg shadow-lg transition mb-4">
                 <option>Select Your Deck</option>
                 <option v-for="deck in availableDecksPlayer2" :key="deck" :value="deck">{{ deck }}</option>
             </select>
             <select v-model="selectedCharPlayer2"
-                class="w-3/4 bg-gray-800 text-white py-3 px-4 border border-red-500 rounded-lg shadow-lg transition mb-4">
+                class="w-full max-w-xs bg-gray-800 text-white py-2 md:py-3 px-3 md:px-4 border border-red-500 rounded-lg shadow-lg transition mb-4">
                 <option>Select Your Character</option>
                 <option v-for="character in characters" :key="character" :value="character">{{ character.charatername }}</option>
             </select>
-            <div v-if="selectedCharPlayer2">
+            <div v-if="selectedCharPlayer2" class="flex flex-col items-center">
                 <img :src="`/Characters/${selectedCharPlayer2.idcharacter}.png`" alt="Player 2 Character" 
-                class="max-w-48 max-h-48 rounded-lg shadow-md border-2 border-red-500">
-                <p class="mt-2 text-lg text-gray-300">{{ findCharacterName(selectedCharPlayer2.idcharacter) }}</p>
+                class="max-w-32 md:max-w-40 lg:max-w-48 h-auto rounded-lg shadow-md border-2 border-red-500">
+                <p class="mt-2 text-base md:text-lg text-gray-300">{{ findCharacterName(selectedCharPlayer2.idcharacter) }}</p>
             </div>
         </div>
 
@@ -187,7 +186,7 @@ const updateMasterVolume = (value) => {
         <button 
             @mouseenter="playHoverButton"
             @click="showSettings"
-            class="absolute bottom-8 right-8 px-6 py-3 bg-gray-700 text-white text-lg rounded-lg shadow-lg hover:bg-gray-500 transition"
+            class="fixed bottom-4 right-4 px-4 md:px-6 py-2 md:py-3 bg-gray-700 text-white text-base md:text-lg rounded-lg shadow-lg hover:bg-gray-500 transition z-10"
         >
             Settings
         </button>
@@ -196,10 +195,6 @@ const updateMasterVolume = (value) => {
     <!-- Settings -->
     <setting v-if="currentPage === 'Settings'" backToLobby="GameLobby" @goToMainMenu="goToLobby" :seVolume="seVolume" @updateSeVolume="updateSeVolume"
     :masterVolume="masterVolume" @updateMasterVolume="updateMasterVolume" />
-    <!-- <button @mouseenter="playHoverButton" @click="goToLobby" v-if="currentPage !== 'GameLobby'"
-        class="px-6 py-3 text-lg rounded-lg bg-blue-500 text-white hover:bg-blue-700 transition">
-        Back to Lobby
-    </button> -->
 
     <!-- Main Game -->
     <GameManager v-if="mainGamePagestatus"
@@ -210,4 +205,3 @@ const updateMasterVolume = (value) => {
         :selectedMap="selectedMap"
         :masterVolume="masterVolume" :seVolume="seVolume" />
 </template>
-

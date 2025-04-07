@@ -31,15 +31,15 @@ const theme = computed(() => {
   <div 
     v-if="character" 
     :class="`relative w-50 h-72 ${theme.background} ${theme.border} border-4 rounded-lg flex flex-col items-center p-4
-     ${theme.text} transition-all duration-200 ${theme.shadow} shadow-lg`"
+     ${theme.text} transition-all duration-200 ${theme.shadow} shadow-lg max-xl:scale-75 max-md:scale-60`"
   >
     <!-- Character Image (Increased Size) -->
-    <div class="relative w-full h-52 flex justify-center items-center">
+    <div class="relative w-full h-full flex justify-center items-center">
       <slot name="image">
         <img 
           :src="`/Characters/${character.idcharacter}.png`" 
           :alt="character.charatername" 
-          class="border-2 rounded-lg w-40 h-48 object-cover"
+          class="border-2 rounded-lg w-full h-full object-cover"
           :class="theme.border"
         />
       </slot>
