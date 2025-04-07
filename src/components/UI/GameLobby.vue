@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import GameManager from '../GameManager.vue';
 import setting from './setting.vue';
 
@@ -29,6 +29,10 @@ const props = defineProps({
         required: true
     }
 })
+
+const masterVolume = ref(100);
+const seVolume = ref(100); 
+
 const selectedDeckPlayer1 = ref(null)
 const selectedDeckPlayer2 = ref(null)
 const selectedCharPlayer1 = ref(null)
@@ -96,6 +100,22 @@ const playHoverButton = () => {
     hoverBtnSound.currentTime = 0
     hoverBtnSound.play().catch(error => console.log("Sound play error:", error))
 }
+
+watch(masterVolume, (newVal) => {
+    console.log('GameLobby sending masterVolume:', newVal);
+});
+
+watch(seVolume, (newVal) => {
+    console.log('GameLobby sending seVolume:', newVal);
+});
+
+const updateSeVolume = (value) => {
+    seVolume.value = value;
+};
+
+const updateMasterVolume = (value) => {
+    masterVolume.value = value;
+};
 </script>
 
 <template>
@@ -184,7 +204,8 @@ const playHoverButton = () => {
     </div>
 
     <!-- Settings -->
-    <setting v-if="currentPage === 'Settings'" backToLobby="GameLobby" @goToMainMenu="goToLobby" :seVolume="seVolume" />
+    <setting v-if="currentPage === 'Settings'" backToLobby="GameLobby" @goToMainMenu="goToLobby" :seVolume="seVolume" @updateSeVolume="updateSeVolume"
+    :masterVolume="masterVolume" @updateMasterVolume="updateMasterVolume" />
     <!-- <button @mouseenter="playHoverButton" @click="goToLobby" v-if="currentPage !== 'GameLobby'"
         class="px-6 py-3 text-lg rounded-lg bg-blue-500 text-white hover:bg-blue-700 transition">
         Back to Lobby
@@ -200,6 +221,7 @@ const playHoverButton = () => {
         :allDecks="props.allDecks"
         :allCards="props.allCards"
         :allCharacters="props.allCharacters"
-        :selectedMap="selectedMap"/>
+        :selectedMap="selectedMap"
+        :masterVolume="masterVolume" :seVolume="seVolume" />
 </template>
 

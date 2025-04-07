@@ -7,9 +7,6 @@ import HeadOrTail from "./mainGameComponents/HeadOrTail.vue";
 import Gacha from "./Gacha.vue";
 import { getItems, editItem } from "@/lib/fetchUtils";
 import PlayerInventory from "./PlayerComponents/PlayerInventory.vue";
-import { useVolumeStore } from "@/stores/volumeStore";
-
-const volumeStore = useVolumeStore();
 
 const currentTurn = ref(1); // Receive number 1 or 2 for player1 & player2
 const round = ref(1);
@@ -57,6 +54,14 @@ const gameProps = defineProps({
   allCharacters: {
     type: Array,
     required: true
+  },
+  masterVolume: { // รับ masterVolume เป็น Prop
+    type: Number,
+    default: 100
+  },
+  seVolume: { // รับ seVolume เป็น Prop
+    type: Number,
+    default: 100
   }
 })
 
@@ -74,6 +79,7 @@ onMounted(async () => {
   } catch (error) {
     console.error("Error fetching data:", error);
   }
+  updateAllSoundVolumes(gameProps.masterVolume, gameProps.seVolume);
 });
 
 const playerHands = ref({
@@ -440,7 +446,7 @@ const spinGacha = async (card) => {
 };
 
 const hoverBtnSound = new Audio('/sounds/se/hover.mp3');
-hoverBtnSound.volume = volumeStore.getSeVolume / 100
+hoverBtnSound.volume = gameProps.seVolume / 100
 
 const playHoverButton = () => {
     hoverBtnSound.currentTime = 0
@@ -502,7 +508,7 @@ const playMapTheme = () => {
 
   mapThemeAudio.value = new Audio(themePath)
   mapThemeAudio.value.loop = true;
-  mapThemeAudio.value.volume = volumeStore.getMasterVolume / 100;
+  mapThemeAudio.value.volume = gameProps.masterVolume / 100;
   mapThemeAudio.value.play().catch(error => {
     console.error("🔇 Audio Play Error:", error)
   })
@@ -551,9 +557,14 @@ const findUserInventory = computed(() => {
   return [];
 });
 
-watch(() => volumeStore.getMasterVolume, (newMasterVolume) => {
-  console.log('GameManager received masterVolume from Store:', newMasterVolume);
-  updateAllSoundVolumes(newMasterVolume);
+watch(() => gameProps.seVolume, (newSeVolume) => {
+    console.log('GameManager received seVolume from Store:', newSeVolume);
+    updateAllSoundVolumes(gameProps.masterVolume, newSeVolume); // ส่งทั้งสองค่า
+});
+
+watch(() => gameProps.masterVolume, (newMasterVolume) => {
+    console.log('GameManager received masterVolume from Store:', newMasterVolume);
+    updateAllSoundVolumes(newMasterVolume, gameProps.seVolume); // ส่งทั้งสองค่า
 });
 
 const updateAllSoundVolumes = (volume) => {

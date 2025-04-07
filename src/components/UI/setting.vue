@@ -1,47 +1,44 @@
 <script setup>
 import { ref, watch } from 'vue';
-import { useVolumeStore } from '@/stores/volumeStore';
 
-const volumeStore = useVolumeStore();
+const props = defineProps(['seVolume', 'masterVolume', 'backToLobby']);
 
-const props = defineProps(['seVolume', 'backToLobby']);
-
-const masterVolume = ref(volumeStore.masterVolume)
+const emit = defineEmits(['updateSeVolume', 'updateMasterVolume', 'goToMainMenu'])
+const masterVolume = ref(props.masterVolume !== undefined ? props.masterVolume : 100)
 const bgmVolume = ref(100)
-const seVolume = ref(props.seVolume);
+const seVolume = ref(props.seVolume !== undefined ? props.seVolume : 100);
 const bgmRatio = ref(1)
 const seRatio = ref(1)
 
-const emit = defineEmits(['updateSeVolume', 'goToMainMenu'])
-
 watch(masterVolume, (newVal, oldVal) => {
-  if (oldVal > 0) {
-    bgmRatio.value = bgmVolume.value / oldVal
-    seRatio.value = seVolume.value / oldVal
-  }
+    if (oldVal > 0) {
+        bgmRatio.value = bgmVolume.value / oldVal
+        seRatio.value = seVolume.value / oldVal
+    }
 
-  if (newVal === 0) {
-    bgmVolume.value = 0
-    seVolume.value = 0
-  } else if (oldVal === 0 && newVal > 0) {
-    bgmVolume.value = Math.round(newVal * bgmRatio.value)
-    seVolume.value = Math.round(newVal * seRatio.value)
-  }
+    if (newVal === 0) {
+        bgmVolume.value = 0
+        seVolume.value = 0
+    } else if (oldVal === 0 && newVal > 0) {
+        bgmVolume.value = Math.round(newVal * bgmRatio.value)
+        seVolume.value = Math.round(newVal * seRatio.value)
+    }
 
-  emit('updateSeVolume', seVolume.value)
-  volumeStore.setMasterVolume(newVal) // อัปเดตค่าใน Store
+    // ส่งค่า SE Volume และ Master Volume ที่ปรับ
+    emit('updateSeVolume', seVolume.value);
+    emit('updateMasterVolume', masterVolume.value);
 })
 
+// ป้องกันค่าVolumeเกิน 100
 watch([bgmVolume, seVolume], ([newBgm, newSe]) => {
-  bgmVolume.value = Math.min(100, Math.max(0, newBgm))
-  seVolume.value = Math.min(100, Math.max(0, newSe))
-  emit('updateSeVolume', seVolume.value)
-});
+    bgmVolume.value = Math.min(100, Math.max(0, newBgm))
+    seVolume.value = Math.min(100, Math.max(0, newSe))
+    emit('updateSeVolume', seVolume.value);   // ส่งค่า SE Volume ที่ถูกปรับ
+})
 
 watch(seVolume, (newValue) => {
-  emit('updateSeVolume', newValue);
-  volumeStore.setSeVolume(newValue); // อัปเดตค่า SE Volume ใน Store ด้วย (ถ้าต้องการ)
-});
+  emit('updateSeVolume', newValue)
+})
 </script>
 
 <template>
