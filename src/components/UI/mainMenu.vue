@@ -47,8 +47,14 @@ watch([seVolume, masterVolume], () => {
     hoverSound.volume = (seVolume.value / 100) * (masterVolume.value / 100);
 });
 
-const updateSeVolume = (value) => {
-    seVolume.value = value;
+const updateSeVolume = (newVolume) => {
+    seVolume.value = newVolume;
+    console.log('MainMenu updated seVolume:', newVolume);
+};
+
+const updateMasterVolume = (newVolume) => {
+    masterVolume.value = newVolume;
+    console.log('MainMenu updated masterVolume:', newVolume);
 };
 
 </script>
@@ -82,5 +88,5 @@ const updateSeVolume = (value) => {
         </div>
     </div>
     <!-- <PlayerManager v-if="currentPage === 'showlogin'"/> -->
-    <setting v-if="currentPage === 'Settings'" @goToMainMenu="goToMainMenu" :seVolume="seVolume" @updateSeVolume="updateSeVolume" />
+    <setting v-if="currentPage === 'Settings'" @goToMainMenu="goToMainMenu" :seVolume="seVolume" @updateSeVolume="updateSeVolume" :masterVolume="masterVolume" @updateMasterVolume="updateMasterVolume" />
 </template>

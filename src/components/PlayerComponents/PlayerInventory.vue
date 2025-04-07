@@ -466,10 +466,6 @@ const playHoverCard = () => {
     <GameLobby
         :decks="uniqueDecks"
         :characters="availableCharacters"
-        :allCharacters="inventoryProp.characters"
-        :allCards="inventoryProp.cards"
-        :allDecks="inventoryProp.decks"
-        :currentUser="inventoryProp.currentUser"
         v-if="lobbyPageStatus" />
 </template>
 

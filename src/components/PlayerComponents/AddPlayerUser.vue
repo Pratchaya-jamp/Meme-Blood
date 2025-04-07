@@ -146,9 +146,6 @@ const CreateUser = async () => {
                     Create Account
                 </button>
 
-                <!-- <button type="button" @click="switchMainmenu()" class="mt-2 text-sm text-blue-400 hover:text-blue-300 focus:outline-none block w-full text-center">
-                    Back To Menu
-                </button> -->
                 <router-link 
                     :to="{name: 'MainMenu'}"
                     class="mt-2 text-sm text-blue-400 hover:text-blue-300 focus:outline-none block w-full text-center"

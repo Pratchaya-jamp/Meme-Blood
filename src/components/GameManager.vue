@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import PlayerCharacter from "./mainGameComponents/PlayerCharacter.vue";
 import TableGame from "./mainGameComponents/Table.vue";
 import Hand from "./mainGameComponents/Hand.vue";
@@ -7,6 +7,13 @@ import HeadOrTail from "./mainGameComponents/HeadOrTail.vue";
 import Gacha from "./Gacha.vue";
 import { getItems, editItem } from "@/lib/fetchUtils";
 import PlayerInventory from "./PlayerComponents/PlayerInventory.vue";
+import { storeToRefs } from 'pinia';
+import { useritem } from '@/stores/playerStore.js';
+
+let { inventories,currentUser,userInventory,cards,
+    decks,characters
+ } =storeToRefs(useritem())
+
 
 const currentTurn = ref(1); // Receive number 1 or 2 for player1 & player2
 const round = ref(1);
@@ -39,21 +46,13 @@ const gameProps = defineProps({
     type: String,
     required: true
   },
-  currentUser: {
-    type: Object,
-    required: true,
+  masterVolume: { // รับ masterVolume เป็น Prop
+    type: Number,
+    default: 100
   },
-  allDecks:{
-    type:Array,
-    required: true
-  },
-  allCards:{
-    type:Array,
-    required: true
-  },
-  allCharacters: {
-    type: Array,
-    required: true
+  seVolume: { // รับ seVolume เป็น Prop
+    type: Number,
+    default: 100
   }
 })
 
@@ -71,6 +70,7 @@ onMounted(async () => {
   } catch (error) {
     console.error("Error fetching data:", error);
   }
+  updateAllSoundVolumes(gameProps.masterVolume, gameProps.seVolume);
 });
 
 const playerHands = ref({
@@ -406,23 +406,22 @@ const skipTurn = () => {
 };
 
 const spinGacha = async (card) => {
-  if (!gameProps.currentUser.uid) {
-    console.error("currentUser is undefined or Gacha already spun.");
+  if (!currentUser.value.uid) {
+    console.log("currentUser is undefined or Gacha already spun.");
     return;
   }
-  try {
-    const inventories = await getItems(`${import.meta.env.VITE_APP_URL}/inventory`);
-    const userInventory = inventories.find(
-      (inv) => inv.uid === gameProps.currentUser.uid
-    );
+  //try {
+  //  inventories.value = await getItems(`${import.meta.env.VITE_APP_URL}/inventory`)
+//
+    const currentUserInventory = inventories.value.find(inv => inv.uid === currentUser.value.uid)
 
-    if (userInventory) {
-      if (!userInventory.cardid.includes(card.idcard)) {
-        userInventory.cardid.push(card.idcard);
+    if (currentUserInventory) {
+      if (!currentUserInventory.cardid.includes(card.idcard)) {
+        currentUserInventory.cardid.push(card.idcard);
         await editItem(
           `${import.meta.env.VITE_APP_URL}/inventory`,
-          userInventory.id,
-          userInventory
+          currentUserInventory.id,
+          currentUserInventory
         );
         console.log(`Added card ${card.cardname} to inventory`);
       } else {
@@ -431,13 +430,13 @@ const spinGacha = async (card) => {
     } else {
       console.error("User inventory not found.");
     }
-  } catch (error) {
-    console.error("Error updating inventory:", error);
-  }
+  //} catch (error) {
+  //  console.error("Error updating inventory:", error);
+  //}
 };
 
 const hoverBtnSound = new Audio('/sounds/se/hover.mp3');
-hoverBtnSound.volume = 0.1
+hoverBtnSound.volume = gameProps.seVolume / 100
 
 const playHoverButton = () => {
     hoverBtnSound.currentTime = 0
@@ -452,7 +451,7 @@ const playCharacterWinSound = (characterId) => {
 
   const soundPath = `/sounds/charactersounds/${characterId}.mp3`
   const audio = new Audio(soundPath)
-  audio.volume = 0.10
+  audio.volume = 0.1
   audio.play()
 
   return audio
@@ -472,7 +471,7 @@ const stopWinnerSound = () => {
 const playDrawSound = () => {
   const soundPath = "/sounds/charactersounds/draw.mp3"
   const audio = new Audio(soundPath);
-  audio.volume = 0.10;
+  audio.volume = 0.1
   audio.play();
 }
 
@@ -499,7 +498,7 @@ const playMapTheme = () => {
 
   mapThemeAudio.value = new Audio(themePath)
   mapThemeAudio.value.loop = true;
-  mapThemeAudio.value.volume = 0.03;
+  mapThemeAudio.value.volume = gameProps.masterVolume / 100;
   mapThemeAudio.value.play().catch(error => {
     console.error("🔇 Audio Play Error:", error)
   })
@@ -520,33 +519,50 @@ const closeGacha = () => {
   showPlayerInventory.value = true;
 }
 
-let inventories = ref([])
-const isInventoryLoaded = ref(false)
-const loadInventoryData = async () => {
-  if (isInventoryLoaded.value) return; // ตรวจสอบว่า inventory ถูกโหลดแล้วหรือยัง
-  try {
-    const data = await getItems(`${import.meta.env.VITE_APP_URL}/inventory`);
-    if (Array.isArray(data)) {
-      inventories.value = data;
-      console.log('Game data loaded successfully');
-      isInventoryLoaded.value = true; // เป็น true เมื่อโหลด inventory เสร็จ
-    } else {
-      inventories.value = [];
-    }
-  } catch (error) {
-    console.log('Error loading game data: ', error);
-    inventories.value = [];
-  }
-};
+//const isInventoryLoaded = ref(false)
+//const loadInventoryData = async () => {
+//  if (isInventoryLoaded.value) return; // ตรวจสอบว่า inventory ถูกโหลดแล้วหรือยัง
+//  try {
+//    const data = await getItems(`${import.meta.env.VITE_APP_URL}/inventory`);
+//    if (Array.isArray(data)) {
+//      inventories.value = data;
+//      console.log('Game data loaded successfully');
+//      isInventoryLoaded.value = true; // เป็น true เมื่อโหลด inventory เสร็จ
+//    } else {
+//      inventories.value = [];
+//    }
+//  } catch (error) {
+//    console.log('Error loading game data: ', error);
+//    inventories.value = [];
+//  }
+//};
 
-const findUserInventory = computed(() => {
-  if (!gameProps.currentUser) return [];
-  if (gameProps.currentUser) {
-    loadInventoryData(); // เรียก loadInventoryData เพื่อดึงข้อมูล
-    return inventories.value.filter(inv => inv.uid === gameProps.currentUser.uid);
-  }
-  return [];
+//const findUserInventory = computed(() => {
+//  if (!gameProps.currentUser) return [];
+//  if (gameProps.currentUser) {
+//    loadInventoryData(); // เรียก loadInventoryData เพื่อดึงข้อมูล
+//    return inventories.value.filter(inv => inv.uid === gameProps.currentUser.uid);
+//  }
+//  return [];
+//});
+
+watch(() => gameProps.seVolume, (newSeVolume) => {
+    console.log('GameManager received seVolume from Store:', newSeVolume);
+    updateAllSoundVolumes(gameProps.masterVolume, newSeVolume); // ส่งทั้งสองค่า
 });
+
+watch(() => gameProps.masterVolume, (newMasterVolume) => {
+    console.log('GameManager received masterVolume from Store:', newMasterVolume);
+    updateAllSoundVolumes(newMasterVolume, gameProps.seVolume); // ส่งทั้งสองค่า
+});
+
+const updateAllSoundVolumes = (volume) => {
+  if (mapThemeAudio.value) {
+    mapThemeAudio.value.volume = volume / 100; // ปรับตาม masterVolume
+  }
+  hoverBtnSound.volume = volume / 100;
+  // ปรับเสียงอื่นๆ ใน GameManager ตามต้องการ
+};
 
 </script>
 
@@ -656,10 +672,10 @@ const findUserInventory = computed(() => {
   </template>
   <PlayerInventory
     v-if="showPlayerInventory"
-    :inventory="findUserInventory"
-    :cards="gameProps.allCards"
-    :decks="gameProps.allDecks"
-    :characters="gameProps.allCharacters"
-    :currentUser="gameProps.currentUser"
+    :inventory="userInventory"
+    :cards="cards"
+    :decks="decks"
+    :characters="characters"
+    :currentUser="currentUser"
   />
 </template>
