@@ -184,11 +184,11 @@ const playHoverButton = () => {
     </div>
 
     <!-- Settings -->
-    <setting v-if="currentPage === 'Settings'"/>
-    <button @mouseenter="playHoverButton" @click="goToLobby" v-if="currentPage !== 'GameLobby'"
+    <setting v-if="currentPage === 'Settings'" backToLobby="GameLobby" @goToMainMenu="goToLobby" :seVolume="seVolume" />
+    <!-- <button @mouseenter="playHoverButton" @click="goToLobby" v-if="currentPage !== 'GameLobby'"
         class="px-6 py-3 text-lg rounded-lg bg-blue-500 text-white hover:bg-blue-700 transition">
         Back to Lobby
-    </button>
+    </button> -->
 
     <!-- Main Game -->
     <GameManager v-if="mainGamePagestatus"

@@ -1,10 +1,12 @@
 <script setup>
 import { ref, watch } from 'vue';
+import { useVolumeStore } from '@/stores/volumeStore';
 
-//Sound volume setting
-const props = defineProps(['seVolume']);
+const volumeStore = useVolumeStore();
 
-const masterVolume = ref(100)
+const props = defineProps(['seVolume', 'backToLobby']);
+
+const masterVolume = ref(volumeStore.masterVolume)
 const bgmVolume = ref(100)
 const seVolume = ref(props.seVolume);
 const bgmRatio = ref(1)
@@ -13,33 +15,33 @@ const seRatio = ref(1)
 const emit = defineEmits(['updateSeVolume', 'goToMainMenu'])
 
 watch(masterVolume, (newVal, oldVal) => {
-    if (oldVal > 0) {
-        bgmRatio.value = bgmVolume.value / oldVal
-        seRatio.value = seVolume.value / oldVal
-    }
+  if (oldVal > 0) {
+    bgmRatio.value = bgmVolume.value / oldVal
+    seRatio.value = seVolume.value / oldVal
+  }
 
-    if (newVal === 0) {
-        bgmVolume.value = 0
-        seVolume.value = 0
-    } else if (oldVal === 0 && newVal > 0) {
-        bgmVolume.value = Math.round(newVal * bgmRatio.value)
-        seVolume.value = Math.round(newVal * seRatio.value)
-    }
+  if (newVal === 0) {
+    bgmVolume.value = 0
+    seVolume.value = 0
+  } else if (oldVal === 0 && newVal > 0) {
+    bgmVolume.value = Math.round(newVal * bgmRatio.value)
+    seVolume.value = Math.round(newVal * seRatio.value)
+  }
 
-    // ส่งค่า SE Volume ที่ปรับตาม Master Volume
-    emit('updateSeVolume', seVolume.value);
+  emit('updateSeVolume', seVolume.value)
+  volumeStore.setMasterVolume(newVal) // อัปเดตค่าใน Store
 })
 
-// ป้องกันค่าVolumeเกิน 100
 watch([bgmVolume, seVolume], ([newBgm, newSe]) => {
-    bgmVolume.value = Math.min(100, Math.max(0, newBgm))
-    seVolume.value = Math.min(100, Math.max(0, newSe))
-    emit('updateSeVolume', seVolume.value);  // ส่งค่า SE Volume ที่ถูกปรับ
-})
+  bgmVolume.value = Math.min(100, Math.max(0, newBgm))
+  seVolume.value = Math.min(100, Math.max(0, newSe))
+  emit('updateSeVolume', seVolume.value)
+});
 
 watch(seVolume, (newValue) => {
-  emit('updateSeVolume', newValue)
-})
+  emit('updateSeVolume', newValue);
+  volumeStore.setSeVolume(newValue); // อัปเดตค่า SE Volume ใน Store ด้วย (ถ้าต้องการ)
+});
 </script>
 
 <template>
@@ -47,12 +49,12 @@ watch(seVolume, (newValue) => {
     <h2 class="text-3xl font-semibold mb-6">Settings</h2>
 
     <!-- Master Volume -->
-    <!-- <div class="mb-4 w-72">
+    <div class="mb-4 w-72">
         <label class="block text-lg font-medium mb-2">Master Volume:</label>
         <input type="range" min="0" max="100" v-model="masterVolume"
             class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-blue-500">
         <p class="text-center mt-1">{{ masterVolume }}%</p>
-    </div> -->
+    </div>
 
     <!-- BGM Volume -->
     <!-- <div class="mb-4 w-72">
@@ -71,8 +73,8 @@ watch(seVolume, (newValue) => {
     </div>
 
     <button @click="emit('goToMainMenu')"
-            class="mt-6 px-6 py-3 text-lg rounded-lg bg-blue-500 text-white hover:bg-blue-700 transition">
-        Back to Main Menu
-    </button>
+        class="mt-6 px-6 py-3 text-lg rounded-lg bg-blue-500 text-white hover:bg-blue-700 transition">
+    {{ props.backToLobby === 'GameLobby' ? 'Back to Lobby' : 'Back to Main Menu' }}
+</button>
   </div>
 </template>

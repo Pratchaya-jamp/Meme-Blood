@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import PlayerCharacter from "./mainGameComponents/PlayerCharacter.vue";
 import TableGame from "./mainGameComponents/Table.vue";
 import Hand from "./mainGameComponents/Hand.vue";
@@ -7,6 +7,9 @@ import HeadOrTail from "./mainGameComponents/HeadOrTail.vue";
 import Gacha from "./Gacha.vue";
 import { getItems, editItem } from "@/lib/fetchUtils";
 import PlayerInventory from "./PlayerComponents/PlayerInventory.vue";
+import { useVolumeStore } from "@/stores/volumeStore";
+
+const volumeStore = useVolumeStore();
 
 const currentTurn = ref(1); // Receive number 1 or 2 for player1 & player2
 const round = ref(1);
@@ -437,7 +440,7 @@ const spinGacha = async (card) => {
 };
 
 const hoverBtnSound = new Audio('/sounds/se/hover.mp3');
-hoverBtnSound.volume = 0.1
+hoverBtnSound.volume = volumeStore.getSeVolume / 100
 
 const playHoverButton = () => {
     hoverBtnSound.currentTime = 0
@@ -452,7 +455,7 @@ const playCharacterWinSound = (characterId) => {
 
   const soundPath = `/sounds/charactersounds/${characterId}.mp3`
   const audio = new Audio(soundPath)
-  audio.volume = 0.10
+  audio.volume = 0.1
   audio.play()
 
   return audio
@@ -472,7 +475,7 @@ const stopWinnerSound = () => {
 const playDrawSound = () => {
   const soundPath = "/sounds/charactersounds/draw.mp3"
   const audio = new Audio(soundPath);
-  audio.volume = 0.10;
+  audio.volume = 0.1
   audio.play();
 }
 
@@ -499,7 +502,7 @@ const playMapTheme = () => {
 
   mapThemeAudio.value = new Audio(themePath)
   mapThemeAudio.value.loop = true;
-  mapThemeAudio.value.volume = 0.03;
+  mapThemeAudio.value.volume = volumeStore.getMasterVolume / 100;
   mapThemeAudio.value.play().catch(error => {
     console.error("🔇 Audio Play Error:", error)
   })
@@ -547,6 +550,19 @@ const findUserInventory = computed(() => {
   }
   return [];
 });
+
+watch(() => volumeStore.getMasterVolume, (newMasterVolume) => {
+  console.log('GameManager received masterVolume from Store:', newMasterVolume);
+  updateAllSoundVolumes(newMasterVolume);
+});
+
+const updateAllSoundVolumes = (volume) => {
+  if (mapThemeAudio.value) {
+    mapThemeAudio.value.volume = volume / 100; // ปรับตาม masterVolume
+  }
+  hoverBtnSound.volume = volume / 100;
+  // ปรับเสียงอื่นๆ ใน GameManager ตามต้องการ
+};
 
 </script>
 
