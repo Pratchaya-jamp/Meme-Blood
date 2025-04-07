@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import MainMenu from "@/components/UI/mainMenu.vue";
 import Login from "@/components/PlayerManager.vue";
 import AddPlayerUser from "@/components/PlayerComponents/AddPlayerUser.vue";
+import PageNotFound from "@/components/PageNotFound.vue";
 
 const history = createWebHistory()
 const routes = [
@@ -19,6 +20,11 @@ const routes = [
         path: '/CreateAccount',
         name: 'AddUser',
         component: AddPlayerUser
+    },
+    {
+        path: '/:NotFound(.*)',
+        name: 'NotFound',
+        component: PageNotFound
     }
 ]
 
