@@ -5,7 +5,7 @@ export const useVolumeStore = defineStore('volume', {
     masterVolume: 100,
     seVolume: 100,
   }),
-  changes: {
+  actions: {
     setMasterVolume(volume) {
       this.masterVolume = volume;
     },
@@ -13,7 +13,7 @@ export const useVolumeStore = defineStore('volume', {
       this.seVolume = volume;
     },
   },
-  updated: {
+  getters: {
     getMasterVolume: (state) => state.masterVolume,
     getSeVolume: (state) => state.seVolume,
   },
