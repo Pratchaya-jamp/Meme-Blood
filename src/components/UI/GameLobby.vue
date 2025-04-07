@@ -2,6 +2,8 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import GameManager from '../GameManager.vue';
 import setting from './setting.vue';
+import { useritem } from '@/stores/playerStore.js';
+import { storeToRefs } from 'pinia';
 
 const props = defineProps({
     decks: {
@@ -11,24 +13,11 @@ const props = defineProps({
     characters: {
         type: Array,
         required: true
-    },
-    allCharacters: {
-        type: Array,
-        required: true
-    },
-    currentUser: {
-        type: Object,
-        required: true
-    },
-    allDecks:{
-        type:Array,
-        required: true
-    },
-    allCards:{
-        type:Array,
-        required: true
     }
 })
+
+let { characters } =storeToRefs(useritem())
+
 
 const masterVolume = ref(100);
 const seVolume = ref(100); 
@@ -66,7 +55,8 @@ const availableDecksPlayer2 = computed(() => {
 })
 
 const findCharacterName = (chId) => {
-    const character = props.allCharacters.find(character => character.idcharacter === chId);
+    const character = characters.value.find(character => character.idcharacter === chId);
+    console.log(selectedCharPlayer1.value)
 
     return character ? character.charatername : 'Unknown Character';
 }
@@ -135,12 +125,12 @@ const updateMasterVolume = (value) => {
             <select v-model="selectedCharPlayer1"
                 class="w-3/4 bg-gray-800 text-white py-3 px-4 border border-blue-500 rounded-lg shadow-lg transition mb-4">
                 <option>Select Your Character</option>
-                <option v-for="character in characters" :key="character" :value="character">{{ character }}</option>
+                <option v-for="character in characters" :key="character" :value="character">{{ character.charatername }}</option>
             </select>
             <div v-if="selectedCharPlayer1">
-                <img :src="`/Characters/${selectedCharPlayer1}.png`" alt="Player 1 Character" 
+                <img :src="`/Characters/${selectedCharPlayer1.idcharacter}.png`" alt="Player 1 Character" 
                 class="max-w-48 max-h-48 rounded-lg shadow-md border-2 border-blue-500">
-                <p class="mt-2 text-lg text-gray-300">{{ findCharacterName(selectedCharPlayer1) }}</p>
+                <p class="mt-2 text-lg text-gray-300">{{ findCharacterName(selectedCharPlayer1.idcharacter) }}</p>
             </div>
         </div>
 
@@ -184,12 +174,12 @@ const updateMasterVolume = (value) => {
             <select v-model="selectedCharPlayer2"
                 class="w-3/4 bg-gray-800 text-white py-3 px-4 border border-red-500 rounded-lg shadow-lg transition mb-4">
                 <option>Select Your Character</option>
-                <option v-for="character in characters" :key="character" :value="character">{{ character }}</option>
+                <option v-for="character in characters" :key="character" :value="character">{{ character.charatername }}</option>
             </select>
             <div v-if="selectedCharPlayer2">
-                <img :src="`/Characters/${selectedCharPlayer2}.png`" alt="Player 2 Character" 
+                <img :src="`/Characters/${selectedCharPlayer2.idcharacter}.png`" alt="Player 2 Character" 
                 class="max-w-48 max-h-48 rounded-lg shadow-md border-2 border-red-500">
-                <p class="mt-2 text-lg text-gray-300">{{ findCharacterName(selectedCharPlayer2) }}</p>
+                <p class="mt-2 text-lg text-gray-300">{{ findCharacterName(selectedCharPlayer2.idcharacter) }}</p>
             </div>
         </div>
 
@@ -215,12 +205,8 @@ const updateMasterVolume = (value) => {
     <GameManager v-if="mainGamePagestatus"
         :player1Deck="selectedDeckPlayer1"
         :player2Deck="selectedDeckPlayer2"
-        :playerCharacter1="selectedCharPlayer1"
-        :playerCharacter2="selectedCharPlayer2"
-        :currentUser="props.currentUser"
-        :allDecks="props.allDecks"
-        :allCards="props.allCards"
-        :allCharacters="props.allCharacters"
+        :playerCharacter1="selectedCharPlayer1.idcharacter"
+        :playerCharacter2="selectedCharPlayer2.idcharacter"
         :selectedMap="selectedMap"
         :masterVolume="masterVolume" :seVolume="seVolume" />
 </template>

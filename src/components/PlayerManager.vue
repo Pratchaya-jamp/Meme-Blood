@@ -1,17 +1,20 @@
 <script setup>
 import PlayerUser from './PlayerComponents/PlayerUser.vue';
-import AddPlayerUser from './PlayerComponents/AddPlayerUser.vue';
 import PlayerInventory from './PlayerComponents/PlayerInventory.vue';
 import { ref, computed ,onMounted } from 'vue';
 import { getItems } from '@/lib/fetchUtils';
-import mainMenu from './UI/mainMenu.vue';
+import { storeToRefs } from 'pinia';
+import { useritem } from '@/stores/playerStore.js';
 
 const userAccount = ref([])
 const loginPageStatus = ref(true)
-const currentUser = ref(null)
 const loginUsername = ref('')
 const loginPassword = ref('')
 const loginError = ref('')
+
+let { inventories,currentUser,userInventory,cards,
+    decks,characters
+ } =storeToRefs(useritem())
 
 onMounted(async () => {
     try{
@@ -47,12 +50,9 @@ const logoutUser = () =>{
     decks.value = []
     cards.value = []
     characters.value = []
+    useritem.resetState()
 }
 //Inventory
-const inventories = ref([])
-const cards = ref([])
-const decks = ref([])
-const characters = ref([])
 const loadInventoryData = async() => {
     try {
         inventories.value = await getItems(`${import.meta.env.VITE_APP_URL}/inventory`)
@@ -65,11 +65,6 @@ const loadInventoryData = async() => {
         console.log('Error loading game data: ', error)
     }
 }
-
-const userInventory = computed(() => {
-    if (!currentUser.value) return []
-    return inventories.value.filter(inv => inv.uid === currentUser.value.uid)
-})
 
 const handleDeckAdded = async () =>{
     try{
