@@ -22,7 +22,7 @@ const flipCoin = () => {
       lock.value = false; // ปลดล็อกหลังจาก 2 วินาที
     }, 2000);
   } else {
-    console.log("คุณกดเร็วเกินไป");
+    console.log("You are clicking too fast.");
   }
 }
 
