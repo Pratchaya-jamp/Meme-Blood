@@ -38,13 +38,13 @@ const playHoverCard = () => {
 </script>
 
 <template>
-  <div class="scale-75 flex p-3 gap-3 bg-gray-900 border-t border-gray-700 overflow-x-auto scrollbar-hide">
+  <div class="scale-75 max-w-210 flex p-3 gap-3 -mx-25 bg-gray-900 border-t border-gray-700 rounded-lg overflow-x-auto max-xl:scale-60 max-md:scale-50">
     <div
       v-for="(card, index) in hand"
       :key="index"
       @mouseenter="playHoverCard"
       @click="selectCard(card)"
-      class="cursor-pointer transition-transform transform hover:scale-90"
+      class="cursor-pointer transition-full duration-100 hover:scale-90 active:scale-90"
       :class="{
         'border-4 border-blue-500 shadow-lg': player === 1 && currentTurn === 1,
         'border-4 border-red-500 shadow-lg': player === 2 && currentTurn === 2,

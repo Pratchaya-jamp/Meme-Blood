@@ -49,7 +49,7 @@ const playPlaceCard = () => {
 </script>
 
 <template>
-  <div class="flex justify-center items-center my-5">
+  <div class="flex justify-center items-center my-5 max-xl:my-2">
     <div class="border-4 border-gray-700 bg-gray-900 shadow-xl p-1">
       <table class="border-collapse">
         <tbody>
@@ -57,7 +57,9 @@ const playPlaceCard = () => {
             <td
               v-for="(col, colIndex) in row"
               :key="colIndex"
-              class="text-center border border-black text-2xl w-32 h-44"
+              class="text-center border border-black text-2xl w-32 h-44 
+                max-lg:w-16 max-lg:h-22 max-lg:text-sm
+                max-xl:w-24 max-xl:h-33 max-xl:text-lg"
               :class="getCellClass(col)"
               @mouseup="playPlaceCard"
               @click="placeCard(rowIndex, colIndex)"
@@ -72,10 +74,10 @@ const playPlaceCard = () => {
               <span v-else-if="col === 'blank'"></span>
 
               <span v-if="typeof col === 'object' && 'pawn1' in col">
-                <span v-for="(v, k) in col.pawn1" :key="k" class="text-blue-400 text-lg">♙</span>
+                <span v-for="(v, k) in col.pawn1" :key="k" class="text-blue-400 ">♙</span>
               </span>
               <span v-if="typeof col === 'object' && 'pawn2' in col">
-                <span v-for="(v, k) in col.pawn2" :key="k" class="text-red-400 text-lg">♙</span>
+                <span v-for="(v, k) in col.pawn2" :key="k" class="text-red-400">♙</span>
               </span>
 
               <Card
@@ -86,7 +88,9 @@ const playPlaceCard = () => {
                 :score="col.Power"
                 :pawnsRequired="col.pawnsRequired"
                 :pawnLocations="col.pawnLocations"
-                class="scale-55 -mx-13.5 -my-20.5"
+                class="scale-55 -mx-13.5 -my-20.5
+                  max-xl:scale-40 max-xl:-mx-18 max-xl:-my-27
+                  max-lg:scale-25 max-lg:-mx-22 max-lg:-my-34"
               />
             </td>
           </tr>

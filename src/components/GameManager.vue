@@ -1,14 +1,14 @@
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
+import { getItems, editItem } from "@/lib/fetchUtils";
+import { storeToRefs } from 'pinia';
+import { useritem } from '@/stores/playerStore.js';
 import PlayerCharacter from "./mainGameComponents/PlayerCharacter.vue";
 import TableGame from "./mainGameComponents/Table.vue";
 import Hand from "./mainGameComponents/Hand.vue";
 import HeadOrTail from "./mainGameComponents/HeadOrTail.vue";
 import Gacha from "./Gacha.vue";
-import { getItems, editItem } from "@/lib/fetchUtils";
 import PlayerInventory from "./PlayerComponents/PlayerInventory.vue";
-import { storeToRefs } from 'pinia';
-import { useritem } from '@/stores/playerStore.js';
 
 let { inventories,currentUser,userInventory,cards,
     decks,characters
@@ -23,7 +23,7 @@ const isGameEnd = ref(false) // false by default
 const skipsInARow = ref(0); // count how many player skip turn
 const showGacha = ref(false); // Add showGacha state
 const showPlayerInventory = ref(false)
-
+const movedUp = ref(false)
 
 const gameProps = defineProps({
   player1Deck: {
@@ -81,16 +81,21 @@ const playerHands = ref({
 let deckP1 = [];
 let deckP2 = [];
 
+const toggleMove = () => {
+  movedUp.value = !movedUp.value
+}
+
 // Add 1 random card to player's hand
 const updatePlayerHands = () => {
   if(round.value > 1) {
-    getRandomCards(deckP1, currentTurn.value, 1)
+    const targetDeck = currentTurn.value === 1 ? deckP1 : deckP2;
+    getRandomCards(targetDeck, currentTurn.value, 1)
   }
   console.log(`Update deckP1: `, deckP1)
   console.log(`Update deckP2: `, deckP2)
 }
 
-const getRandomCards = (deck, playerSide, quantityRandCards) => {
+const getRandomCards = (deck, addPlayerSide, quantityRandCards) => {
   if(deck.length === 0) return;
   
   // If requesting more cards than card in the deck adjust quantity
@@ -109,7 +114,7 @@ const getRandomCards = (deck, playerSide, quantityRandCards) => {
 
   // Distribute random card(s) to player
   const selectedRandCards = randomCards.map(num => deck[num]);
-  playerHands.value[playerSide].push(...selectedRandCards);
+  playerHands.value[addPlayerSide].push(...selectedRandCards);
 
   // Remove already distributed cards in deck
   randomCards.sort((a, b) => b - a); // Sort highest to lowest to prevent index shifting while remove
@@ -160,6 +165,7 @@ const flipCoin = (playerTurn) => {
 
 // Select a card from Hand (Receive from Hand.vue)
 const selectCard = (card) => {
+  console.log(card)
   selectedCard.value = card;
 };
 
@@ -575,15 +581,16 @@ const updateAllSoundVolumes = (volume) => {
       class="fixed w-screen h-screen"
     />
 
-    <div class="flex flex-col items-center -mt-10 z-10 overflow-hidden">
-      <div class="text-2xl font-bold mt-4">
+    <div class="flex flex-col items-center -mt-12 z-10 overflow-hidden max-xl:-mt-14">
+      <div class="text-2xl font-bold max-xl:text-lg max-md:text-sm">
         <span>Round: {{ round }}</span>
         <span class="ml-4" :class="currentTurn === 1 ? 'text-blue-500' : 'text-red-500'">
           Player {{ currentTurn }}'s Turn
         </span>
       </div>
 
-      <div class="flex gap-15 items-center justify-center">
+      <div class="flex gap-15 items-center justify-center max-xl:gap-0">
+        <!-- Left Player -->
         <PlayerCharacter
           :selectId="gameProps.playerCharacter1"
         >
@@ -591,36 +598,55 @@ const updateAllSoundVolumes = (volume) => {
 
         <TableGame :currentTurn="currentTurn" :board="board" @placeCard="placeCard" />
 
-      <!-- Right Player -->
-      <PlayerCharacter 
-        :selectId="gameProps.playerCharacter2"
+        <!-- Right Player -->
+        <PlayerCharacter 
+          :selectId="gameProps.playerCharacter2"
+        >
+        </PlayerCharacter>
+      </div>
+
+      <button
+        @click="toggleMove()"
+        class="flex justify-center items-center mb-4 w-3/5 py-4 border-2 bg-gray-600/70 text-gray-300 rounded z-20 transition-all duration-300 hover:bg-gray-600/85 
+        origin-bottom max-xl:scale-y-50 max-lg:-mt-10 max-md:scale-y-40 max-md:-mt-10 2xl:hidden"
       >
-      </PlayerCharacter>
-    </div>
-    <div class="flex items-center transition-all duration-300 -mt-10 hover:-mt-35">
-      <Hand v-if="currentTurn === 1" :player="1" :currentTurn="currentTurn" :hand="playerHands[1]" @selectCard="selectCard" />
-      <Hand v-if="currentTurn === 2" :player="2" :currentTurn="currentTurn" :hand="playerHands[2]" @selectCard="selectCard" />
-      <div class="flex flex-col items-center">
-        <button
-          class="bg-red-900 hover:bg-red-800 text-white font-bold px-4 py-8 rounded-3xl border-4 border-black"
-          @mouseenter="playHoverButton"
-          @click="skipTurn"
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 100 20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          class="w-full h-6"
         >
-          {{ skipsInARow < 4 ? 'Skip Turn' : 'Surrender' }}
-        </button>
-        <p
-          v-if="skipsInARow < 4" 
-          class="font-bold text-red-400"
-        >
-        Remain: {{ 4 - skipsInARow }}
-        </p>
+          <polyline points="5,5 50,15 95,5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <div :class="['flex gap-10 items-center justify-center transition-all duration-300 w-3/5 origin-bottom max-xl:scale-70 max-lg:scale-60 max-lg:gap-0 max-md:scale-50 z-10', 
+        movedUp ? '-mt-110 mb-10 bg-gray-800/60 rounded-3xl' : '-mt-10 max-2xl:mt-100']"
+      >
+        <Hand v-if="currentTurn === 1" :player="1" :currentTurn="currentTurn" :hand="playerHands[1]" @selectCard="selectCard" />
+        <Hand v-if="currentTurn === 2" :player="2" :currentTurn="currentTurn" :hand="playerHands[2]" @selectCard="selectCard" />
+        <div class="flex flex-col items-center">
+          <button
+            class="bg-red-900 hover:bg-red-800 text-white font-bold p-5 rounded-3xl border-4 border-black z-10"
+            @mouseenter="playHoverButton"
+            @click="skipTurn"
+          >
+            {{ skipsInARow < 4 ? 'Skip Turn' : 'Surrender' }}
+          </button>
+          <p
+            v-if="skipsInARow < 4" 
+            class="font-bold text-red-400"
+          >
+            Remain: {{ 4 - skipsInARow }}
+          </p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- END GAME -->
-  <div
-    v-if="isGameEnd"
+    <!-- END GAME -->
+    <div
+      v-if="isGameEnd"
       class="fixed inset-0 flex flex-col gap-5 justify-center items-center z-50 w-screen h-screen bg-gray-800/90 text-2xl font-bold text-center"
     >
       <p v-if="scores[1] > scores[2]" class="text-green-500 text-4xl mt-5">🏆 Player 1 Wins!</p>
