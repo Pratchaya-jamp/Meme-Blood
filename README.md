@@ -70,4 +70,9 @@ Link Canvas: https://www.canva.com/design/DAGg3UiWM9I/c3aZno6du29kA-xayBNQ-A/edi
 Ref Game tutorial: https://youtu.be/K5z-ZRQD5-I?si=ZQtLipoMNth4nbUh
 Our video tutorial: https://drive.google.com/file/d/1tAGzg_nSvFunjkKmIpMT4ovVRMLjeqqs/view?usp=sharing
 
+Rule of Game
+1. การลงไพ่ต้องมีจำนวนหมากที่กำหนดตามกระดาน เป็นอย่างน้อย (จำนวนหมากของไพ่แต่ละใบ ดูจากซ้ายบนของไพ่)
+2. การจะเพิ่มหมากไปในทิศทางไหน ดูจากช่องสีเหลืองของไพ่แต่ละใบ โดยสีขาวคือตำแหน่งไพ่ที่เราจะวางบนกระดาน
+3. buff คือ จะเพิ่มคะแนนตามจำนวนของพลัง หรือการ x2 ของไพ่นั้นๆ เช่น ไพ่มีค่าพลัง 6 พอ buff จะเป็น 12 แต้ม
+4. debuff คือ จะลดคะแนนตามจำนวนของพลังของไพ่นั้นๆ ในฝ่ายตรงข้าม ของแถวนั้นๆ เช่น ไพ่มีค่าพลัง 3 พอ debuff จะลดคะแนน 3 แต้ม ในฝ่ายตรงข้าม
 ![Components Diagram](gameComponent.png)
