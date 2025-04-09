@@ -68,5 +68,6 @@
 
 Link Canvas: https://www.canva.com/design/DAGg3UiWM9I/c3aZno6du29kA-xayBNQ-A/edit
 Ref Game tutorial: https://youtu.be/K5z-ZRQD5-I?si=ZQtLipoMNth4nbUh
+Our video tutorial: https://drive.google.com/file/d/1tAGzg_nSvFunjkKmIpMT4ovVRMLjeqqs/view?usp=sharing
 
 ![Components Diagram](gameComponent.png)
