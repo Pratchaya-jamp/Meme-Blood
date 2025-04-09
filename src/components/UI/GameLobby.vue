@@ -56,7 +56,7 @@ const availableDecksPlayer2 = computed(() => {
 
 const findCharacterName = (chId) => {
     const character = characters.value.find(character => character.idcharacter === chId);
-    console.log(selectedCharPlayer1.value)
+    // console.log(selectedCharPlayer1.value)
 
     return character ? character.charatername : 'Unknown Character';
 }
@@ -92,11 +92,11 @@ const playHoverButton = () => {
 }
 
 watch(masterVolume, (newVal) => {
-    console.log('GameLobby sending masterVolume:', newVal);
+    // console.log('GameLobby sending masterVolume:', newVal);
 });
 
 watch(seVolume, (newVal) => {
-    console.log('GameLobby sending seVolume:', newVal);
+    // console.log('GameLobby sending seVolume:', newVal);
 });
 
 const updateSeVolume = (value) => {
