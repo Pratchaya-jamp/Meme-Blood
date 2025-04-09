@@ -66,12 +66,12 @@
 |           |002        | Add CSS, Edit Readme     |
 
 
-Link Canvas: https://www.canva.com/design/DAGg3UiWM9I/c3aZno6du29kA-xayBNQ-A/edit
-Ref Game tutorial: https://youtu.be/K5z-ZRQD5-I?si=ZQtLipoMNth4nbUh
-Our video tutorial: https://drive.google.com/file/d/1tAGzg_nSvFunjkKmIpMT4ovVRMLjeqqs/view?usp=sharing
+Link Canvas: https://www.canva.com/design/DAGg3UiWM9I/c3aZno6du29kA-xayBNQ-A/edit <br>
+Ref Game tutorial: https://youtu.be/K5z-ZRQD5-I?si=ZQtLipoMNth4nbUh <br>
+Our video tutorial: https://drive.google.com/file/d/1tAGzg_nSvFunjkKmIpMT4ovVRMLjeqqs/view?usp=sharing <br>
 
-Account admin
-User: test1
+Account admin <br>
+User: test1 <br>
 Password: test1
 
 Rule of Game:
