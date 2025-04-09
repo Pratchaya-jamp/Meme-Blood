@@ -91,8 +91,8 @@ const updatePlayerHands = () => {
     const targetDeck = currentTurn.value === 1 ? deckP1 : deckP2;
     getRandomCards(targetDeck, currentTurn.value, 1)
   }
-  console.log(`Update deckP1: `, deckP1)
-  console.log(`Update deckP2: `, deckP2)
+  // console.log(`Update deckP1: `, deckP1)
+  // console.log(`Update deckP2: `, deckP2)
 }
 
 const getRandomCards = (deck, addPlayerSide, quantityRandCards) => {
@@ -138,8 +138,8 @@ const initCardPlayerHands = (player1Deck, player2Deck) => {
   deckP2 = getPlayerDeck(player2Deck);
   getRandomCards(deckP1, 1, 3);
   getRandomCards(deckP2, 2, 3);
-  console.log('Player 1 Hand:', playerHands.value[1]);
-  console.log('Player 2 Hand:', playerHands.value[2]);
+  // console.log('Player 1 Hand:', playerHands.value[1]);
+  // console.log('Player 2 Hand:', playerHands.value[2]);
 
   // Check for character 999 and set starting pawns
   if (gameProps.playerCharacter1 === 999) {
@@ -165,7 +165,7 @@ const flipCoin = (playerTurn) => {
 
 // Select a card from Hand (Receive from Hand.vue)
 const selectCard = (card) => {
-  console.log(card)
+  // console.log(card)
   selectedCard.value = card;
 };
 
@@ -192,36 +192,36 @@ const placeCard = (rowIndex, colIndex) => {
       }
     }
 
-    let arrayLength = 0;  // Define quantity of slot to buff/debuff
-    const abilityType = selectedCard.value.abilityType
-    if (abilityType !== 'non'){
-      const rarity = selectedCard.value.cardRarity
-      if (rarity === 'Standard') {
-        arrayLength = 2
-      } else if (rarity === 'Epic') {
-        arrayLength = 3
-      } else if (rarity === 'Legend') {
-        arrayLength = 5
-      }
+    // let arrayLength = 0;  // Define quantity of slot to buff/debuff
+    // const abilityType = selectedCard.value.abilityType
+    // if (abilityType !== 'non'){
+    //   const rarity = selectedCard.value.cardRarity
+    //   if (rarity === 'Standard') {
+    //     arrayLength = 2
+    //   } else if (rarity === 'Epic') {
+    //     arrayLength = 3
+    //   } else if (rarity === 'Legend') {
+    //     arrayLength = 5
+    //   }
   
-      let randomSlots = [];
-      while (randomSlots.length < arrayLength) {
-        // Random numbers between 1 and 25
-        let randNum = Math.floor(Math.random() * 25) + 1;
-        // Check it's not the same
-        if (!randomSlots.includes(randNum)) {
-          randomSlots.push(randNum);
-        }
-      }
+    //   let randomSlots = [];
+    //   while (randomSlots.length < arrayLength) {
+    //     // Random numbers between 1 and 25
+    //     let randNum = Math.floor(Math.random() * 25) + 1;
+    //     // Check it's not the same
+    //     if (!randomSlots.includes(randNum)) {
+    //       randomSlots.push(randNum);
+    //     }
+    //   }
   
-      let slots = [] // Test Only 
-      // Loop through the generated random slots
-      for (let slot of randomSlots) {
-        cardAbilityOnBoard(rowIndex, colIndex, slot, abilityType);
-        slots.push(slot) // Test Only 
-      }
-      console.log(`${selectedCard.value.cardname} => ${abilityType}: ${slots}`);
-    }
+    //   let slots = [] // Test Only 
+    //   // Loop through the generated random slots
+    //   for (let slot of randomSlots) {
+    //     cardAbilityOnBoard(rowIndex, colIndex, slot, abilityType);
+    //     slots.push(slot) // Test Only 
+    //   }
+    //  console.log(`${selectedCard.value.cardname} => ${abilityType}: ${slots}`);
+    // }
 
     // Remove the card from the player's hand
     playerHands.value[currentTurn.value] = playerHands.value[currentTurn.value].filter(c => c.id !== selectedCard.value.id);
@@ -257,7 +257,7 @@ const cardAbilityOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
   const finalRow = boardRow + rowOffset;
   const finalCol = boardCol + colOffset;
 
-  // console.log(`BoardRow: ${boardRow}, BoardCol: ${boardCol}, Card: ${cardSlot} | FRow: ${finalRow}, FColumn: ${finalCol}`)
+  // // console.log(`BoardRow: ${boardRow}, BoardCol: ${boardCol}, Card: ${cardSlot} | FRow: ${finalRow}, FColumn: ${finalCol}`)
 
   // Check boundaries (valid board: 3 rows, 8 columns)
   if (finalRow < 0 || finalRow >= 3 || finalCol < 0 || finalCol >= 8) {
@@ -276,19 +276,19 @@ const cardAbilityOnBoard = (boardRow, boardCol, cardSlot, ability = null) => {
     board.value[finalRow][finalCol] = { [validPawn]: 1 }; // Replace a new one if empty
   }
 
-  // Buff Card on board
-  if (typeof boardSlot === "object" && !(validPawn in boardSlot) && boardSlot !== "blank" && ability === "buff") {
-    board.value[finalRow][finalCol].Power += 1; // Increase power or score in card
-  }
+  // // Buff Card on board
+  // if (typeof boardSlot === "object" && !(validPawn in boardSlot) && boardSlot !== "blank" && ability === "buff") {
+  //   board.value[finalRow][finalCol].Power += 1; // Increase power or score in card
+  // }
 
-  // Debuff Card on board
-  if (typeof boardSlot === "object" && !(validPawn in boardSlot) && boardSlot !== "blank" && ability === "debuff") {
-    board.value[finalRow][finalCol].Power -= 1; // Decrease power or score in card
+  // // Debuff Card on board
+  // if (typeof boardSlot === "object" && !(validPawn in boardSlot) && boardSlot !== "blank" && ability === "debuff") {
+  //   board.value[finalRow][finalCol].Power -= 1; // Decrease power or score in card
 
-    if (board.value[finalRow][finalCol].Power < 0) {
-      board.value[finalRow][finalCol].Power = 0;
-    }
-  }
+  //   if (board.value[finalRow][finalCol].Power < 0) {
+  //     board.value[finalRow][finalCol].Power = 0;
+  //   }
+  // }
 };
 
 const scores = ref({ 1: 0, 2: 0 }); // Store Player 1 & 2 scores
@@ -359,6 +359,8 @@ const calculateScore = () => {
     row.some(slot => typeof slot === "object" && (slot.pawn1 || slot.pawn2))
   );
 
+  
+
   const overSkipped = skipsInARow.value > 4;
 
   if (overSkipped || !hasPawn) {
@@ -385,7 +387,7 @@ const calculateScore = () => {
       playDrawSound()
     }
   
-    console.log(`🎉 Game Over! Final Scores → Player 1: ${scores.value[1]}, Player 2: ${scores.value[2]}`)
+    // console.log(`🎉 Game Over! Final Scores → Player 1: ${scores.value[1]}, Player 2: ${scores.value[2]}`)
   }
 };
 
@@ -413,7 +415,7 @@ const skipTurn = () => {
 
 const spinGacha = async (card) => {
   if (!currentUser.value.uid) {
-    console.log("currentUser is undefined or Gacha already spun.");
+    // console.log("currentUser is undefined or Gacha already spun.");
     return;
   }
   //try {
@@ -429,9 +431,9 @@ const spinGacha = async (card) => {
           currentUserInventory.id,
           currentUserInventory
         );
-        console.log(`Added card ${card.cardname} to inventory`);
+        // console.log(`Added card ${card.cardname} to inventory`);
       } else {
-        console.log(`Card ${card.cardname} already exists in inventory.`);
+        // console.log(`Card ${card.cardname} already exists in inventory.`);
       }
     } else {
       console.error("User inventory not found.");
@@ -465,12 +467,12 @@ const playCharacterWinSound = (characterId) => {
 
 const stopWinnerSound = () => {
   if (winnerSound.value) {
-    console.log("Stopping map theme...")
+    // console.log("Stopping map theme...")
     winnerSound.value.pause();
     winnerSound.value.currentTime = 0
     winnerSound.value = null
   } else {
-    console.log("No audio to stop")
+    // console.log("No audio to stop")
   }
 }
 
@@ -495,7 +497,7 @@ const playMapTheme = () => {
   }
 
   const themePath = `/sounds/mapthemes/${mapName}.mp3`
-  console.log("🎵 Theme Path:", themePath)
+  // console.log("🎵 Theme Path:", themePath)
 
   if (mapThemeAudio.value) {
     mapThemeAudio.value.pause()
@@ -512,12 +514,12 @@ const playMapTheme = () => {
 
 const stopMapTheme = () => {
   if (mapThemeAudio.value) {
-    console.log("Stopping map theme...")
+    // console.log("Stopping map theme...")
     mapThemeAudio.value.pause();
     mapThemeAudio.value.currentTime = 0
     mapThemeAudio.value = null
   } else {
-    console.log("No audio to stop")
+    // console.log("No audio to stop")
   }
 };
 const closeGacha = () => {
@@ -532,13 +534,13 @@ const closeGacha = () => {
 //    const data = await getItems(`${import.meta.env.VITE_APP_URL}/inventory`);
 //    if (Array.isArray(data)) {
 //      inventories.value = data;
-//      console.log('Game data loaded successfully');
+//      // console.log('Game data loaded successfully');
 //      isInventoryLoaded.value = true; // เป็น true เมื่อโหลด inventory เสร็จ
 //    } else {
 //      inventories.value = [];
 //    }
 //  } catch (error) {
-//    console.log('Error loading game data: ', error);
+//    // console.log('Error loading game data: ', error);
 //    inventories.value = [];
 //  }
 //};
@@ -553,12 +555,12 @@ const closeGacha = () => {
 //});
 
 watch(() => gameProps.seVolume, (newSeVolume) => {
-    console.log('GameManager received seVolume from Store:', newSeVolume);
+    // console.log('GameManager received seVolume from Store:', newSeVolume);
     updateAllSoundVolumes(gameProps.masterVolume, newSeVolume); // ส่งทั้งสองค่า
 });
 
 watch(() => gameProps.masterVolume, (newMasterVolume) => {
-    console.log('GameManager received masterVolume from Store:', newMasterVolume);
+    // console.log('GameManager received masterVolume from Store:', newMasterVolume);
     updateAllSoundVolumes(newMasterVolume, gameProps.seVolume); // ส่งทั้งสองค่า
 });
 
