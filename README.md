@@ -70,11 +70,11 @@ Link Canvas: https://www.canva.com/design/DAGg3UiWM9I/c3aZno6du29kA-xayBNQ-A/edi
 Ref Game tutorial: https://youtu.be/K5z-ZRQD5-I?si=ZQtLipoMNth4nbUh <br>
 Our video tutorial: https://drive.google.com/file/d/1tAGzg_nSvFunjkKmIpMT4ovVRMLjeqqs/view?usp=sharing <br>
 
-Account admin <br>
+<b>Account admin</b> <br>
 User: test1 <br>
 Password: test1
 
-Rule of Game:
+<b>Rule of Game:</b>
 1. การลงไพ่ต้องมีจำนวนหมากที่กำหนดตามกระดาน เป็นอย่างน้อย (จำนวนหมากของไพ่แต่ละใบ ดูจากซ้ายบนของไพ่)
 2. การจะเพิ่มหมากไปในทิศทางไหน ดูจากช่องสีเหลืองของไพ่แต่ละใบ โดยสีขาวคือตำแหน่งไพ่ที่เราจะวางบนกระดาน
 3. buff คือ จะเพิ่มคะแนนตามจำนวนของพลัง หรือการ x2 ของไพ่นั้นๆ เช่น ไพ่มีค่าพลัง 6 พอ buff จะเป็น 12 แต้ม
