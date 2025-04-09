@@ -138,7 +138,7 @@ const editingDeck = async () =>{
                     }, 300)
             }
             }catch (error) {
-               console.log('Failed to update deck:', error)
+               alert('Failed to update deck:', error)
             }
         }
         if(removeCard.value){
@@ -155,7 +155,7 @@ const editingDeck = async () =>{
                     }, 300)
                 }
                 }catch(error){
-                   console.log('Failed to remove cards from deck:', error)
+                   alert('Failed to remove cards from deck:', error)
                 }
             }
 
@@ -179,7 +179,7 @@ const addingDeck = async () =>{
     try {
         const addedDeck = await addItem(`${import.meta.env.VITE_APP_URL}/deck`, newDeck);
         if (addedDeck) {
-            console.log(`Deck ${newDeckId} added successfully.`);
+            //console.log(`Deck ${newDeckId} added successfully.`);
             inventoryProp.decks.push(newDeck);
  
             if (inventoryProp.inventory.length > 0 && inventoryProp.currentUser) {
@@ -189,10 +189,10 @@ const addingDeck = async () =>{
 
                     try {
                         await editItem(`${import.meta.env.VITE_APP_URL}/inventory`, userInventoryItem.id, userInventoryItem)
-                        console.log(`Deck ID ${newDeckId} added to inventory.`)
-                    } catch (error){
+                        //console.log(`Deck ID ${newDeckId} added to inventory.`)
+                    } catch {
                         alert('Failed to update inventory with the new deck ID.');
-                        console.log("Error updating inventory:", error); // Log the error for debugging
+                        //console.log("Error updating inventory:", error); // Log the error for debugging
                     }
                 }
             }
@@ -200,8 +200,8 @@ const addingDeck = async () =>{
             selectedDeck.value = newDeckId
             selectedInventoryCards.value = []
         }
-    }catch(error){
-        console.log('Failed to add new deck:', error); // Log the error for debugging
+    }catch{
+        alert('Failed to add new deck'); // Log the error for debugging
     }
 }
 const setAddCard = () =>{
@@ -278,7 +278,7 @@ const removeSelectedDeck = async () =>{
 
     try {
         await deleteItemById(`${import.meta.env.VITE_APP_URL}/deck`, deckToDelete.id);
-        console.log(`Deck ID ${selectedDeck.value} removed successfully.`);
+        //console.log(`Deck ID ${selectedDeck.value} removed successfully.`);
 
         if (inventoryProp.inventory.length > 0 && inventoryProp.currentUser) {
             const userInventoryItem = inventoryProp.inventory.find(inv => inv.uid === inventoryProp.currentUser.uid)//ดึงข้อมูลinvก่อนหน้านั้น
@@ -287,10 +287,10 @@ const removeSelectedDeck = async () =>{
 
                 try {
                     await editItem(`${import.meta.env.VITE_APP_URL}/inventory`, userInventoryItem.id, userInventoryItem)
-                    console.log(`Deck ID ${selectedDeck.value} removed from inventory.`)
-                } catch (error) {
+                    //console.log(`Deck ID ${selectedDeck.value} removed from inventory.`)
+                } catch {
                     alert('Failed to update inventory after removing the deck.')
-                    console.log('Error updating inventory:', error)
+                    //console.log('Error updating inventory:', error)
                 }
             }
         }
@@ -303,13 +303,13 @@ const removeSelectedDeck = async () =>{
             selectedDeck.value = null;
         }
 
-    } catch (error) {
-        console.log('Error removing deck:', error);
+    } catch {
+        alert('Error removing deck');
     }
 };
 
 const setLobbyPage = () => {
-    console.log("Switching to Lobby Page");
+    //console.log("Switching to Lobby Page");
     lobbyPageStatus.value = true;
 }
 
@@ -327,7 +327,7 @@ watch(uniqueDecks, (newDecks) => {
 
 watchEffect(() => {
     if (inventoryProp.inventory.length > 0 && inventoryProp.decks.length > 0) {
-        console.log("Inventory and Decks Loaded:", inventoryProp.inventory, inventoryProp.decks);
+        //console.log("Inventory and Decks Loaded:", inventoryProp.inventory, inventoryProp.decks);
     }
 })
 
@@ -348,7 +348,7 @@ hoverBtnSound.volume = 0.1
 
 const playHoverButton = () => {
     hoverBtnSound.currentTime = 0
-    hoverBtnSound.play().catch(error => console.log("Sound play error:", error))
+    hoverBtnSound.play()//.catch(error => console.log("Sound play error:", error))
 }
 
 const hoverCardSound = '/sounds/se/cardhover.mp3';
@@ -357,7 +357,7 @@ const playHoverCard = () => {
     const cardsound = new Audio(hoverCardSound)
     cardsound.volume = 0.5
     cardsound.currentTime = 0
-    cardsound.play().catch(error => console.log("Sound play error:", error))
+    cardsound.play()//.catch(error => console.log("Sound play error:", error))
 }
 </script>
 

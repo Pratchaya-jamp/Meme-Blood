@@ -33,7 +33,7 @@ const playHoverCard = () => {
     const cardsound = new Audio(hoverCardSound)
     cardsound.volume = 0.3
     cardsound.currentTime = 0
-    cardsound.play().catch(error => console.log("Sound play error:", error))
+    cardsound.play()//.catch(error => console.log("Sound play error:", error))
 }
 </script>
 

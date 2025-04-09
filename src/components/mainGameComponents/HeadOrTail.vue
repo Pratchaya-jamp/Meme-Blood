@@ -21,9 +21,9 @@ const flipCoin = () => {
       isVisible.value = false;
       lock.value = false; // ปลดล็อกหลังจาก 2 วินาที
     }, 2000);
-  } else {
-    console.log("You are clicking too fast.");
-  }
+  } //else {
+    //console.log("You are clicking too fast.");
+  //}
 }
 
 const hoverBtnSound = new Audio('/sounds/se/hover.mp3');
@@ -31,7 +31,7 @@ hoverBtnSound.volume = 0.1
 
 const playHoverButton = () => {
     hoverBtnSound.currentTime = 0
-    hoverBtnSound.play().catch(error => console.log("Sound play error:", error))
+    hoverBtnSound.play()//.catch(error => console.log("Sound play error:", error))
 }
 </script>
 

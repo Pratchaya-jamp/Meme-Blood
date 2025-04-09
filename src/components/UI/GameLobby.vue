@@ -80,7 +80,7 @@ const playHoverMap = () => {
     const mapsound = new Audio(hoverMapSound)
     mapsound.volume = 0.5
     mapsound.currentTime = 0
-    mapsound.play().catch(error => console.log("Sound play error:", error))
+    mapsound.play()//.catch(error => console.log("Sound play error:", error))
 }
 
 const hoverBtnSound = new Audio('/sounds/se/hover.mp3');
@@ -88,7 +88,7 @@ hoverBtnSound.volume = 0.1
 
 const playHoverButton = () => {
     hoverBtnSound.currentTime = 0
-    hoverBtnSound.play().catch(error => console.log("Sound play error:", error))
+    hoverBtnSound.play()//.catch(error => console.log("Sound play error:", error))
 }
 
 watch(masterVolume, (newVal) => {

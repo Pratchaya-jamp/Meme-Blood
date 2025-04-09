@@ -19,10 +19,10 @@ let { inventories,currentUser,userInventory,cards,
 onMounted(async () => {
     try{
         userAccount.value = await getItems(`${import.meta.env.VITE_APP_URL}/users`)
-        console.log('Get user complete')
+        //console.log('Get user complete')
     }
     catch{
-        console.log('Error cannot get users in player manager')
+        alert('Error cannot get users in player manager')
     }
 
 })
@@ -36,7 +36,7 @@ const loginUser = async() => {
         loginUsername.value = ''
         loginPassword.value = ''
         await loadInventoryData()
-        console.log(currentUser.value)
+        //console.log(currentUser.value)
     }
     else{
         loginError.value = 'Invalid username or password'
@@ -60,19 +60,19 @@ const loadInventoryData = async() => {
         decks.value = await getItems(`${import.meta.env.VITE_APP_URL}/deck`)
         characters.value = await getItems(`${import.meta.env.VITE_APP_URL}/character`)
         loginPageStatus.value = false
-        console.log('Game data loaded successfully')
-    } catch (error) {
-        console.log('Error loading game data: ', error)
+        //console.log('Game data loaded successfully')
+    } catch{
+        alert('Error loading game data')
     }
 }
 
 const handleDeckAdded = async () =>{
     try{
         decks.value = await getItems(`${import.meta.env.VITE_APP_URL}/deck`)
-        console.log('Decks data updated after adding a new deck.');
-    }catch(error)
+        //console.log('Decks data updated after adding a new deck.');
+    }catch
         {
-        console.log('Error loading deck data:',error)
+        alert('Error loading deck data')
     }
 }
 

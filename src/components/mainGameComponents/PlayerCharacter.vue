@@ -10,8 +10,8 @@ onMounted(async () => {
         const response = await fetch('/data/db.json');
         const data = await response.json();
         character.value = data.character.find(cha => cha.idcharacter === props.selectId);
-    } catch (error) {
-        console.error('Failed to load character data:', error);
+    } catch {
+        alert('Failed to load character data');
     }
 });
 

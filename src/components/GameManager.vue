@@ -436,7 +436,7 @@ const spinGacha = async (card) => {
         // console.log(`Card ${card.cardname} already exists in inventory.`);
       }
     } else {
-      console.error("User inventory not found.");
+      alert("User inventory not found.");
     }
   //} catch (error) {
   //  console.error("Error updating inventory:", error);
@@ -448,7 +448,7 @@ hoverBtnSound.volume = gameProps.seVolume / 100
 
 const playHoverButton = () => {
     hoverBtnSound.currentTime = 0
-    hoverBtnSound.play().catch(error => console.log("Sound play error:", error))
+    hoverBtnSound.play()//.catch(error => console.log("Sound play error:", error))
 }
 
 const playCharacterWinSound = (characterId) => {

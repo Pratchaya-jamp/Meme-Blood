@@ -81,7 +81,7 @@ hoverBtnSound.volume = 0.1
 
 const playHoverButton = () => {
     hoverBtnSound.currentTime = 0
-    hoverBtnSound.play().catch(error => console.log("Sound play error:", error))
+    hoverBtnSound.play()//.catch(error => console.log("Sound play error:", error))
 }
 </script>
 

@@ -14,9 +14,9 @@ onMounted(async () => {
     try{
         User.value = await getItems(`${import.meta.env.VITE_APP_URL}/users`)
         userInventory.value =await getItems(`${import.meta.env.VITE_APP_URL}/inventory`)
-        console.log('Get user and inventory complete')
+        //console.log('Get user and inventory complete')
         } catch {
-        console.log('Error cannot get users in add player')
+        alert('Error cannot get users in add player')
         }
     }
 )
@@ -56,7 +56,7 @@ const CreateUser = async () => {
             uid = genId()
             duplicateUid = isUidDuplicate(uid)
             if(!duplicateUid){
-                console.log('Uid gen complete')
+                //console.log('Uid gen complete')
                 break
             }
         }
@@ -66,7 +66,7 @@ const CreateUser = async () => {
             idinv = genId()
             duplicateidinv = isInvIdDuplicate(idinv)
             if(!duplicateidinv){
-                console.log('IvnId gen complete')
+                //console.log('IvnId gen complete')
                 break
             }
         }

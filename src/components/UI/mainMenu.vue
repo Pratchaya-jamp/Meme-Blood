@@ -31,7 +31,7 @@ hoverSound.volume = (seVolume.value / 100) * (masterVolume.value / 100);
 
 const unlockAudio = () => {
     isAudioUnlocked.value = true;
-    console.log("Audio unlocked!");
+    //console.log("Audio unlocked!");
 };
 
 // ฟังก์ชันเล่นเสียง hover
@@ -49,12 +49,12 @@ watch([seVolume, masterVolume], () => {
 
 const updateSeVolume = (newVolume) => {
     seVolume.value = newVolume;
-    console.log('MainMenu updated seVolume:', newVolume);
+    //console.log('MainMenu updated seVolume:', newVolume);
 };
 
 const updateMasterVolume = (newVolume) => {
     masterVolume.value = newVolume;
-    console.log('MainMenu updated masterVolume:', newVolume);
+    //console.log('MainMenu updated masterVolume:', newVolume);
 };
 
 </script>
